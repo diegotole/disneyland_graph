@@ -1,0 +1,1404 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+<Document id="1h3CUbrKETpARUor-Yr7P-e2YhWSgxPeI">
+	<name>Disneyland Graph</name>
+	<gx:CascadingStyle kml:id="__managed_style_09BA3B8A2713C25D55EE">
+		<Style>
+			<IconStyle>
+				<scale>1.2</scale>
+				<Icon>
+					<href>https://earth.google.com/earth/rpc/cc/icon?color=1976d2&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>3</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<StyleMap id="__managed_style_0D573C151613C25D55ED">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_11059197B713C25D55ED</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_09BA3B8A2713C25D55EE</styleUrl>
+		</Pair>
+	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_2332D60E4913B0A6A97A">
+		<styleUrl>https://earth.google.com/balloon_components/base/1.0.18.6/card_template.kml#main</styleUrl>
+		<Style>
+			<IconStyle>
+				<scale>1.2</scale>
+				<Icon>
+					<href>https://earth.google.com/earth/rpc/cc/icon?color=1976d2&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>3</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_2DA5A253D613C26F59A3">
+		<Style>
+			<IconStyle>
+				<scale>1.2</scale>
+				<Icon>
+					<href>https://earth.google.com/earth/rpc/cc/icon?color=fbc02d&amp;id=2006&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>3</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<gx:displayMode>card</gx:displayMode>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_2AFAAF653013B0A2F18D">
+		<Style>
+			<IconStyle>
+				<scale>1.2</scale>
+				<Icon>
+					<href>https://earth.google.com/earth/rpc/cc/icon?color=fbc02d&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>3</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<gx:displayMode>card</gx:displayMode>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_16279F931F13C26848AC">
+		<Style>
+			<IconStyle>
+				<Icon>
+					<href>https://earth.google.com/earth/rpc/cc/icon?color=fbc02d&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>2</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<displayMode>hide</displayMode>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_146FC4E69613B0A6A97A">
+		<styleUrl>https://earth.google.com/balloon_components/base/1.0.18.6/card_template.kml#main</styleUrl>
+		<Style>
+			<IconStyle>
+				<Icon>
+					<href>https://earth.google.com/earth/rpc/cc/icon?color=1976d2&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>2</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<StyleMap id="__managed_style_0DF75B182813B0A6A97A">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_146FC4E69613B0A6A97A</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_2332D60E4913B0A6A97A</styleUrl>
+		</Pair>
+	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_2CF35B17FE13C26848AC">
+		<Style>
+			<IconStyle>
+				<scale>1.2</scale>
+				<Icon>
+					<href>https://earth.google.com/earth/rpc/cc/icon?color=fbc02d&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>3</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<displayMode>hide</displayMode>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<StyleMap id="__managed_style_01CC5D09AF13C26848AC">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_16279F931F13C26848AC</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_2CF35B17FE13C26848AC</styleUrl>
+		</Pair>
+	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_1BC3651C5313B0A2F18D">
+		<Style>
+			<IconStyle>
+				<Icon>
+					<href>https://earth.google.com/earth/rpc/cc/icon?color=fbc02d&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>2</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<gx:displayMode>card</gx:displayMode>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<StyleMap id="__managed_style_044E6661A613B0A2F18D">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_1BC3651C5313B0A2F18D</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_2AFAAF653013B0A2F18D</styleUrl>
+		</Pair>
+	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_11059197B713C25D55ED">
+		<Style>
+			<IconStyle>
+				<Icon>
+					<href>https://earth.google.com/earth/rpc/cc/icon?color=1976d2&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>2</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_1F427770CB13C26F59A3">
+		<Style>
+			<IconStyle>
+				<Icon>
+					<href>https://earth.google.com/earth/rpc/cc/icon?color=fbc02d&amp;id=2006&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>2</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<gx:displayMode>card</gx:displayMode>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<StyleMap id="__managed_style_07D01072B613C26F59A3">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_1F427770CB13C26F59A3</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_2DA5A253D613C26F59A3</styleUrl>
+		</Pair>
+	</StyleMap>
+	<Placemark id="007D6F8B3313A7A71F44">
+		<name>Indiana Jones™ Adventure</name>
+		<gx:mid>/m/0bwh682</gx:mid>
+		<gx:fid>0x80dcd7d718b7f761:0xfa30a4d90e357ffc</gx:fid>
+		<LookAt>
+			<longitude>-117.9205289</longitude>
+			<latitude>33.8111657</latitude>
+			<altitude>0</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>860.0570643761612</range>
+			<altitudeMode>relativeToGround</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_07D01072B613C26F59A3</styleUrl>
+		<Point>
+			<altitudeMode>relativeToGround</altitudeMode>
+			<coordinates>-117.9205289,33.8111657,0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="040392B74F13A7A75353">
+		<name>Pirates of the Caribbean</name>
+		<gx:mid>/m/01q8w9</gx:mid>
+		<gx:fid>0x80dcd7d71efa3e7b:0xf63a306f82925982</gx:fid>
+		<LookAt>
+			<longitude>-117.9208179</longitude>
+			<latitude>33.8112313</latitude>
+			<altitude>0</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>860.0563378421454</range>
+			<altitudeMode>relativeToGround</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_044E6661A613B0A2F18D</styleUrl>
+		<Point>
+			<altitudeMode>relativeToGround</altitudeMode>
+			<coordinates>-117.9208179,33.8112313,0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="04A79152A813A7A76D39">
+		<name>Jungle Cruise</name>
+		<gx:mid>/m/060lwt</gx:mid>
+		<gx:fid>0x80dcd7d726586723:0x42808c2d57eb4a9a</gx:fid>
+		<LookAt>
+			<longitude>-117.9201209</longitude>
+			<latitude>33.8114049</latitude>
+			<altitude>0</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>860.0544151795575</range>
+			<altitudeMode>relativeToGround</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_044E6661A613B0A2F18D</styleUrl>
+		<Point>
+			<altitudeMode>relativeToGround</altitudeMode>
+			<coordinates>-117.9201209,33.8114049,0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="024911581213A7A7887A">
+		<name>Walt Disney&apos;s Enchanted Tiki Room</name>
+		<gx:mid>/m/01v1x6</gx:mid>
+		<gx:fid>0x80dcd7d729b6b0d9:0x3277e2be1d7ac5fa</gx:fid>
+		<LookAt>
+			<longitude>-117.919522</longitude>
+			<latitude>33.8118319</latitude>
+			<altitude>0</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>860.0496860158603</range>
+			<altitudeMode>relativeToGround</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_044E6661A613B0A2F18D</styleUrl>
+		<Point>
+			<altitudeMode>relativeToGround</altitudeMode>
+			<coordinates>-117.919522,33.8118319,0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="0875E1562513A7BD59AB">
+		<name>Splash Mountain</name>
+		<gx:mid>/g/11dx8ldckj</gx:mid>
+		<gx:fid>0x80dcd7d642985797:0xc30df36ad1fe12ae</gx:fid>
+		<LookAt>
+			<longitude>-117.9224486</longitude>
+			<latitude>33.8121152</latitude>
+			<altitude>0</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>860.0465483497043</range>
+			<altitudeMode>relativeToGround</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_044E6661A613B0A2F18D</styleUrl>
+		<Point>
+			<altitudeMode>relativeToGround</altitudeMode>
+			<coordinates>-117.9224486,33.8121152,0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="0A8B71CAD913A7BD8AA9">
+		<name>The Many Adventures of Winnie the Pooh</name>
+		<gx:mid>/g/1vq754ln</gx:mid>
+		<gx:fid>0x80dcd7d6680cc821:0x1f0d483606534630</gx:fid>
+		<LookAt>
+			<longitude>-117.923135</longitude>
+			<latitude>33.812525</latitude>
+			<altitude>0</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>860.0420096054701</range>
+			<altitudeMode>relativeToGround</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_044E6661A613B0A2F18D</styleUrl>
+		<Point>
+			<altitudeMode>relativeToGround</altitudeMode>
+			<coordinates>-117.923135,33.812525,0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="087200FCCF13A7BEBED5">
+		<name>Mark Twain Riverboat</name>
+		<gx:mid>/m/0263ckg</gx:mid>
+		<gx:fid>0x80dcd7d6e82690cb:0xdaf6e0afc25b4c51</gx:fid>
+		<LookAt>
+			<longitude>-117.920553</longitude>
+			<latitude>33.8122864</latitude>
+			<altitude>0</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>860.0446522277005</range>
+			<altitudeMode>relativeToGround</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_044E6661A613B0A2F18D</styleUrl>
+		<Point>
+			<altitudeMode>relativeToGround</altitudeMode>
+			<coordinates>-117.920553,33.8122864,0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="0D12A6B8D013A7BFE61D">
+		<name>Pinocchio&apos;s Daring Journey</name>
+		<gx:mid>/g/1tk9r1rb</gx:mid>
+		<gx:fid>0x80dcd7d6b51d8cb1:0xa2aa625667f452fe</gx:fid>
+		<LookAt>
+			<longitude>-117.9192598</longitude>
+			<latitude>33.8133526</latitude>
+			<altitude>0</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>860.0328433773699</range>
+			<altitudeMode>relativeToGround</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_044E6661A613B0A2F18D</styleUrl>
+		<Point>
+			<altitudeMode>relativeToGround</altitudeMode>
+			<coordinates>-117.9192598,33.8133526,0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="066915218D13A7BFF593">
+		<name>Snow White&apos;s Scary Adventures</name>
+		<gx:mid>/m/0c60sv</gx:mid>
+		<gx:fid>0x80dcd7d6caae0b1d:0xbf7601c67800dc81</gx:fid>
+		<LookAt>
+			<longitude>-117.9191743</longitude>
+			<latitude>33.8131144</latitude>
+			<altitude>0</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>860.0354816215851</range>
+			<altitudeMode>relativeToGround</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_044E6661A613B0A2F18D</styleUrl>
+		<Point>
+			<altitudeMode>relativeToGround</altitudeMode>
+			<coordinates>-117.9191743,33.8131144,0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="0FD9BE9B7513A7C00B76">
+		<name>Peter Pan&apos;s Flight</name>
+		<gx:mid>/m/08959f</gx:mid>
+		<gx:fid>0x80dcd7d135747dd3:0x26478b7dc576e2c9</gx:fid>
+		<LookAt>
+			<longitude>-117.9188585</longitude>
+			<latitude>33.8131133</latitude>
+			<altitude>0</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>860.0354938048779</range>
+			<altitudeMode>relativeToGround</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_044E6661A613B0A2F18D</styleUrl>
+		<Point>
+			<altitudeMode>relativeToGround</altitudeMode>
+			<coordinates>-117.9188585,33.8131133,0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="029CF4E7CE13A7C139C8">
+		<name>Dumbo the Flying Elephant</name>
+		<gx:mid>/m/02693xq</gx:mid>
+		<gx:fid>0x80dcd7d14d23cb5f:0x25f7db23fec35996</gx:fid>
+		<LookAt>
+			<longitude>-117.9189411</longitude>
+			<latitude>33.8137054</latitude>
+			<altitude>0</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>860.0289358243351</range>
+			<altitudeMode>relativeToGround</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_044E6661A613B0A2F18D</styleUrl>
+		<Point>
+			<altitudeMode>relativeToGround</altitudeMode>
+			<coordinates>-117.9189411,33.8137054,0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="06B1424A4613A7C17094">
+		<name>Space Mountain</name>
+		<gx:mid>/m/02z2qmd</gx:mid>
+		<gx:fid>0x80dcd7d0e969cb4f:0x5d7e1e4355fda70d</gx:fid>
+		<LookAt>
+			<longitude>-117.9175039</longitude>
+			<latitude>33.81096849999999</latitude>
+			<altitude>0</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>860.059248401435</range>
+			<altitudeMode>relativeToGround</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_044E6661A613B0A2F18D</styleUrl>
+		<Point>
+			<altitudeMode>relativeToGround</altitudeMode>
+			<coordinates>-117.9175039,33.8109685,0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="0600C026F613A7C19D77">
+		<name>it&apos;s a small world</name>
+		<gx:mid>/m/028k8w</gx:mid>
+		<gx:fid>0x80dcd7d15edfe925:0xc3b6323a471adc05</gx:fid>
+		<LookAt>
+			<longitude>-117.9178472</longitude>
+			<latitude>33.8146006</latitude>
+			<altitude>0</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>860.0190205929126</range>
+			<altitudeMode>relativeToGround</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_01CC5D09AF13C26848AC</styleUrl>
+		<Point>
+			<altitudeMode>relativeToGround</altitudeMode>
+			<coordinates>-117.9177744802739,33.81436659489393,0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="030606F92B13A7C1D1E1">
+		<name>Mad Tea Party</name>
+		<gx:mid>/m/0cgzmk</gx:mid>
+		<gx:fid>0x80dcd7d147d91bb7:0x8e6824c2708c71b3</gx:fid>
+		<LookAt>
+			<longitude>-117.9183167</longitude>
+			<latitude>33.8134952</latitude>
+			<altitude>0</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>860.031263967894</range>
+			<altitudeMode>relativeToGround</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_044E6661A613B0A2F18D</styleUrl>
+		<Point>
+			<altitudeMode>relativeToGround</altitudeMode>
+			<coordinates>-117.9183167,33.8134952,0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="0BDDD94EB613A7C20841">
+		<name>Matterhorn Bobsleds</name>
+		<gx:mid>/m/04h1hd</gx:mid>
+		<gx:fid>0x80dcd7d13c21f8d5:0xaf9b8107ef742234</gx:fid>
+		<LookAt>
+			<longitude>-117.9178203</longitude>
+			<latitude>33.8130703</latitude>
+			<altitude>0</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>860.0359700606169</range>
+			<altitudeMode>relativeToGround</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_044E6661A613B0A2F18D</styleUrl>
+		<Point>
+			<altitudeMode>relativeToGround</altitudeMode>
+			<coordinates>-117.9178203,33.8130703,0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="0577C24E6013A7C2AF38">
+		<name>Thunder rail road</name>
+		<LookAt>
+			<longitude>-117.9201131917109</longitude>
+			<latitude>33.81287357769112</latitude>
+			<altitude>41.7426059452502</altitude>
+			<heading>-3.767985221896011e-08</heading>
+			<tilt>0.1687738003382859</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>194.0170072279034</range>
+			<altitudeMode>absolute</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_0DF75B182813B0A6A97A</styleUrl>
+		<Point>
+			<coordinates>-117.9204185268486,33.81266032585449,40.44550010835262</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="0F27749CE713A7C2EBF6">
+		<name>Storybook Land Canal Boats</name>
+		<gx:mid>/m/0h7505</gx:mid>
+		<gx:fid>0x80dcd7d14d8735f5:0xd5f4a404ec4449b0</gx:fid>
+		<LookAt>
+			<longitude>-117.9182653</longitude>
+			<latitude>33.8136285</latitude>
+			<altitude>0</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>860.0297875585164</range>
+			<altitudeMode>relativeToGround</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_044E6661A613B0A2F18D</styleUrl>
+		<Point>
+			<altitudeMode>relativeToGround</altitudeMode>
+			<coordinates>-117.9182653,33.8136285,0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="079ACFAD3413A7C301E8">
+		<name>Mr. Toad&apos;s Wild Ride</name>
+		<gx:mid>/m/05g79s</gx:mid>
+		<gx:fid>0x80dcd7d14a17ebe7:0x6da6acc1f657ae14</gx:fid>
+		<LookAt>
+			<longitude>-117.9187482</longitude>
+			<latitude>33.8133746</latitude>
+			<altitude>0</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>860.0325997100598</range>
+			<altitudeMode>relativeToGround</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_044E6661A613B0A2F18D</styleUrl>
+		<Point>
+			<altitudeMode>relativeToGround</altitudeMode>
+			<coordinates>-117.9187482,33.8133746,0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="06362FB21B13A7C34C64">
+		<name>Goofy&apos;s Playhouse</name>
+		<gx:mid>/g/1yg4fb6jp</gx:mid>
+		<gx:fid>0x80dcd7d3f79f2893:0x3758fefcba0f0c0c</gx:fid>
+		<LookAt>
+			<longitude>-117.9188999</longitude>
+			<latitude>33.8152072</latitude>
+			<altitude>0</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>860.0123017732966</range>
+			<altitudeMode>relativeToGround</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_044E6661A613B0A2F18D</styleUrl>
+		<Point>
+			<altitudeMode>relativeToGround</altitudeMode>
+			<coordinates>-117.9188999,33.8152072,0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="016CB3B30A13A7C38243">
+		<name>Chip &apos;n Dale Treehouse</name>
+		<gx:mid>/g/1vr3dgj7</gx:mid>
+		<gx:fid>0x80dcd7d40c71eb91:0x6ff0ad11612e2f2c</gx:fid>
+		<LookAt>
+			<longitude>-117.9195743</longitude>
+			<latitude>33.8153253</latitude>
+			<altitude>0</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>860.010993663392</range>
+			<altitudeMode>relativeToGround</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_044E6661A613B0A2F18D</styleUrl>
+		<Point>
+			<altitudeMode>relativeToGround</altitudeMode>
+			<coordinates>-117.9195743,33.8153253,0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="05FF91A9C713A7C3901D">
+		<name>Mickey&apos;s House and Meet Mickey</name>
+		<gx:mid>/g/1ttdn8r4</gx:mid>
+		<gx:fid>0x80dcd7d40a505019:0x4a8f9354d325b2e</gx:fid>
+		<LookAt>
+			<longitude>-117.9191768</longitude>
+			<latitude>33.81548</latitude>
+			<altitude>0</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>860.0092801556706</range>
+			<altitudeMode>relativeToGround</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_044E6661A613B0A2F18D</styleUrl>
+		<Point>
+			<altitudeMode>relativeToGround</altitudeMode>
+			<coordinates>-117.9191768,33.81548000000001,0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="0D8D702F9D13A7C3A0D4">
+		<name>Minnie&apos;s House</name>
+		<gx:mid>/g/1ym_k2nkf</gx:mid>
+		<gx:fid>0x80dcd7d3f592e739:0xde9f350bbdb1809e</gx:fid>
+		<LookAt>
+			<longitude>-117.9188757</longitude>
+			<latitude>33.8156031</latitude>
+			<altitude>0</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>860.0079166553426</range>
+			<altitudeMode>relativeToGround</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_044E6661A613B0A2F18D</styleUrl>
+		<Point>
+			<altitudeMode>relativeToGround</altitudeMode>
+			<coordinates>-117.9188757,33.8156031,0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="01DB559F0913A7C3C41C">
+		<name>Roger Rabbit&apos;s Car Toon Spin</name>
+		<gx:mid>/m/0bk3ry</gx:mid>
+		<gx:fid>0x80dcd7d3e5be8bb7:0xe819988ff6248c5b</gx:fid>
+		<LookAt>
+			<longitude>-117.9180849</longitude>
+			<latitude>33.81522</latitude>
+			<altitude>0</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>860.0121599969567</range>
+			<altitudeMode>relativeToGround</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_044E6661A613B0A2F18D</styleUrl>
+		<Point>
+			<altitudeMode>relativeToGround</altitudeMode>
+			<coordinates>-117.9180849,33.81522,0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="0B73DF4CAC13A7C403A6">
+		<name>Finding Nemo Submarine Voyage</name>
+		<gx:mid>/m/05jzmt</gx:mid>
+		<gx:fid>0x80dcd7d11cacaf09:0xa3fd4044a307d419</gx:fid>
+		<LookAt>
+			<longitude>-117.9169559</longitude>
+			<latitude>33.8127688</latitude>
+			<altitude>0</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>860.0393093749002</range>
+			<altitudeMode>relativeToGround</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_044E6661A613B0A2F18D</styleUrl>
+		<Point>
+			<altitudeMode>relativeToGround</altitudeMode>
+			<coordinates>-117.9169559,33.8127688,0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="0EF77D74B213A7C4392B">
+		<name>Autopia</name>
+		<gx:mid>/m/05k9d7</gx:mid>
+		<gx:fid>0x80dcd7d101dd26a5:0xbc6ed645a4aaa2b1</gx:fid>
+		<LookAt>
+			<longitude>-117.916365</longitude>
+			<latitude>33.8125924</latitude>
+			<altitude>0</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>860.0412631118002</range>
+			<altitudeMode>relativeToGround</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_044E6661A613B0A2F18D</styleUrl>
+		<Point>
+			<altitudeMode>relativeToGround</altitudeMode>
+			<coordinates>-117.916365,33.8125924,0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="0CEB5828ED13A7C449E7">
+		<name>Star Wars Launch Bay</name>
+		<gx:mid>/g/11ckkz1cks</gx:mid>
+		<gx:fid>0x80dcd7d0fcdcfca5:0x51d89053774c585a</gx:fid>
+		<LookAt>
+			<longitude>-117.916757</longitude>
+			<latitude>33.812238</latitude>
+			<altitude>0</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>860.0451882816704</range>
+			<altitudeMode>relativeToGround</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_044E6661A613B0A2F18D</styleUrl>
+		<Point>
+			<altitudeMode>relativeToGround</altitudeMode>
+			<coordinates>-117.916757,33.812238,0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="0E8EB1CD7613A7C4569F">
+		<name>Buzz Lightyear Astro Blasters</name>
+		<gx:mid>/g/1td610df</gx:mid>
+		<gx:fid>0x80dcd7d127462bd3:0x5d8592bf3a5652d4</gx:fid>
+		<LookAt>
+			<longitude>-117.9178289</longitude>
+			<latitude>33.81223840000001</latitude>
+			<altitude>0</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>860.0451838514748</range>
+			<altitudeMode>relativeToGround</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_044E6661A613B0A2F18D</styleUrl>
+		<Point>
+			<altitudeMode>relativeToGround</altitudeMode>
+			<coordinates>-117.9178289,33.8122384,0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="08F6B05F6813A7C4734D">
+		<name>Star Tours – The Adventures Continue</name>
+		<gx:mid>/m/041bqf</gx:mid>
+		<gx:fid>0x80dcd7d0d9484379:0x6322ed8ee0b3fe6b</gx:fid>
+		<LookAt>
+			<longitude>-117.9179778</longitude>
+			<latitude>33.8119576</latitude>
+			<altitude>0</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>860.048293838335</range>
+			<altitudeMode>relativeToGround</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_044E6661A613B0A2F18D</styleUrl>
+		<Point>
+			<altitudeMode>relativeToGround</altitudeMode>
+			<coordinates>-117.9179778,33.8119576,0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="05B39FBDCE13A7C502CC">
+		<name>Pirate&apos;s Lair on Tom Sawyer Island</name>
+		<gx:mid>/m/02pm2fm</gx:mid>
+		<gx:fid>0x80dcd7d6fc7f6fc7:0x61a0dee22abcf67b</gx:fid>
+		<LookAt>
+			<longitude>-117.9212202</longitude>
+			<latitude>33.81204589999999</latitude>
+			<altitude>0</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>860.0473158781928</range>
+			<altitudeMode>relativeToGround</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_044E6661A613B0A2F18D</styleUrl>
+		<Point>
+			<altitudeMode>relativeToGround</altitudeMode>
+			<coordinates>-117.9215457238265,33.81168020520513,0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="0005A7BFDB13B09F848E">
+		<name>Gadget&apos;s Go Coaster</name>
+		<gx:mid>/m/0bkxys</gx:mid>
+		<gx:fid>0x80dcd7d408e1f6d9:0xa8538182b7c46bf7</gx:fid>
+		<LookAt>
+			<longitude>-117.9193603</longitude>
+			<latitude>33.8152241</latitude>
+			<altitude>0</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>860.0121145842139</range>
+			<altitudeMode>relativeToGround</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_044E6661A613B0A2F18D</styleUrl>
+		<Point>
+			<altitudeMode>relativeToGround</altitudeMode>
+			<coordinates>-117.9193603,33.8152241,0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="00EEAF10C213B0A14102">
+		<name>Haunted Mansion</name>
+		<gx:mid>/g/1vtqwdf5</gx:mid>
+		<gx:fid>0x80dcd7d6577c75e5:0xad368fe9ba0c3a6c</gx:fid>
+		<LookAt>
+			<longitude>-117.9221794</longitude>
+			<latitude>33.8117229</latitude>
+			<altitude>0</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>860.0508932308536</range>
+			<altitudeMode>relativeToGround</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_044E6661A613B0A2F18D</styleUrl>
+		<Point>
+			<altitudeMode>relativeToGround</altitudeMode>
+			<coordinates>-117.9221794,33.8117229,0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="0E2A31BD5613B0A3295B">
+		<name>King Arthur Carrousel</name>
+		<gx:mid>/m/0byx2l</gx:mid>
+		<gx:fid>0x80dcd7d14b3d5ae1:0xf9cc5b118b163d9f</gx:fid>
+		<LookAt>
+			<longitude>-117.9189451</longitude>
+			<latitude>33.81339039999999</latitude>
+			<altitude>0</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>860.0324247125494</range>
+			<altitudeMode>relativeToGround</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_044E6661A613B0A2F18D</styleUrl>
+		<Point>
+			<altitudeMode>relativeToGround</altitudeMode>
+			<coordinates>-117.9189451,33.8133904,0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="08186403BC13B0A688CA">
+		<name>Alice in wonderland</name>
+		<LookAt>
+			<longitude>-117.9182948308215</longitude>
+			<latitude>33.8132930507749</latitude>
+			<altitude>43.40826456602497</altitude>
+			<heading>8.537736462515939e-07</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>54.53380287842265</range>
+			<altitudeMode>absolute</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_0DF75B182813B0A6A97A</styleUrl>
+		<Point>
+			<coordinates>-117.9182643394005,33.81329600947537,43.47075000846034</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="01A126989313B0A7AA52">
+		<name>Astro orbitor</name>
+		<LookAt>
+			<longitude>-117.918256523726</longitude>
+			<latitude>33.81202360459952</latitude>
+			<altitude>40.79245504681616</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>114.6719724596369</range>
+			<altitudeMode>absolute</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_0DF75B182813B0A6A97A</styleUrl>
+		<Point>
+			<coordinates>-117.9183113361906,33.81210768190189,40.74814204009024</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="05DE65A65813B16F4EF9">
+		<name>Casey&apos;s Jr train</name>
+		<LookAt>
+			<longitude>-117.9191568933349</longitude>
+			<latitude>33.81371392734714</latitude>
+			<altitude>43.39219941563768</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>64.44660137660321</range>
+			<altitudeMode>absolute</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_0DF75B182813B0A6A97A</styleUrl>
+		<Point>
+			<coordinates>-117.9191729119993,33.81373967286362,43.56067646081134</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="0CC239AEC813B172106A">
+		<name>Davy Crockett&apos;s Explorer Canoes</name>
+		<gx:mid>/g/1tfvhhyc</gx:mid>
+		<gx:fid>0x80dcd7d660fc0cf5:0x593bb16f3da91a82</gx:fid>
+		<LookAt>
+			<longitude>-117.922071</longitude>
+			<latitude>33.812481</latitude>
+			<altitude>0</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>860.0424969300659</range>
+			<altitudeMode>relativeToGround</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_044E6661A613B0A2F18D</styleUrl>
+		<Point>
+			<altitudeMode>relativeToGround</altitudeMode>
+			<coordinates>-117.922071,33.812481,0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="05339F3E7F13B1740ECE">
+		<name>Great Moments with Mr. Lincoln</name>
+		<gx:mid>/m/05bq2t</gx:mid>
+		<gx:fid>0x80dcd7d0b116ff83:0x66a1ab8f88fad17b</gx:fid>
+		<LookAt>
+			<longitude>-117.9184917</longitude>
+			<latitude>33.8102333</latitude>
+			<altitude>0</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>860.0673907822049</range>
+			<altitudeMode>relativeToGround</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_044E6661A613B0A2F18D</styleUrl>
+		<Point>
+			<altitudeMode>relativeToGround</altitudeMode>
+			<coordinates>-117.9184917,33.8102333,0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="0881FBFB6613B1743A40">
+		<name>Disney Gallery</name>
+		<LookAt>
+			<longitude>-117.9186401620238</longitude>
+			<latitude>33.81024553687782</latitude>
+			<altitude>41.81235333558901</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>106.0690501948739</range>
+			<altitudeMode>absolute</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_0DF75B182813B0A6A97A</styleUrl>
+		<Point>
+			<coordinates>-117.9184959386868,33.81021262742958,42.46484648958754</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="0F6CE8437413B1780353">
+		<name>Monorail</name>
+		<LookAt>
+			<longitude>-117.9166137069907</longitude>
+			<latitude>33.81266704406848</latitude>
+			<altitude>41.14325442148351</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>122.6985721275196</range>
+			<altitudeMode>absolute</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_0DF75B182813B0A6A97A</styleUrl>
+		<Point>
+			<coordinates>-117.9167145976658,33.81281652688958,42.14275436542821</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="0CE037331013B6B264D4">
+		<name>rail road mickey town</name>
+		<LookAt>
+			<longitude>-117.9185357968625</longitude>
+			<latitude>33.81491642093399</latitude>
+			<altitude>44.37561471300364</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>266.6366327563446</range>
+			<altitudeMode>absolute</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_0DF75B182813B0A6A97A</styleUrl>
+		<Point>
+			<coordinates>-117.9186521693341,33.81482967378272,44.64839547650692</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="076CF89D1113B6B412F0">
+		<name>rail road - new orleans</name>
+		<LookAt>
+			<longitude>-117.9213025959815</longitude>
+			<latitude>33.81121026062529</latitude>
+			<altitude>43.11210552598599</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>194.8487469697284</range>
+			<altitudeMode>absolute</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_0DF75B182813B0A6A97A</styleUrl>
+		<Point>
+			<coordinates>-117.9218473467054,33.8112721899331,43.76517275205489</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="005DCC8A8413B6B56EFF">
+		<name>rail road - tomorrow land</name>
+		<LookAt>
+			<longitude>-117.9162380822138</longitude>
+			<latitude>33.81236010577997</latitude>
+			<altitude>42.19844469503013</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>136.6590776058911</range>
+			<altitudeMode>absolute</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_0DF75B182813B0A6A97A</styleUrl>
+		<Point>
+			<coordinates>-117.9159705760868,33.81238136122595,42.66944600565346</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="0BF5D5A0A713B6B6A081">
+		<name>rail road - entrance</name>
+		<LookAt>
+			<longitude>-117.9188180645016</longitude>
+			<latitude>33.80996898917935</latitude>
+			<altitude>43.24115090724327</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>83.40274867698101</range>
+			<altitudeMode>absolute</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_0DF75B182813B0A6A97A</styleUrl>
+		<Point>
+			<coordinates>-117.9189743833524,33.80997068690282,43.2639318377964</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="01CF75336813B6B8962F">
+		<name>Donald&apos;s boat</name>
+		<LookAt>
+			<longitude>-117.9187925266185</longitude>
+			<latitude>33.81514947861604</latitude>
+			<altitude>43.80942686803221</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>215.1620354230181</range>
+			<altitudeMode>absolute</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_0DF75B182813B0A6A97A</styleUrl>
+		<Point>
+			<coordinates>-117.9190833952061,33.81519766512981,43.76347561740843</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="0AB31AE41D13B6BB8A9A">
+		<name>Fortune teller - main street</name>
+		<LookAt>
+			<longitude>-117.9187881795335</longitude>
+			<latitude>33.81112055096432</latitude>
+			<altitude>42.17437601996138</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>92.24299217598855</range>
+			<altitudeMode>absolute</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_0DF75B182813B0A6A97A</styleUrl>
+		<Point>
+			<coordinates>-117.9190762275608,33.81122589368685,43.65228977163731</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="01AE7B50D113B6BEB8F5">
+		<name>Fortune teller - New Orleans</name>
+		<LookAt>
+			<longitude>-117.921217027029</longitude>
+			<latitude>33.81108117085761</latitude>
+			<altitude>43.91626544390525</altitude>
+			<heading>359.9999991404968</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>187.4091084168322</range>
+			<altitudeMode>absolute</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_0DF75B182813B0A6A97A</styleUrl>
+		<Point>
+			<coordinates>-117.9211718749503,33.81106972536345,43.90305165854207</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="09BD79D7C213B6C0CB0F">
+		<name>Shooting exposition</name>
+		<LookAt>
+			<longitude>-117.9200122093586</longitude>
+			<latitude>33.81205695921271</latitude>
+			<altitude>43.2639024923111</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>199.500421628436</range>
+			<altitudeMode>absolute</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_0DF75B182813B0A6A97A</styleUrl>
+		<Point>
+			<coordinates>-117.9198727560918,33.81223313103703,43.0398606974864</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="0D0C230FA613BBFDF428">
+		<name>Haunted mansion holiday</name>
+		<LookAt>
+			<longitude>-117.9215520363017</longitude>
+			<latitude>33.81180740175085</latitude>
+			<altitude>40.47441844949049</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>195.2418622324694</range>
+			<altitudeMode>absolute</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_0DF75B182813B0A6A97A</styleUrl>
+		<Point>
+			<coordinates>-117.9218627763316,33.81164710334629,42.07171564514421</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="0B4FDB258813BC04D88B">
+		<name>its a small world holiday</name>
+		<LookAt>
+			<longitude>-117.9178706484609</longitude>
+			<latitude>33.81440664772209</latitude>
+			<altitude>41.94553091754992</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>198.5840720601482</range>
+			<altitudeMode>absolute</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_0DF75B182813B0A6A97A</styleUrl>
+		<Point>
+			<coordinates>-117.9177369517528,33.81437702601379,42.09101563919674</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="0122F0529313BC07DDD6">
+		<name>Main Street Cinema</name>
+		<LookAt>
+			<longitude>-117.9186887528338</longitude>
+			<latitude>33.8107343802203</latitude>
+			<altitude>42.23512662419734</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>224.1308160936751</range>
+			<altitudeMode>absolute</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_0DF75B182813B0A6A97A</styleUrl>
+		<Point>
+			<coordinates>-117.9188783402136,33.81092158255366,42.05112815273864</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="086C7A03AC13BC08F3B2">
+		<name>Pumpkin festival</name>
+		<LookAt>
+			<longitude>-117.9186887500097</longitude>
+			<latitude>33.81073437994557</latitude>
+			<altitude>42.23512662278269</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>224.1308160936751</range>
+			<altitudeMode>absolute</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_0DF75B182813B0A6A97A</styleUrl>
+		<Point>
+			<coordinates>-117.9189790292376,33.81047098697567,40.6667963622934</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="0EA01CB54313BC0B7CAA">
+		<name>Main Street Vehicles</name>
+		<LookAt>
+			<longitude>-117.9187237144692</longitude>
+			<latitude>33.81059829734667</latitude>
+			<altitude>41.83089604318071</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>224.5350566041088</range>
+			<altitudeMode>absolute</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_0DF75B182813B0A6A97A</styleUrl>
+		<Point>
+			<coordinates>-117.9189782578141,33.81022875127729,41.30201142198468</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="00C399D54913C25A1A98">
+		<name>Millennium Falcon: Smugglers Run</name>
+		<gx:mid>/g/11flbxmnn9</gx:mid>
+		<gx:fid>0x80dd2996d24c49c5:0x5fafae5f8b3c22d1</gx:fid>
+		<LookAt>
+			<longitude>-117.9214384</longitude>
+			<latitude>33.8149359</latitude>
+			<altitude>0</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>860.0153067569188</range>
+			<altitudeMode>relativeToGround</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_044E6661A613B0A2F18D</styleUrl>
+		<Point>
+			<altitudeMode>relativeToGround</altitudeMode>
+			<coordinates>-117.9214384,33.8149359,0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="0A6050D15A13C25D55ED">
+		<name>Sailing Columbia</name>
+		<LookAt>
+			<longitude>-117.9205529319051</longitude>
+			<latitude>33.81221269241892</latitude>
+			<altitude>41.21106703115936</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>132.6830067909214</range>
+			<altitudeMode>absolute</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_0D573C151613C25D55ED</styleUrl>
+		<Point>
+			<coordinates>-117.9205489014639,33.81233659574244,41.16267884227437</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="0ED9128B2213C25E7840">
+		<name>Sleeping Beauty Castle Walkthrough</name>
+		<gx:mid>/m/04q_yk</gx:mid>
+		<gx:fid>0x80dcd7d133161d45:0x919aa10ce09cd42b</gx:fid>
+		<LookAt>
+			<longitude>-117.9189693</longitude>
+			<latitude>33.8127953</latitude>
+			<altitude>0</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>860.0390158706292</range>
+			<altitudeMode>relativeToGround</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_044E6661A613B0A2F18D</styleUrl>
+		<Point>
+			<altitudeMode>relativeToGround</altitudeMode>
+			<coordinates>-117.9189693,33.8127953,0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="00E1B5429A13C260BC96">
+		<name>rise of the resistance</name>
+		<LookAt>
+			<longitude>-117.9229200217431</longitude>
+			<latitude>33.81373673773607</latitude>
+			<altitude>42.60295257401117</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>176.1161128487765</range>
+			<altitudeMode>absolute</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_0D573C151613C25D55ED</styleUrl>
+		<Point>
+			<coordinates>-117.9231685545328,33.8138712424043,43.50101694628961</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="0AAA11A5E113C261ADD1">
+		<name>Tarzan&apos;s tree house</name>
+		<LookAt>
+			<longitude>-117.9205372819712</longitude>
+			<latitude>33.81130047273194</latitude>
+			<altitude>42.92517290768163</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>52.9578072435561</range>
+			<altitudeMode>absolute</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_0D573C151613C25D55ED</styleUrl>
+		<Point>
+			<coordinates>-117.9205494452475,33.81129608704043,43.00720616429003</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="0B76231CE813D58AA419">
+		<name>SW Entrance - Adventure Land </name>
+		<LookAt>
+			<longitude>-117.9203174145435</longitude>
+			<latitude>33.81341237644558</latitude>
+			<altitude>42.72182673655311</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>234.8595182389181</range>
+			<altitudeMode>absolute</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_0DF75B182813B0A6A97A</styleUrl>
+		<Point>
+			<coordinates>-117.9209986938497,33.81369076963647,44.19147802098061</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="045BFCC4E813D58E7955">
+		<name>SW Entrance - Fantasyland</name>
+		<LookAt>
+			<longitude>-117.9200614486434</longitude>
+			<latitude>33.81355529062645</latitude>
+			<altitude>42.29115313883977</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>235.290181212622</range>
+			<altitudeMode>absolute</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_0D573C151613C25D55ED</styleUrl>
+		<Point>
+			<coordinates>-117.9201090116828,33.81397485075405,44.26647527660668</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="02E9209DE313D58F29B2">
+		<name>SW Entrance - Frontier Land </name>
+		<LookAt>
+			<longitude>-117.9222494863597</longitude>
+			<latitude>33.81289271924754</latitude>
+			<altitude>40.7150856172002</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>335.8614932505589</range>
+			<altitudeMode>absolute</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_0D573C151613C25D55ED</styleUrl>
+		<Point>
+			<coordinates>-117.9227774453522,33.81311985912843,43.06434221449982</coordinates>
+		</Point>
+	</Placemark>
+</Document>
+</kml>
