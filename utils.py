@@ -4,6 +4,8 @@ import pandas as pd
 from matplotlib import pyplot as plt
 from decimal import Decimal
 from math import radians, cos, sin, asin, sqrt
+import settings
+from settings import *
 
 RAIL_ROAD_ENTRANCE_ID = "0BF5D5A0A713B6B6A081"
 MINNIES_HOUSE_ID = "0D8D702F9D13A7C3A0D4"
@@ -11,8 +13,11 @@ RAIL_ROAD_TOMORROWLAND_ID = "005DCC8A8413B6B56EFF"
 SPACE_MOUNTAIN_ID = "06B1424A4613A7C17094"
 
 def get_coord(id1, mymap):
-    return (mymap[id1]['long'], mymap[id1]['lat'])
-
+    try:
+        return (mymap[id1]['long'], mymap[id1]['lat'])
+    except Exception as e:
+        pass
+    raise e
 
 def get_distance(id1, id2, mymap):
     point1 = get_coord(id1, mymap)
@@ -32,7 +37,7 @@ def load_df(f_attractions, f_edges):
     return df, df_edges
 
 
-def load_maps(f_attractions, rotated=False):
+def load_maps(f_attractions=settings.ATTRACTIONS_FNAME, rotated=False):
     attractions_map = {}
     # attractions_edges = defaultdict(set)
 
@@ -43,7 +48,7 @@ def load_maps(f_attractions, rotated=False):
         for line in csvr:
             # attractions_map[line[0]] = {"name": line[1], "lat": float(line[2]), "long": float(line[3])}
             attractions_map[line[0]] = {"name": line[1], "lat": Decimal(line[2]), "long": Decimal(line[3])}
-            print(line[2], Decimal(line[2]))
+            #print(line[2], Decimal(line[2]))
 
     # with open(f_edges) as fin:
     #
@@ -116,6 +121,75 @@ def haversine(lon1, lat1, lon2, lat2):
     c = 2 * asin(sqrt(a))
     r = 6371  # Radius of earth in kilometers. Use 3956 for miles
     return c * r
+
+
+
+def getEdgesDict(attractions_map):
+    edges = set()
+    max_distance = 80
+    for k1, v1 in attractions_map.items():
+        for k2, v2 in attractions_map.items():
+
+            if k1 == k2:
+                continue
+
+            source = min(k1, k2)
+            target = max(k1, k2)
+            d = get_distance(source, target, attractions_map) * 1000
+            if d <= max_distance:
+                edges.add((source, target))
+
+    hard_coded_edges = set()
+
+    hard_coded_edges.add((SPACE_MOUNTAIN_ID, SW_LAUNCH_BAY))
+    hard_coded_edges.add((SPACE_MOUNTAIN_ID, SW_TOURS))
+
+    hard_coded_edges.add((BUZZ_RIDE, SW_LAUNCH_BAY))
+
+    # WINNIE_POOH = "0A8B71CAD913A7BD8AA9"
+    # SW_ENTRANCE_ADV_LAND = "0B76231CE813D58AA419"
+    # SW_ENTRANCE_FANTASY_LAND = "045BFCC4E813D58E7955"
+    # SW_ENTRANCE_FRONTIER_LAND = "02E9209DE313D58F29B2"
+    # DAVY_CROC = "0CC239AEC813B172106A"
+
+    # STORY_BOOK_ "0F27749CE713A7C2EBF6"
+    # SMALL_WORLD = "0600C026F613A7C19D77"
+    hard_coded_edges.add((STORY_BOOK, SMALL_WORLD))
+
+    hard_coded_edges.add((STORY_BOOK, SMALL_WORLD_HOLIDAY))
+
+    hard_coded_edges.add((RISE_RESISTANCE, SMUGGLERS_RUN))
+    hard_coded_edges.add((RISE_RESISTANCE, SW_ENTRANCE_FRONTIER_LAND))
+
+    hard_coded_edges.add((SW_ENTRANCE_FANTASY_LAND, SMUGGLERS_RUN))
+    hard_coded_edges.add((SW_ENTRANCE_ADV_LAND, SMUGGLERS_RUN))
+
+    hard_coded_edges.add((DAVY_CROC, SW_ENTRANCE_FRONTIER_LAND))
+    hard_coded_edges.add((WINNIE_POOH, SW_ENTRANCE_FRONTIER_LAND))
+
+    hard_coded_edges.add((FORTUNE_TELLER_MST_ID, TIKI_ROOM_ID))
+    hard_coded_edges.add((FORTUNE_TELLER_MST_ID, CASTLE_ID))
+    hard_coded_edges.add((FORTUNE_TELLER_MST_ID, ASTRO_ORBITOR_ID))
+
+    hard_coded_edges.add((TIKI_ROOM_ID, CASTLE_ID))
+    hard_coded_edges.add((TIKI_ROOM_ID, ASTRO_ORBITOR_ID))
+
+    hard_coded_edges.add((CASTLE_ID, ASTRO_ORBITOR_ID))
+
+    edges = edges.union(hard_coded_edges)
+
+    edges_dict = defaultdict(list)
+
+    for e in edges:
+        edges_dict[e[0]].append(e[1])
+        edges_dict[e[1]].append(e[0])
+
+    for k in edges_dict.keys():
+        edges_dict[k] = tuple(edges_dict[k])
+
+
+    return edges_dict
+
 
 
 if __name__ == "__main__":

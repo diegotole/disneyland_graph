@@ -1,3 +1,7 @@
+
+ATTRACTIONS_FNAME = "disneyland_attractions.csv"
+ATTRACTIONS_EDGES_FNAME = "attractions_edges.csv"
+
 RAIL_ROAD_ENTRANCE_ID = "0BF5D5A0A713B6B6A081"
 MINNIES_HOUSE_ID = "0D8D702F9D13A7C3A0D4"
 RAIL_ROAD_TOMORROWLAND_ID = "005DCC8A8413B6B56EFF"
@@ -27,3 +31,15 @@ SMUGGLERS_RUN = "00C399D54913C25A1A98"
 STORY_BOOK = "0F27749CE713A7C2EBF6"
 SMALL_WORLD = "0600C026F613A7C19D77"
 SMALL_WORLD_HOLIDAY = "0B4FDB258813BC04D88B"
+
+
+## website lists 55 attractions
+# -1 holiday decoration is outside park, discarded
+# +1 fortune teller has 2 locations
+# +3 there are 4 railroad stations
+# -1 datapad is mobile app game
+# +3 SW entrances
+
+
+# total 5
+TOTAL_ROWS = (55 - 1 + 1 + 3 - 1 + 3)

@@ -4,3 +4,5 @@ notebook
 pandas
 matplotlib
 networkx
+line_profiler
+cython
