@@ -11,19 +11,51 @@ RAIL_ROAD_ENTRANCE_ID = "0BF5D5A0A713B6B6A081"
 MINNIES_HOUSE_ID = "0D8D702F9D13A7C3A0D4"
 RAIL_ROAD_TOMORROWLAND_ID = "005DCC8A8413B6B56EFF"
 SPACE_MOUNTAIN_ID = "06B1424A4613A7C17094"
+from cachetools import LRUCache, cached
 
-def get_coord(id1, mymap):
-    try:
-        return (mymap[id1]['long'], mymap[id1]['lat'])
-    except Exception as e:
-        pass
-    raise e
+# @cached(cache=LRUCache(maxsize=3000))
 
-def get_distance(id1, id2, mymap):
-    point1 = get_coord(id1, mymap)
-    point2 = get_coord(id2, mymap)
+class GeoUtils:
 
-    return haversine(point1[0], point1[1], point2[0], point2[1])
+    def __init__(self, mymap):
+
+        self.geo_locations = mymap
+
+    @cached(cache=LRUCache(maxsize=3000))
+    def get_coord(self, id1):
+        try:
+            return (self.geo_locations[id1]['long'], self.geo_locations[id1]['lat'])
+        except Exception as e:
+            pass
+        raise e
+
+    @cached(cache=LRUCache(maxsize=3000))
+    def get_distance(self, id1, id2):
+        # point1 = get_coord(id1, mymap)
+        # point2 = get_coord(id2, mymap)
+        point1 = (self.geo_locations[id1]['long'], self.geo_locations[id1]['lat'])
+        point2 = (self.geo_locations[id2]['long'], self.geo_locations[id2]['lat'])
+
+        return self.haversine(point1[0], point1[1], point2[0], point2[1])
+
+    @cached(cache=LRUCache(maxsize=3000))
+    def haversine(self, lon1, lat1, lon2, lat2):
+        """
+        Calculate the great circle distance between two points
+        on the earth (specified in decimal degrees)
+        """
+
+        # convert decimal degrees to radians
+        lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
+
+        # haversine formula
+        dlon = lon2 - lon1
+        dlat = lat2 - lat1
+        a = sin(dlat / 2) ** 2 + cos(lat1) * cos(lat2) * sin(dlon / 2) ** 2
+        c = 2 * asin(sqrt(a))
+        r = 6371  # Radius of earth in kilometers. Use 3956 for miles
+        return c * r
+
 
 
 def load_df(f_attractions, f_edges):
@@ -75,6 +107,7 @@ def display_dictionary(mymap, edges=None):
     # df['rot_x'] = df['rot_y']
     # df['rot_y'] = df['tmp']
 
+    GeoHelper = GeoUtils(mymap)
     plt.figure(figsize=(10, 10))
     plt.scatter([mymap[x]['long'] for x in mymap], [mymap[x]['lat'] for x in mymap])
 
@@ -97,36 +130,21 @@ def display_dictionary(mymap, edges=None):
     if edges:
 
         for e in edges:
-            x1, y1 = get_coord(e[0], mymap)
-            x2, y2 = get_coord(e[1], mymap)
+            x1, y1 = GeoHelper.get_coord(e[0])
+            x2, y2 = GeoHelper.get_coord(e[1])
 
             plt.plot([x1, x2], [y1, y2])
 
     plt.show()
 
 
-def haversine(lon1, lat1, lon2, lat2):
-    """
-    Calculate the great circle distance between two points
-    on the earth (specified in decimal degrees)
-    """
-
-    # convert decimal degrees to radians
-    lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
-
-    # haversine formula
-    dlon = lon2 - lon1
-    dlat = lat2 - lat1
-    a = sin(dlat / 2) ** 2 + cos(lat1) * cos(lat2) * sin(dlon / 2) ** 2
-    c = 2 * asin(sqrt(a))
-    r = 6371  # Radius of earth in kilometers. Use 3956 for miles
-    return c * r
 
 
 
 def getEdgesDict(attractions_map):
     edges = set()
     max_distance = 80
+    GeoHelper = GeoUtils(attractions_map)
     for k1, v1 in attractions_map.items():
         for k2, v2 in attractions_map.items():
 
@@ -135,7 +153,7 @@ def getEdgesDict(attractions_map):
 
             source = min(k1, k2)
             target = max(k1, k2)
-            d = get_distance(source, target, attractions_map) * 1000
+            d = GeoHelper.get_distance(source, target) * 1000
             if d <= max_distance:
                 edges.add((source, target))
 
