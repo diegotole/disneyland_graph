@@ -1,19 +1,23 @@
 import csv
-from collections import defaultdict
+from collections import defaultdict, Counter
 import pandas as pd
 from matplotlib import pyplot as plt
+from matplotlib import cm
 from decimal import Decimal
 from math import radians, cos, sin, asin, sqrt
 import settings
 from settings import *
 
-RAIL_ROAD_ENTRANCE_ID = "0BF5D5A0A713B6B6A081"
-MINNIES_HOUSE_ID = "0D8D702F9D13A7C3A0D4"
-RAIL_ROAD_TOMORROWLAND_ID = "005DCC8A8413B6B56EFF"
-SPACE_MOUNTAIN_ID = "06B1424A4613A7C17094"
+# RAIL_ROAD_ENTRANCE_ID = "0BF5D5A0A713B6B6A081"
+# MINNIES_HOUSE_ID = "0D8D702F9D13A7C3A0D4"
+# RAIL_ROAD_TOMORROWLAND_ID = "005DCC8A8413B6B56EFF"
+# SPACE_MOUNTAIN_ID = "06B1424A4613A7C17094"
 from cachetools import LRUCache, cached
 
+
 # @cached(cache=LRUCache(maxsize=3000))
+
+
 
 class GeoUtils:
 
@@ -57,7 +61,6 @@ class GeoUtils:
         return c * r
 
 
-
 def load_df(f_attractions, f_edges):
     df = pd.read_csv(f_attractions)
 
@@ -79,8 +82,9 @@ def load_maps(f_attractions=settings.ATTRACTIONS_FNAME, rotated=False):
         next(csvr)
         for line in csvr:
             # attractions_map[line[0]] = {"name": line[1], "lat": float(line[2]), "long": float(line[3])}
-            attractions_map[line[0]] = {"name": line[1], "lat": Decimal(line[2]), "long": Decimal(line[3])}
-            #print(line[2], Decimal(line[2]))
+
+            attractions_map[get_ride_id(line[0])] = {"hex_id":  line[0],"name": line[1], "lat": Decimal(line[2]), "long": Decimal(line[3])}
+            # print(line[2], Decimal(line[2]))
 
     # with open(f_edges) as fin:
     #
@@ -129,16 +133,31 @@ def display_dictionary(mymap, edges=None):
 
     if edges:
 
+
+        edges_coord = [(GeoHelper.get_coord(e[0]), GeoHelper.get_coord(e[1])) for e in edges]
+        edges_count = Counter(edges_coord)
+        # for key in edges_count:
+        #     edges_count[key] =  edges_count[key]**2
+
+        total = sum(edges_count.values(), 0.0)
+        for key in edges_count:
+            edges_count[key] =  edges_count[key]/ total
+
         for e in edges:
             x1, y1 = GeoHelper.get_coord(e[0])
             x2, y2 = GeoHelper.get_coord(e[1])
 
-            plt.plot([x1, x2], [y1, y2])
+            color_key = ((x1,y1),(x2,y2))
+
+            plt.plot([x1, x2], [y1, y2] , color=plt.cm.coolwarm( edges_count.get( color_key  ) ) )#color = color
+
+        # x = [  point[0]  for line in edges_coord for point in line]
+        # y = [  point[1]  for line in edges_coord for point in line]
+        # for
+        # plt.plot(x ,y,  cmap=plt.cm.RdBu   )
+        # plt.plot( [ x[0]  for x in pair for pair in edges_coord ] , [x[1] for x in edges_coord ]    )
 
     plt.show()
-
-
-
 
 
 def getEdgesDict(attractions_map):
@@ -205,9 +224,7 @@ def getEdgesDict(attractions_map):
     for k in edges_dict.keys():
         edges_dict[k] = tuple(edges_dict[k])
 
-
     return edges_dict
-
 
 
 if __name__ == "__main__":

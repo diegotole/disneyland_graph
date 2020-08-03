@@ -20,6 +20,8 @@ class Environment:
     generation_kill = 50
     mutation_factor = 1000
 
+    current_best = float("inf")
+
     def print_stats(self):
 
         l = [p.fitness for p in self.population]
@@ -66,6 +68,9 @@ class Environment:
     def end_generation(self):
 
         self.sort()
+        if self.current_best > self.population[0].fitness:
+            print(f"new best: {self.current_best} to {self.population[0].fitness} ")
+            self.current_best = self.population[0].fitness
 
         for i in range(self.generation_kill):
             self.population.pop()
@@ -127,7 +132,7 @@ class Env_Solution:
         p1 = self.path[0]
         myedges = []
 
-        for i in range(1, self.path_size):
+        for i in range(1, len(self.path)):
             myedges.append((p1, self.path[i]))
             p1 = self.path[i]
 
@@ -164,6 +169,7 @@ class Env_Solution:
 
         self.get_fitness()
 
+    # @profile
     def get_fitness(self):
 
         distance = 0
@@ -183,11 +189,12 @@ class Env_Solution:
 
                 if len(good_path) == TOTAL_ROWS:
                     path_size = idx
+                    # print(f"smaller {path_size}, total {len(self.path)}")
                     break
 
 
 
-        self.path_size = path_size
+        # self.path_size = path_size
 
         for r in range(1, path_size):
             distance += self.env.GeoHelper.get_distance(self.path[r - 1], self.path[r])
@@ -205,7 +212,7 @@ if __name__ == "__main__":
 
     Island.loadPopulation()
 
-    for i in range(1000):
+    for i in range(1000): #use 1000
         Island.end_generation()
         Island.print_stats()
     # Island.population[0].mutate()

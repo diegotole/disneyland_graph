@@ -1,5 +1,5 @@
 from settings import TOTAL_ROWS, RAIL_ROAD_ENTRANCE_ID
-from utils import display_dictionary
+from utils import display_dictionary,getEdgesDict
 import time
 from collections import defaultdict
 from utils import load_maps
@@ -10,7 +10,7 @@ class DFS:
     mypath_set = set([RAIL_ROAD_ENTRANCE_ID, ])
     mycounter = defaultdict(int)
     solutions = []
-    short_stop = 80
+    short_stop = 200
     hops = 0
     stop_search = 1_000_000
     last_print_time = time.time()
@@ -24,9 +24,9 @@ class DFS:
         # cls.mypath_set = set([RAIL_ROAD_ENTRANCE_ID,])
         cls.mycounter = defaultdict(int)
         cls.solutions = []
-        cls.short_stop = 80
+        cls.short_stop = 200
         cls.hops = 0
-        cls.stop_search = 5_000
+        cls.stop_search = 10_000_000
 
     @classmethod
     def add_solution(cls):
@@ -50,19 +50,23 @@ class DFS:
         remaining_slots = cls.short_stop - len(cls.mypath)  # 80 - 1
 
         if missing > remaining_slots:  # 54 > 79
-            # print(missing, remaining_slots)
+            # print(" no good outcome looking here ",missing, remaining_slots)
             return True
 
         return False
 
     @classmethod
     def pop_path(cls):
-        if len(cls.mypath):
-            k = cls.mypath.pop()
-            # cls.mypath_set.remove(k)
-            cls.mycounter[k] -= 1
-            if cls.mycounter[k] < 0:
-                cls.mycounter.pop(k)
+        # print("@@@@@inside pop path")
+        # if len(cls.mypath):
+        #     k = cls.mypath.pop()
+        #     # cls.mypath_set.remove(k)
+        #     cls.mycounter[k] -= 1
+        #     if cls.mycounter[k] < 0:
+        #         cls.mycounter.pop(k)
+        k = cls.mypath.pop()
+        # k = ""
+        cls.mycounter[k] -= 1
 
     @classmethod
     def append_path(cls, k):
@@ -82,17 +86,18 @@ class DFS:
         cls.hops += 1
         if cls.hops >= cls.stop_search:
             # raise Exception("TOO LONG HERE")
-            # print("STOPPED ME")
+            # print("STOPPED ME, jump limit reached")
             return
 
         if cls.should_stop():
-            cls.pop_path()
+            # print("about to pop and come back")
+            # cls.pop_path()
             return
 
         # if cls.hops % 1_000_000 == 0:
         t = time.time()
         if (t - cls.last_print_time) > cls.print_interval:
-            print(cls.hops, curr_key, len(cls.mypath), len(cls.solutions))
+            # print(cls.hops, curr_key, len(cls.mypath), len(cls.solutions))
 
             edges = [(cls.mypath[i - 1], cls.mypath[i]) for i in range(1, len(cls.mypath))]
             display_dictionary(cls.mydict, edges)
@@ -102,8 +107,11 @@ class DFS:
         if len(set(cls.mypath)) == TOTAL_ROWS:
             cls.add_solution()
 
-            cls.pop_path()
+            # cls.pop_path()
             return
+        else:
+            # print(len(set(cls.mypath)), TOTAL_ROWS)
+            pass
 
         for k in cls.edges_dict[curr_key]:
             # if k in cls.mypath_set:
@@ -111,13 +119,20 @@ class DFS:
 
             cls.append_path(k)
             cls.jump(k)
+            cls.pop_path()
 
-        cls.pop_path()
 
-        return
+
+
 
 
 
 
 if __name__ == "__main__":
+    attraction_map  = load_maps()
+    DFS.edges_dict = getEdgesDict(attraction_map)
     DFS.start()
+    print(DFS.hops)
+    for s in DFS.solutions:
+        print(s)
+    pass
