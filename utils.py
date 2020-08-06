@@ -7,15 +7,45 @@ from decimal import Decimal
 from math import radians, cos, sin, asin, sqrt
 import settings
 from settings import *
-
+import shelve
 # RAIL_ROAD_ENTRANCE_ID = "0BF5D5A0A713B6B6A081"
 # MINNIES_HOUSE_ID = "0D8D702F9D13A7C3A0D4"
 # RAIL_ROAD_TOMORROWLAND_ID = "005DCC8A8413B6B56EFF"
 # SPACE_MOUNTAIN_ID = "06B1424A4613A7C17094"
 from cachetools import LRUCache, cached
-
+import time
 
 # @cached(cache=LRUCache(maxsize=3000))
+
+
+
+def pre_calculate_distances(edges_dict, myshelve):
+    # edges_dict = getEdgesDict(load_maps())
+
+    # curr = RAIL_ROAD_ENTRANCE_ID
+    # myshelve = {}
+    edges = 0
+    gg = GeoUtils(load_maps())
+    for source in edges_dict:
+        for target in edges_dict[source]:
+
+            edges +=1
+            key1 = repr((source, target))
+            key2 = repr((target, source))
+
+            dist = gg.get_distance(source, target)
+
+            if key1 not in myshelve:
+                myshelve[ key1 ] = dist
+
+            if key2 not in myshelve:
+                myshelve[key2] = dist
+    print(f"done {edges} edges")
+    return myshelve
+
+
+
+
 
 
 
@@ -231,9 +261,13 @@ if __name__ == "__main__":
     f_maps = "disneyland_attractions.csv"
     f_edges = "attractions_edges.csv"
 
-    mmap, medges = load_maps(f_maps, f_edges)
-
-    display_dictionary(mmap)
+    # mmap, medges = load_maps(f_maps, f_edges)
+    #
+    # display_dictionary(mmap)
+    t1 = time.time()
+    with shelve.open('my_distances') as db_distances:
+        pre_calculate_distances(getEdgesDict(load_maps()), db_distances)
+    print(f"time took:{time.time()- t1}")
 
 # def display_df(x,y ):
 #     plt.figure(figsize=(10,10))
