@@ -96,8 +96,12 @@ class Environment:
         self.population.extend(new_candidates)
 
     def display_best_solution(self):
+        edges = self.population[0].getEdges()
+        display_dictionary(self.attractions_map, edges)
+        # print("done")
+        for (source_id, target_id) in edges:
 
-        display_dictionary(self.attractions_map, self.population[0].getEdges())
+            print( self.attractions_map[source_id]["name"]  )
 
     def crossover(self, sol1, sol2):
         commons = sol1.path_set.intersection(sol2.path_set)
@@ -130,9 +134,13 @@ class Env_Solution:
 
         p1 = self.path[0]
         myedges = []
-
-        for i in range(1, len(self.path)):
-            myedges.append((p1, self.path[i]))
+        print(f" path size {self.path_size}, and array size {len(self.path)}")
+        for i in range(1, self.path_size):
+            try:
+                myedges.append((p1, self.path[i]))
+            except Exception as e:
+                print(e)
+                raise e
             p1 = self.path[i]
 
         return myedges
@@ -140,7 +148,7 @@ class Env_Solution:
     def mutate(self):
         mutation_start = random.randint(0, len(self.path))
         curr = self.path[mutation_start]
-        for i in range(mutation_start + 1, self.size):
+        for i in range(mutation_start + 1, len(self.path)):
             rnd_i = random.randint(0, len(self.env.edges_dict[curr]) - 1)
             curr = self.env.edges_dict[curr][rnd_i]
             self.path[i] = curr
@@ -168,14 +176,14 @@ class Env_Solution:
 
         self.get_fitness()
 
-    # @profile
+   # @profile
     def get_fitness(self):
 
         distance = 0
 
         # did not find all the rides
         diff = TOTAL_ROWS - len(set(self.path))
-        path_size = len(self.path)
+        self.path_size = len(self.path)
 
         if diff > 0:
             # penalty for each ride missing
@@ -188,7 +196,7 @@ class Env_Solution:
                 good_path.add(val)
 
                 if len(good_path) == TOTAL_ROWS:
-                    path_size = idx
+                    self.path_size = idx
                     # print(f"smaller {path_size}, total {len(self.path)}")
                     break
 
@@ -201,7 +209,7 @@ class Env_Solution:
         # t2 = time.time()
         distance = reduce(
             lambda tot, curr: tot + self.env.GeoHelper.get_distance(self.path[curr - 1], self.path[curr])
-            , (i for i in range(1, path_size)), distance)
+            , (i for i in range(1, self.path_size)), distance)
 
         # t3 = time.time()
 
