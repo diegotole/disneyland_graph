@@ -7,6 +7,7 @@ import random
 import statistics
 from matplotlib import pyplot as pl
 from cachetools import cached, LRUCache
+from functools import reduce
 
 
 class Environment:
@@ -88,8 +89,6 @@ class Environment:
         #     sol.create_genes()
         #     new_candidates.append(sol)
 
-
-
         if random.randint(1, self.mutation_factor) == 1:
             new_candidates[0].mutate()
             pass
@@ -107,8 +106,8 @@ class Environment:
 
         index1 = sol1.path.index(needle)
         index2 = sol2.path.index(needle)
-        path = [sol1.path[i]   for i in range(index1+1) ]
-        path2 = [sol2.path[i] for i in range(index2+1, len(sol2.path))  ]
+        path = [sol1.path[i] for i in range(index1 + 1)]
+        path2 = [sol2.path[i] for i in range(index2 + 1, len(sol2.path))]
         path += path2
         # path = [sol1.path[i] if i <= index else sol2.path[i] for i in range(self.gene_size)]
         sol3 = Env_Solution(self, gene_size=len(path))
@@ -139,7 +138,7 @@ class Env_Solution:
         return myedges
 
     def mutate(self):
-        mutation_start = random.randint(0, len(self.path) )
+        mutation_start = random.randint(0, len(self.path))
         curr = self.path[mutation_start]
         for i in range(mutation_start + 1, self.size):
             rnd_i = random.randint(0, len(self.env.edges_dict[curr]) - 1)
@@ -181,6 +180,7 @@ class Env_Solution:
         if diff > 0:
             # penalty for each ride missing
             distance += (diff * 1000)
+            # tmp = distance
 
         else:
             good_path = set()
@@ -192,18 +192,22 @@ class Env_Solution:
                     # print(f"smaller {path_size}, total {len(self.path)}")
                     break
 
+        # t1 = time.time()
+        # # self.path_size = path_size
+        # distance2 = distance
+        # for r in range(1, path_size):
+        #     tmp += self.env.GeoHelper.get_distance(self.path[r - 1], self.path[r])
 
+        # t2 = time.time()
+        distance = reduce(
+            lambda tot, curr: tot + self.env.GeoHelper.get_distance(self.path[curr - 1], self.path[curr])
+            , (i for i in range(1, path_size)), distance)
 
-        # self.path_size = path_size
-
-        for r in range(1, path_size):
-            distance += self.env.GeoHelper.get_distance(self.path[r - 1], self.path[r])
-
-
-
+        # t3 = time.time()
 
         self.fitness = distance
-
+        # print(f"loop took {t2-t1} , reduce took {t3-t2}")
+        # print(tmp, distance, "blah")
 
 if __name__ == "__main__":
     t1 = time.time()
@@ -212,7 +216,7 @@ if __name__ == "__main__":
 
     Island.loadPopulation()
 
-    for i in range(1000): #use 1000
+    for i in range(1000):  # use 1000
         Island.end_generation()
         Island.print_stats()
     # Island.population[0].mutate()
@@ -222,5 +226,5 @@ if __name__ == "__main__":
     Island.display_best_solution()
 
     print(Island.population[0].fitness)
-    print(f"took: {time.time()-t1}")
+    print(f"took: {time.time() - t1}")
     pass

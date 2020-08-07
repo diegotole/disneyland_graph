@@ -15,8 +15,8 @@ import shelve
 from cachetools import LRUCache, cached
 import time
 
-# @cached(cache=LRUCache(maxsize=3000))
 
+# @cached(cache=LRUCache(maxsize=3000))
 
 
 def pre_calculate_distances(edges_dict, myshelve):
@@ -29,24 +29,19 @@ def pre_calculate_distances(edges_dict, myshelve):
     for source in edges_dict:
         for target in edges_dict[source]:
 
-            edges +=1
+            edges += 1
             key1 = repr((source, target))
             key2 = repr((target, source))
 
             dist = gg.get_distance(source, target)
 
             if key1 not in myshelve:
-                myshelve[ key1 ] = dist
+                myshelve[key1] = dist
 
             if key2 not in myshelve:
                 myshelve[key2] = dist
     print(f"done {edges} edges")
     return myshelve
-
-
-
-
-
 
 
 class GeoUtils:
@@ -113,7 +108,8 @@ def load_maps(f_attractions=settings.ATTRACTIONS_FNAME, rotated=False):
         for line in csvr:
             # attractions_map[line[0]] = {"name": line[1], "lat": float(line[2]), "long": float(line[3])}
 
-            attractions_map[get_ride_id(line[0])] = {"hex_id":  line[0],"name": line[1], "lat": Decimal(line[2]), "long": Decimal(line[3])}
+            attractions_map[get_ride_id(line[0])] = {"hex_id": line[0], "name": line[1], "lat": Decimal(line[2]),
+                                                     "long": Decimal(line[3])}
             # print(line[2], Decimal(line[2]))
 
     # with open(f_edges) as fin:
@@ -163,24 +159,40 @@ def display_dictionary(mymap, edges=None):
 
     if edges:
 
+        edges_coord = [
+            tuple(
+                sorted(
+                    (GeoHelper.get_coord(e[0]), GeoHelper.get_coord(e[1]))
+                )
 
-        edges_coord = [(GeoHelper.get_coord(e[0]), GeoHelper.get_coord(e[1])) for e in edges]
+            )
+
+            for e in edges
+        ]
         edges_count = Counter(edges_coord)
+        pass
+        # edges_count = {}
         # for key in edges_count:
+        #
+        #     if sorted()
         #     edges_count[key] =  edges_count[key]**2
+        # edges_count[
+        #     ((Decimal('-117.9188180645016'), Decimal('33.80996898917935')),
+        #      (Decimal('-117.9187237144692'), Decimal('33.81059829734667')))
+        # ] = 999999
 
         total = sum(edges_count.values(), 0.0)
         for key in edges_count:
-            edges_count[key] =  edges_count[key]/ total
-
+            edges_count[key] = edges_count[key] / total
+        mycolors = []
         for e in edges:
             x1, y1 = GeoHelper.get_coord(e[0])
             x2, y2 = GeoHelper.get_coord(e[1])
 
-            color_key = ((x1,y1),(x2,y2))
+            color_key =  tuple(  sorted( ((x1, y1), (x2, y2))  )  )
 
-            plt.plot([x1, x2], [y1, y2] , color=plt.cm.coolwarm( edges_count.get( color_key  ) ) )#color = color
-
+            plt.plot([x1, x2], [y1, y2], color=plt.cm.jet(edges_count.get(color_key)))  # color = color
+            mycolors.append(  plt.cm.jet(edges_count.get(color_key))  )
         # x = [  point[0]  for line in edges_coord for point in line]
         # y = [  point[1]  for line in edges_coord for point in line]
         # for
@@ -267,7 +279,7 @@ if __name__ == "__main__":
     t1 = time.time()
     with shelve.open('my_distances') as db_distances:
         pre_calculate_distances(getEdgesDict(load_maps()), db_distances)
-    print(f"time took:{time.time()- t1}")
+    print(f"time took:{time.time() - t1}")
 
 # def display_df(x,y ):
 #     plt.figure(figsize=(10,10))
