@@ -1,25 +1,28 @@
 import xmltodict, csv
 from settings import TOTAL_ROWS
+import utils
 
-file_name = "Disneyland Graph.kml"
+file_name = "./data/Disneyland Graph.kml"
 
 with open(file_name) as xml_file:
     data_dict = xmltodict.parse(xml_file.read())
 
-with open("disneyland_attractions.csv", 'w') as fout:
+with open("./data/disneyland_attractions.csv", 'w') as fout:
     csv_writer = csv.writer(fout)
-    csv_writer.writerow(['place_id', 'name', 'lat', 'long'])
+    csv_writer.writerow(['id', 'gearth_id', 'name', 'lat', 'long'])
     rows = []
     for idx, placemark in enumerate(data_dict['kml']['Document']['Placemark']):
-        # print(placemark)
         lat, long = placemark["LookAt"]['latitude'], placemark['LookAt']['longitude']
         name = placemark['name']
         place_id = placemark['@id']
+        ride_id = utils.get_ride_id(place_id)
         rows.append(
-            [place_id,
-             name.lower(),
-             lat,
-             long]
+            [
+                ride_id,
+                place_id,
+                name.lower(),
+                lat,
+                long]
 
         )
 

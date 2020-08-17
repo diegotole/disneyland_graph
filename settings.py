@@ -3,8 +3,10 @@ def get_ride_id(hex):
     return int(hex, 16)%100000
 
 
-ATTRACTIONS_FNAME = "disneyland_attractions.csv"
-ATTRACTIONS_EDGES_FNAME = "attractions_edges.csv"
+ATTRACTIONS_FNAME = "data/disneyland_attractions.csv"
+ATTRACTIONS_EDGES_FNAME = "data/attractions_edges.csv"
+
+
 
 RAIL_ROAD_ENTRANCE_ID = get_ride_id("0BF5D5A0A713B6B6A081")
 MINNIES_HOUSE_ID = get_ride_id("0D8D702F9D13A7C3A0D4")

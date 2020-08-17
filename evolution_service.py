@@ -11,15 +11,20 @@ from functools import reduce
 
 
 class Environment:
-    population_size = 100
-    gene_size = 50 - 1
-    generation_kill = 10
-    mutation_factor = 1000
+    # population_size = 100
+    # gene_size = 50 - 1
+    # generation_kill = 10
+    # mutation_factor = 1000
 
     population_size = 300
     gene_size = 200
-    generation_kill = 50
+
+    new_childs = 25
+    new_immigrants = 25
+    generation_kill = new_childs + new_immigrants
+
     mutation_factor = 1000
+
 
     current_best = float("inf")
 
@@ -70,7 +75,7 @@ class Environment:
 
         self.sort()
         if self.current_best > self.population[0].fitness:
-            print(f"new best: {self.current_best} to {self.population[0].fitness} ")
+            print(f"new best: {self.current_best} to {self.population[0].fitness},  and path size {len(self.population[0].path)} ")
             self.current_best = self.population[0].fitness
 
         for i in range(self.generation_kill):
@@ -80,7 +85,7 @@ class Environment:
                           range(self.generation_kill * 2)]
 
         new_candidates = []
-        for _ in range(self.generation_kill):
+        for _ in range(self.new_childs):
             candidate = self.crossover(self.population[random_indexes.pop()], self.population[random_indexes.pop()])
 
             new_candidates.append(candidate)
@@ -91,17 +96,21 @@ class Environment:
 
         if random.randint(1, self.mutation_factor) == 1:
             new_candidates[0].mutate()
-            pass
 
-        self.population.extend(new_candidates)
+
+        immigrants = [ Env_Solution(self, gene_size=self.gene_size, create_genes=True)  for _ in range(self.new_immigrants)    ]
+        self.population.extend(new_candidates + immigrants)
 
     def display_best_solution(self):
+
         edges = self.population[0].getEdges()
         display_dictionary(self.attractions_map, edges)
         # print("done")
         for (source_id, target_id) in edges:
+            print(self.attractions_map[source_id]["name"])
 
-            print( self.attractions_map[source_id]["name"]  )
+        self.final_edges = edges
+        print(self.attractions_map[target_id]["name"])
 
     def crossover(self, sol1, sol2):
         commons = sol1.path_set.intersection(sol2.path_set)
@@ -115,7 +124,7 @@ class Environment:
         path += path2
         # path = [sol1.path[i] if i <= index else sol2.path[i] for i in range(self.gene_size)]
         sol3 = Env_Solution(self, gene_size=len(path))
-        sol3.get_genes(genes=path)
+        sol3.put_genes(genes=path)
 
         return sol3
 
@@ -124,18 +133,22 @@ class Env_Solution:
     # size = 50 - 1
     start_pos = RAIL_ROAD_ENTRANCE_ID
 
-    def __init__(self, env, gene_size):
+    def __init__(self, env, gene_size, create_genes=False):
         self.path = [RAIL_ROAD_ENTRANCE_ID, ]
         # self.curr = self.start_pos
         self.env = env
         self.size = gene_size
 
+        if create_genes:
+            self.create_genes()
+
     def getEdges(self):
 
         p1 = self.path[0]
         myedges = []
-        print(f" path size {self.path_size}, and array size {len(self.path)}")
-        for i in range(1, self.path_size):
+        # print(f" path size {self.path_size}, and array size {len(self.path)}")
+        # for i in range(1, self.path_size+1):
+        for i in range(1, len(self.path)):
             try:
                 myedges.append((p1, self.path[i]))
             except Exception as e:
@@ -146,7 +159,7 @@ class Env_Solution:
         return myedges
 
     def mutate(self):
-        mutation_start = random.randint(0, len(self.path))
+        mutation_start = random.randint(0, len(self.path)-1)
         curr = self.path[mutation_start]
         for i in range(mutation_start + 1, len(self.path)):
             rnd_i = random.randint(0, len(self.env.edges_dict[curr]) - 1)
@@ -157,7 +170,7 @@ class Env_Solution:
 
         self.get_fitness()
 
-    def get_genes(self, genes):
+    def put_genes(self, genes):
 
         self.path = genes
         self.path_set = set(genes)
@@ -167,7 +180,9 @@ class Env_Solution:
     def create_genes(self):
         curr = self.start_pos
         self.path = [0] * self.size
+        # visited = set()
         for i in range(self.size):
+
             rnd_i = random.randint(0, len(self.env.edges_dict[curr]) - 1)
             curr = self.env.edges_dict[curr][rnd_i]
             self.path[i] = curr
@@ -176,30 +191,31 @@ class Env_Solution:
 
         self.get_fitness()
 
-   # @profile
+    # @profile
     def get_fitness(self):
 
         distance = 0
 
         # did not find all the rides
         diff = TOTAL_ROWS - len(set(self.path))
-        self.path_size = len(self.path)
+        # self.path_size = len(self.path)
 
-        if diff > 0:
+        # if diff > 0:
             # penalty for each ride missing
-            distance += (diff * 1000)
+        distance += (diff * 1000)
             # tmp = distance
 
-        else:
-            good_path = set()
-            for idx, val in enumerate(self.path):
-                good_path.add(val)
+        # else:
+        good_path = set()
+        for idx, val in enumerate(self.path):
+            good_path.add(val)
 
-                if len(good_path) == TOTAL_ROWS:
-                    self.path_size = idx
-                    # print(f"smaller {path_size}, total {len(self.path)}")
-                    break
+            if len(good_path) == TOTAL_ROWS:
+                # self.path_size = idx
 
+                # print(f"smaller {path_size}, total {len(self.path)}")
+                break
+        self.path = self.path[:idx+1]
         # t1 = time.time()
         # # self.path_size = path_size
         # distance2 = distance
@@ -209,13 +225,14 @@ class Env_Solution:
         # t2 = time.time()
         distance = reduce(
             lambda tot, curr: tot + self.env.GeoHelper.get_distance(self.path[curr - 1], self.path[curr])
-            , (i for i in range(1, self.path_size)), distance)
+            , (i for i in range(1, len(self.path))), distance)
 
         # t3 = time.time()
 
         self.fitness = distance
         # print(f"loop took {t2-t1} , reduce took {t3-t2}")
         # print(tmp, distance, "blah")
+
 
 if __name__ == "__main__":
     t1 = time.time()
@@ -224,12 +241,17 @@ if __name__ == "__main__":
 
     Island.loadPopulation()
 
-    for i in range(1000):  # use 1000
-        Island.end_generation()
-        Island.print_stats()
+    max_time = 60*60*12 #1hour
+    t1 = time.time()
+    # for i in range(100):  # use 1000
+    while (time.time() - t1 ) < max_time:
+        for i in range(1000):
+            Island.end_generation()
+            Island.print_stats()
+
     # Island.population[0].mutate()
 
-    # Island.print_stats()
+
     Island.display_stats()
     Island.display_best_solution()
 

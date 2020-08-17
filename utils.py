@@ -172,10 +172,10 @@ def display_dictionary(mymap, edges=None):
         edges_count = Counter(edges_coord)
         pass
         # edges_count = {}
-        # for key in edges_count:
-        #
-        #     if sorted()
-        #     edges_count[key] =  edges_count[key]**2
+        for key in edges_count:
+
+            # if sorted()
+            edges_count[key] =  edges_count[key]**8
         # edges_count[
         #     ((Decimal('-117.9188180645016'), Decimal('33.80996898917935')),
         #      (Decimal('-117.9187237144692'), Decimal('33.81059829734667')))
@@ -225,14 +225,7 @@ def getEdgesDict(attractions_map):
 
     hard_coded_edges.add((BUZZ_RIDE, SW_LAUNCH_BAY))
 
-    # WINNIE_POOH = "0A8B71CAD913A7BD8AA9"
-    # SW_ENTRANCE_ADV_LAND = "0B76231CE813D58AA419"
-    # SW_ENTRANCE_FANTASY_LAND = "045BFCC4E813D58E7955"
-    # SW_ENTRANCE_FRONTIER_LAND = "02E9209DE313D58F29B2"
-    # DAVY_CROC = "0CC239AEC813B172106A"
 
-    # STORY_BOOK_ "0F27749CE713A7C2EBF6"
-    # SMALL_WORLD = "0600C026F613A7C19D77"
     hard_coded_edges.add((STORY_BOOK, SMALL_WORLD))
 
     hard_coded_edges.add((STORY_BOOK, SMALL_WORLD_HOLIDAY))
