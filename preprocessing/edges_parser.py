@@ -96,7 +96,8 @@ def generate_edges_file():
                     if r1['id'] == r2['id']:
                         continue
 
-                    distance = haversine(r1['long'], r1['lat'], r2['long'], r2['lat'])
+                    #returns in KM
+                    distance = haversine(r1['long'], r1['lat'], r2['long'], r2['lat']) * 1000
                     if distance <= max_distance:
                         csw.writerow(
 

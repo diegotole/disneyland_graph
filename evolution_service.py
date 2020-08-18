@@ -94,8 +94,11 @@ class Environment:
         #     sol.create_genes()
         #     new_candidates.append(sol)
 
+
+
         if random.randint(1, self.mutation_factor) == 1:
             new_candidates[0].mutate()
+
 
 
         immigrants = [ Env_Solution(self, gene_size=self.gene_size, create_genes=True)  for _ in range(self.new_immigrants)    ]
@@ -180,8 +183,9 @@ class Env_Solution:
     def create_genes(self):
         curr = self.start_pos
         self.path = [0] * self.size
+        self.path[0] = curr
         # visited = set()
-        for i in range(self.size):
+        for i in range(1, self.size):
 
             rnd_i = random.randint(0, len(self.env.edges_dict[curr]) - 1)
             curr = self.env.edges_dict[curr][rnd_i]
@@ -241,10 +245,10 @@ if __name__ == "__main__":
 
     Island.loadPopulation()
 
-    max_time = 60*60*12 #1hour
+    max_time = 60*60*1/60 #1hour
     t1 = time.time()
     # for i in range(100):  # use 1000
-    while (time.time() - t1 ) < max_time:
+    while (time.time() - t1 ) < 1:
         for i in range(1000):
             Island.end_generation()
             Island.print_stats()

@@ -73,6 +73,7 @@ class GeoUtils:
         Calculate the great circle distance between two points
         on the earth (specified in decimal degrees)
         """
+        lon1, lat1, lon2, lat2 = Decimal(lon1), Decimal(lat1), Decimal(lon2), Decimal(lat2)
 
         # convert decimal degrees to radians
         lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
@@ -103,13 +104,12 @@ def load_maps(f_attractions=settings.ATTRACTIONS_FNAME, rotated=False):
 
     with open(f_attractions) as fin:
 
-        csvr = csv.reader(fin)
-        next(csvr)
+        csvr = csv.DictReader(fin)
+        # next(csvr)
         for line in csvr:
             # attractions_map[line[0]] = {"name": line[1], "lat": float(line[2]), "long": float(line[3])}
-
-            attractions_map[get_ride_id(line[0])] = {"hex_id": line[0], "name": line[1], "lat": Decimal(line[2]),
-                                                     "long": Decimal(line[3])}
+            line['lat'] , line['long'] = Decimal(line['lat']), Decimal(line['long'])
+            attractions_map[int(line['id'])] = line
             # print(line[2], Decimal(line[2]))
 
     # with open(f_edges) as fin:
@@ -203,6 +203,18 @@ def display_dictionary(mymap, edges=None):
 
 
 def getEdgesDict(attractions_map):
+
+    parsed_edges_dict = defaultdict(list)
+    with open(settings.ATTRACTIONS_EDGES_FNAME) as fin:
+        csvr = csv.DictReader(fin)
+        for line in csvr:
+            parsed_edges_dict[int(line['source'])].append(int(line['target']))
+
+
+    return parsed_edges_dict
+
+
+
     edges = set()
     max_distance = 80
     GeoHelper = GeoUtils(attractions_map)
@@ -249,6 +261,9 @@ def getEdgesDict(attractions_map):
     hard_coded_edges.add((CASTLE_ID, ASTRO_ORBITOR_ID))
 
     edges = edges.union(hard_coded_edges)
+
+    from preprocessing import edges_parser
+    edges = edges.union( edges_parser.get_hard_coded_edges() )
 
     edges_dict = defaultdict(list)
 
