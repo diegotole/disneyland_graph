@@ -84,7 +84,7 @@ def generate_edges_file():
     max_distance = 80
     with open("../"+settings.ATTRACTIONS_EDGES_FNAME, 'w') as fout:
         csw = csv.writer(fout)
-        csw.writerow(['source', 'target', 'distance_KM'])
+        csw.writerow(['source', 'target', 'distance_meters'])
         cache = {}
         with open("../"+settings.ATTRACTIONS_FNAME) as fin:
             my_attractions_nodes = list(csv.DictReader(fin))
@@ -96,8 +96,8 @@ def generate_edges_file():
                     if r1['id'] == r2['id']:
                         continue
 
-                    #returns in KM
-                    distance = haversine(r1['long'], r1['lat'], r2['long'], r2['lat']) * 1000
+
+                    distance = haversine(r1['long'], r1['lat'], r2['long'], r2['lat'])
                     if distance <= max_distance:
                         csw.writerow(
 

@@ -227,9 +227,14 @@ class Env_Solution:
         #     tmp += self.env.GeoHelper.get_distance(self.path[r - 1], self.path[r])
 
         # t2 = time.time()
+        # distance = reduce(
+        #     lambda tot, curr: tot + self.env.GeoHelper.get_distance(self.path[curr - 1], self.path[curr])
+        #     , (i for i in range(1, len(self.path))), distance)
+
         distance = reduce(
-            lambda tot, curr: tot + self.env.GeoHelper.get_distance(self.path[curr - 1], self.path[curr])
+            lambda tot, curr: tot + self.env.edges_dict[ (self.path[curr - 1], self.path[curr]) ]
             , (i for i in range(1, len(self.path))), distance)
+
 
         # t3 = time.time()
 
@@ -241,7 +246,7 @@ class Env_Solution:
 if __name__ == "__main__":
     t1 = time.time()
     attraction_map = load_maps()
-    Island = Environment(attraction_map, getEdgesDict(attraction_map))
+    Island = Environment(attraction_map, getEdgesDict(attraction_map) )
 
     Island.loadPopulation()
 

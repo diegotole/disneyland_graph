@@ -209,72 +209,13 @@ def getEdgesDict(attractions_map):
         csvr = csv.DictReader(fin)
         for line in csvr:
             parsed_edges_dict[int(line['source'])].append(int(line['target']))
-
+            parsed_edges_dict[ (int(line['source']), int(line['target']  ))    ] = Decimal(line["distance_meters"])
 
     return parsed_edges_dict
 
 
 
-    edges = set()
-    max_distance = 80
-    GeoHelper = GeoUtils(attractions_map)
-    for k1, v1 in attractions_map.items():
-        for k2, v2 in attractions_map.items():
 
-            if k1 == k2:
-                continue
-
-            source = min(k1, k2)
-            target = max(k1, k2)
-            d = GeoHelper.get_distance(source, target) * 1000
-            if d <= max_distance:
-                edges.add((source, target))
-
-    hard_coded_edges = set()
-
-    hard_coded_edges.add((SPACE_MOUNTAIN_ID, SW_LAUNCH_BAY))
-    hard_coded_edges.add((SPACE_MOUNTAIN_ID, SW_TOURS))
-
-    hard_coded_edges.add((BUZZ_RIDE, SW_LAUNCH_BAY))
-
-
-    hard_coded_edges.add((STORY_BOOK, SMALL_WORLD))
-
-    hard_coded_edges.add((STORY_BOOK, SMALL_WORLD_HOLIDAY))
-
-    hard_coded_edges.add((RISE_RESISTANCE, SMUGGLERS_RUN))
-    hard_coded_edges.add((RISE_RESISTANCE, SW_ENTRANCE_FRONTIER_LAND))
-
-    hard_coded_edges.add((SW_ENTRANCE_FANTASY_LAND, SMUGGLERS_RUN))
-    hard_coded_edges.add((SW_ENTRANCE_ADV_LAND, SMUGGLERS_RUN))
-
-    hard_coded_edges.add((DAVY_CROC, SW_ENTRANCE_FRONTIER_LAND))
-    hard_coded_edges.add((WINNIE_POOH, SW_ENTRANCE_FRONTIER_LAND))
-
-    hard_coded_edges.add((FORTUNE_TELLER_MST_ID, TIKI_ROOM_ID))
-    hard_coded_edges.add((FORTUNE_TELLER_MST_ID, CASTLE_ID))
-    hard_coded_edges.add((FORTUNE_TELLER_MST_ID, ASTRO_ORBITOR_ID))
-
-    hard_coded_edges.add((TIKI_ROOM_ID, CASTLE_ID))
-    hard_coded_edges.add((TIKI_ROOM_ID, ASTRO_ORBITOR_ID))
-
-    hard_coded_edges.add((CASTLE_ID, ASTRO_ORBITOR_ID))
-
-    edges = edges.union(hard_coded_edges)
-
-    from preprocessing import edges_parser
-    edges = edges.union( edges_parser.get_hard_coded_edges() )
-
-    edges_dict = defaultdict(list)
-
-    for e in edges:
-        edges_dict[e[0]].append(e[1])
-        edges_dict[e[1]].append(e[0])
-
-    for k in edges_dict.keys():
-        edges_dict[k] = tuple(edges_dict[k])
-
-    return edges_dict
 
 
 if __name__ == "__main__":
