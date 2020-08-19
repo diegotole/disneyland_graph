@@ -1,13 +1,14 @@
-from settings import TOTAL_ROWS, RAIL_ROAD_ENTRANCE_ID
-from utils import display_dictionary
-import time
-from collections import defaultdict
-from utils import load_maps, getEdgesDict, GeoUtils
 import random
 import statistics
-from matplotlib import pyplot as pl
-from cachetools import cached, LRUCache
+import time
+from collections import defaultdict
 from functools import reduce
+
+from matplotlib import pyplot as pl
+
+from settings import TOTAL_ROWS, RAIL_ROAD_ENTRANCE_ID
+from utils import display_dictionary
+from utils import load_maps, getEdgesDict, GeoUtils
 
 
 class Environment:

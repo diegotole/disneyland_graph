@@ -1,5 +1,4 @@
 xmltodict
-# haversine
 notebook
 pandas
 matplotlib
@@ -7,3 +6,4 @@ networkx
 line_profiler
 cython
 cachetools
+

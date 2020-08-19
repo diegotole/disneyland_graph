@@ -4,7 +4,7 @@ from settings import *
 from math import radians, cos, sin, asin, sqrt
 from decimal import Decimal
 
-def haversine(lon1, lat1, lon2, lat2):
+def haversine_km(lon1, lat1, lon2, lat2):
     """
     Calculate the great circle distance between two points
     on the earth (specified in decimal degrees)
@@ -81,10 +81,10 @@ def get_hard_coded_edges():
 
 
 def generate_edges_file():
-    max_distance = 80
+    max_distance = 80/1000
     with open("../"+settings.ATTRACTIONS_EDGES_FNAME, 'w') as fout:
         csw = csv.writer(fout)
-        csw.writerow(['source', 'target', 'distance_meters'])
+        csw.writerow(['source', 'target', 'distance_km'])
         cache = {}
         with open("../"+settings.ATTRACTIONS_FNAME) as fin:
             my_attractions_nodes = list(csv.DictReader(fin))
@@ -97,7 +97,7 @@ def generate_edges_file():
                         continue
 
 
-                    distance = haversine(r1['long'], r1['lat'], r2['long'], r2['lat'])
+                    distance = haversine_km(r1['long'], r1['lat'], r2['long'], r2['lat'])
                     if distance <= max_distance:
                         csw.writerow(
 
@@ -109,7 +109,7 @@ def generate_edges_file():
                 r1 = cache[e1]
                 r2 = cache[e2]
 
-                distance = haversine(r1['long'], r1['lat'], r2['long'], r2['lat'])
+                distance = haversine_km(r1['long'], r1['lat'], r2['long'], r2['lat'])
                 csw.writerow(
 
                     [r1['id'], r2['id'], distance]
