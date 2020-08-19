@@ -6,4 +6,5 @@ networkx
 line_profiler
 cython
 cachetools
-
+coverage
+pytest

@@ -84,7 +84,7 @@ def get_hard_coded_edges():
 def generate_edges_file():
     max_distance = 80 / 1000  # havesine returns in KM. we are checking for landmarks 80 meters away
 
-    with open("../" + settings.ATTRACTIONS_EDGES_FNAME, 'w') as fout:
+    with open( settings.ATTRACTIONS_EDGES_FNAME, 'w') as fout:
         csw = csv.writer(fout)
         csw.writerow(['source', 'target', 'distance_km'])
         cache = {}
@@ -172,4 +172,4 @@ def generate_edges_file():
     # return edges_dict
 
 
-generate_edges_file()
+# generate_edges_file()
