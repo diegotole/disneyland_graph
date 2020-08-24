@@ -3,7 +3,7 @@ import utils
 
 
 def transform_kml_into_dict():
-    file_name = "../data/Disneyland Graph.kml"
+    file_name = "data/Disneyland Graph.kml"
     with open(file_name) as xml_file:
         data_dict = xmltodict.parse(xml_file.read())
 

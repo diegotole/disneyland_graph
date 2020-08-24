@@ -35,3 +35,12 @@ class MyTestCase(unittest.TestCase):
         self.assertTrue(type(rows[0][0]) == type(1))
 
 
+
+class KmlTest(unittest.TestCase):
+
+    def test_transform_kml_into_dict(self):
+        data_dict = kml_parser.transform_kml_into_dict()
+
+        mylist = data_dict['kml']['Document']['Placemark']
+
+        self.assertTrue(len(mylist) > 0)
