@@ -108,7 +108,7 @@ def load_maps(f_attractions=settings.ATTRACTIONS_FNAME, rotated=False):
         # next(csvr)
         for line in csvr:
             # attractions_map[line[0]] = {"name": line[1], "lat": float(line[2]), "long": float(line[3])}
-            line['lat'] , line['long'] = Decimal(line['lat']), Decimal(line['long'])
+            line['lat'], line['long'] = Decimal(line['lat']), Decimal(line['long'])
             attractions_map[int(line['id'])] = line
             # print(line[2], Decimal(line[2]))
 
@@ -131,6 +131,84 @@ def load_maps(f_attractions=settings.ATTRACTIONS_FNAME, rotated=False):
     return attractions_map
 
 
+def display_disneyland(edges=None):
+    with open(ATTRACTIONS_FNAME) as fin:
+        csvr = csv.DictReader(fin)
+
+        mymap = {}
+
+        for line in csvr:
+            line['long'] = Decimal(line['long'])
+            line['lat'] = Decimal(line['lat'])
+            mymap[int(line["id"])] = line
+
+    plt.figure(figsize=(10, 10))
+    plt.scatter([mymap[x]['long'] for x in mymap], [mymap[x]['lat'] for x in mymap])
+
+    plt.scatter([mymap[RAIL_ROAD_ENTRANCE_ID]['long'], ], [mymap[RAIL_ROAD_ENTRANCE_ID]['lat'], ], color="red")
+    plt.annotate("Rail Road Entrance", (mymap[RAIL_ROAD_ENTRANCE_ID]['long'], mymap[RAIL_ROAD_ENTRANCE_ID]['lat']))
+
+    plt.scatter([mymap[MINNIES_HOUSE_ID]['long'], ], [mymap[MINNIES_HOUSE_ID]['lat'], ], color="black")
+    plt.annotate("Minnie's house", (mymap[MINNIES_HOUSE_ID]['long'], mymap[MINNIES_HOUSE_ID]['lat']))
+
+    plt.scatter([mymap[RAIL_ROAD_TOMORROWLAND_ID]['long'], ], [mymap[RAIL_ROAD_TOMORROWLAND_ID]['lat'], ],
+                color="yellow")
+    plt.annotate("Rail Road Tomorrowland",
+                 (mymap[RAIL_ROAD_TOMORROWLAND_ID]['long'], mymap[RAIL_ROAD_TOMORROWLAND_ID]['lat']))
+
+    plt.scatter([mymap[SPACE_MOUNTAIN_ID]['long'], ], [mymap[SPACE_MOUNTAIN_ID]['lat'], ],
+                color="purple")
+    plt.annotate("Space Mountain",
+                 (mymap[SPACE_MOUNTAIN_ID]['long'], mymap[SPACE_MOUNTAIN_ID]['lat']))
+
+    if edges:
+
+        edges_coord = [
+            tuple(
+                sorted(
+                    # (GeoHelper.get_coord(e[0]), GeoHelper.get_coord(e[1]))
+                    ( (mymap[e[0]]['long'], mymap[e[0]]['lat']), (mymap[e[1]]['long'], mymap[e[1]]['lat']))
+                )
+
+            )
+
+            for e in edges
+        ]
+        edges_count = Counter(edges_coord)
+
+        # edges_count = {}
+        for key in edges_count:
+            # if sorted()
+            edges_count[key] = edges_count[key] ** 8
+        # edges_count[
+        #     ((Decimal('-117.9188180645016'), Decimal('33.80996898917935')),
+        #      (Decimal('-117.9187237144692'), Decimal('33.81059829734667')))
+        # ] = 999999
+
+        total = sum(edges_count.values(), 0.0)
+        for key in edges_count:
+            edges_count[key] = edges_count[key] / total
+        mycolors = []
+        for e in edges:
+            # x1, y1 = GeoHelper.get_coord(e[0])
+            # x2, y2 = GeoHelper.get_coord(e[1])
+            x1, y1 = mymap[e[0]]['long'], mymap[e[0]]['lat']
+            x2, y2 = mymap[e[1]]['long'], mymap[e[1]]['lat']
+
+
+            color_key = tuple(sorted(((x1, y1), (x2, y2))))
+
+            plt.plot([x1, x2], [y1, y2], color=plt.cm.jet(edges_count.get(color_key)))  # color = color
+            mycolors.append(plt.cm.jet(edges_count.get(color_key)))
+        # x = [  point[0]  for line in edges_coord for point in line]
+        # y = [  point[1]  for line in edges_coord for point in line]
+        # for
+        # plt.plot(x ,y,  cmap=plt.cm.RdBu   )
+        # plt.plot( [ x[0]  for x in pair for pair in edges_coord ] , [x[1] for x in edges_coord ]    )
+
+    plt.show()
+
+
 def display_dictionary(mymap, edges=None):
     ##ROTATE coordinates
     # df['tmp'] = df['rot_x']
@@ -138,6 +216,7 @@ def display_dictionary(mymap, edges=None):
     # df['rot_y'] = df['tmp']
 
     GeoHelper = GeoUtils(mymap)
+
     plt.figure(figsize=(10, 10))
     plt.scatter([mymap[x]['long'] for x in mymap], [mymap[x]['lat'] for x in mymap])
 
@@ -173,9 +252,8 @@ def display_dictionary(mymap, edges=None):
         pass
         # edges_count = {}
         for key in edges_count:
-
             # if sorted()
-            edges_count[key] =  edges_count[key]**8
+            edges_count[key] = edges_count[key] ** 8
         # edges_count[
         #     ((Decimal('-117.9188180645016'), Decimal('33.80996898917935')),
         #      (Decimal('-117.9187237144692'), Decimal('33.81059829734667')))
@@ -189,10 +267,10 @@ def display_dictionary(mymap, edges=None):
             x1, y1 = GeoHelper.get_coord(e[0])
             x2, y2 = GeoHelper.get_coord(e[1])
 
-            color_key =  tuple(  sorted( ((x1, y1), (x2, y2))  )  )
+            color_key = tuple(sorted(((x1, y1), (x2, y2))))
 
             plt.plot([x1, x2], [y1, y2], color=plt.cm.jet(edges_count.get(color_key)))  # color = color
-            mycolors.append(  plt.cm.jet(edges_count.get(color_key))  )
+            mycolors.append(plt.cm.jet(edges_count.get(color_key)))
         # x = [  point[0]  for line in edges_coord for point in line]
         # y = [  point[1]  for line in edges_coord for point in line]
         # for
@@ -203,19 +281,14 @@ def display_dictionary(mymap, edges=None):
 
 
 def getEdgesDict(attractions_map):
-
     parsed_edges_dict = defaultdict(list)
     with open(settings.ATTRACTIONS_EDGES_FNAME) as fin:
         csvr = csv.DictReader(fin)
         for line in csvr:
             parsed_edges_dict[int(line['source'])].append(int(line['target']))
-            parsed_edges_dict[ (int(line['source']), int(line['target']  ))    ] = Decimal(line["distance_meters"])
+            parsed_edges_dict[(int(line['source']), int(line['target']))] = Decimal(line["distance_meters"])
 
     return parsed_edges_dict
-
-
-
-
 
 
 if __name__ == "__main__":

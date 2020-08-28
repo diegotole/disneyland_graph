@@ -21,7 +21,7 @@ END: Cython Metadata */
 #else
 #define CYTHON_ABI "0_29_20"
 #define CYTHON_HEX_VERSION 0x001D14F0
-#define CYTHON_FUTURE_DIVISION 0
+#define CYTHON_FUTURE_DIVISION 1
 #include <stddef.h>
 #ifndef offsetof
   #define offsetof(type, member) ( (size_t) & ((type*)0) -> member )
@@ -1256,13 +1256,6 @@ static CYTHON_INLINE int __Pyx_PyBytes_Equals(PyObject* s1, PyObject* s2, int eq
 /* UnicodeEquals.proto */
 static CYTHON_INLINE int __Pyx_PyUnicode_Equals(PyObject* s1, PyObject* s2, int equals);
 
-/* StrEquals.proto */
-#if PY_MAJOR_VERSION >= 3
-#define __Pyx_PyString_Equals __Pyx_PyUnicode_Equals
-#else
-#define __Pyx_PyString_Equals __Pyx_PyBytes_Equals
-#endif
-
 /* PyThreadStateGet.proto */
 #if CYTHON_FAST_THREAD_STATE
 #define __Pyx_PyThreadState_declare  PyThreadState *__pyx_tstate;
@@ -1325,16 +1318,6 @@ static void __pyx_insert_code_object(int code_line, PyCodeObject* code_object);
 static void __Pyx_AddTraceback(const char *funcname, int c_line,
                                int py_line, const char *filename);
 
-/* Print.proto */
-static int __Pyx_Print(PyObject*, PyObject *, int);
-#if CYTHON_COMPILING_IN_PYPY || PY_MAJOR_VERSION >= 3
-static PyObject* __pyx_print = 0;
-static PyObject* __pyx_print_kwargs = 0;
-#endif
-
-/* PrintOne.proto */
-static int __Pyx_PrintOne(PyObject* stream, PyObject *o);
-
 /* CIntToPy.proto */
 static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value);
 
@@ -1370,16 +1353,16 @@ extern int __pyx_module_is_main_search_service;
 int __pyx_module_is_main_search_service = 0;
 
 /* Implementation of 'search_service' */
+static PyObject *__pyx_builtin_print;
 static PyObject *__pyx_builtin_range;
 static const char __pyx_k_i[] = "i";
 static const char __pyx_k_k[] = "k";
+static const char __pyx_k_s[] = "s";
 static const char __pyx_k_t[] = "t";
 static const char __pyx_k_DFS[] = "DFS";
 static const char __pyx_k_cls[] = "cls";
 static const char __pyx_k_doc[] = "__doc__";
-static const char __pyx_k_end[] = "end";
 static const char __pyx_k_pop[] = "pop";
-static const char __pyx_k_file[] = "file";
 static const char __pyx_k_hops[] = "hops";
 static const char __pyx_k_jump[] = "jump";
 static const char __pyx_k_keys[] = "keys";
@@ -1423,6 +1406,8 @@ static const char __pyx_k_stop_search[] = "stop_search";
 static const char __pyx_k_DFS_pop_path[] = "DFS.pop_path";
 static const char __pyx_k_DFS_reset_me[] = "DFS.reset_me";
 static const char __pyx_k_add_solution[] = "add_solution";
+static const char __pyx_k_getEdgesDict[] = "getEdgesDict";
+static const char __pyx_k_attraction_map[] = "attraction_map";
 static const char __pyx_k_print_interval[] = "print_interval";
 static const char __pyx_k_search_service[] = "search_service";
 static const char __pyx_k_DFS_append_path[] = "DFS.append_path";
@@ -1447,6 +1432,7 @@ static PyObject *__pyx_n_s_TOTAL_ROWS;
 static PyObject *__pyx_n_s_add_solution;
 static PyObject *__pyx_n_s_append;
 static PyObject *__pyx_n_s_append_path;
+static PyObject *__pyx_n_s_attraction_map;
 static PyObject *__pyx_n_s_cline_in_traceback;
 static PyObject *__pyx_n_s_cls;
 static PyObject *__pyx_n_s_collections;
@@ -1456,8 +1442,7 @@ static PyObject *__pyx_n_s_display_dictionary;
 static PyObject *__pyx_n_s_doc;
 static PyObject *__pyx_n_s_edges;
 static PyObject *__pyx_n_s_edges_dict;
-static PyObject *__pyx_n_s_end;
-static PyObject *__pyx_n_s_file;
+static PyObject *__pyx_n_s_getEdgesDict;
 static PyObject *__pyx_n_s_hops;
 static PyObject *__pyx_n_s_i;
 static PyObject *__pyx_n_s_import;
@@ -1467,6 +1452,7 @@ static PyObject *__pyx_n_s_keys;
 static PyObject *__pyx_n_s_last_print_time;
 static PyObject *__pyx_n_s_load_maps;
 static PyObject *__pyx_n_s_main;
+static PyObject *__pyx_n_u_main;
 static PyObject *__pyx_n_s_metaclass;
 static PyObject *__pyx_n_s_missing;
 static PyObject *__pyx_n_s_module;
@@ -1484,6 +1470,7 @@ static PyObject *__pyx_n_s_qualname;
 static PyObject *__pyx_n_s_range;
 static PyObject *__pyx_n_s_remaining_slots;
 static PyObject *__pyx_n_s_reset_me;
+static PyObject *__pyx_n_s_s;
 static PyObject *__pyx_n_s_search_service;
 static PyObject *__pyx_kp_s_search_service_py;
 static PyObject *__pyx_n_s_settings;
@@ -1507,10 +1494,10 @@ static PyObject *__pyx_pf_14search_service_3DFS_12jump(CYTHON_UNUSED PyObject *_
 static __Pyx_CachedCFunction __pyx_umethod_PyList_Type_pop = {0, &__pyx_n_s_pop, 0, 0, 0};
 static PyObject *__pyx_int_0;
 static PyObject *__pyx_int_1;
-static PyObject *__pyx_int_80;
+static PyObject *__pyx_int_200;
 static PyObject *__pyx_int_300;
-static PyObject *__pyx_int_5000;
 static PyObject *__pyx_int_1000000;
+static PyObject *__pyx_int_10000000;
 static PyObject *__pyx_tuple_;
 static PyObject *__pyx_tuple__3;
 static PyObject *__pyx_tuple__5;
@@ -1527,7 +1514,7 @@ static PyObject *__pyx_codeobj__12;
 static PyObject *__pyx_codeobj__14;
 /* Late includes */
 
-/* "search_service.py":21
+/* "search_service.py":22
  * 
  *     @classmethod
  *     def reset_me(cls):             # <<<<<<<<<<<<<<
@@ -1560,31 +1547,31 @@ static PyObject *__pyx_pf_14search_service_3DFS_reset_me(CYTHON_UNUSED PyObject 
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("reset_me", 0);
 
-  /* "search_service.py":22
+  /* "search_service.py":23
  *     @classmethod
  *     def reset_me(cls):
  *         cls.mypath = [RAIL_ROAD_ENTRANCE_ID, ]             # <<<<<<<<<<<<<<
  *         # cls.mypath_set = set([RAIL_ROAD_ENTRANCE_ID,])
  *         cls.mycounter = defaultdict(int)
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_RAIL_ROAD_ENTRANCE_ID); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 22, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_RAIL_ROAD_ENTRANCE_ID); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 23, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 22, __pyx_L1_error)
+  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 23, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_1);
   PyList_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
   __pyx_t_1 = 0;
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_cls, __pyx_n_s_mypath, __pyx_t_2) < 0) __PYX_ERR(0, 22, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_cls, __pyx_n_s_mypath, __pyx_t_2) < 0) __PYX_ERR(0, 23, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "search_service.py":24
+  /* "search_service.py":25
  *         cls.mypath = [RAIL_ROAD_ENTRANCE_ID, ]
  *         # cls.mypath_set = set([RAIL_ROAD_ENTRANCE_ID,])
  *         cls.mycounter = defaultdict(int)             # <<<<<<<<<<<<<<
  *         cls.solutions = []
- *         cls.short_stop = 80
+ *         cls.short_stop = 200
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_defaultdict); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 24, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_defaultdict); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_1))) {
@@ -1598,52 +1585,52 @@ static PyObject *__pyx_pf_14search_service_3DFS_reset_me(CYTHON_UNUSED PyObject 
   }
   __pyx_t_2 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_1, __pyx_t_3, ((PyObject *)(&PyInt_Type))) : __Pyx_PyObject_CallOneArg(__pyx_t_1, ((PyObject *)(&PyInt_Type)));
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 24, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_cls, __pyx_n_s_mycounter, __pyx_t_2) < 0) __PYX_ERR(0, 24, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-
-  /* "search_service.py":25
- *         # cls.mypath_set = set([RAIL_ROAD_ENTRANCE_ID,])
- *         cls.mycounter = defaultdict(int)
- *         cls.solutions = []             # <<<<<<<<<<<<<<
- *         cls.short_stop = 80
- *         cls.hops = 0
- */
-  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 25, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_cls, __pyx_n_s_solutions, __pyx_t_2) < 0) __PYX_ERR(0, 25, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_cls, __pyx_n_s_mycounter, __pyx_t_2) < 0) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "search_service.py":26
+ *         # cls.mypath_set = set([RAIL_ROAD_ENTRANCE_ID,])
  *         cls.mycounter = defaultdict(int)
- *         cls.solutions = []
- *         cls.short_stop = 80             # <<<<<<<<<<<<<<
+ *         cls.solutions = []             # <<<<<<<<<<<<<<
+ *         cls.short_stop = 200
  *         cls.hops = 0
- *         cls.stop_search = 5_000
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_cls, __pyx_n_s_short_stop, __pyx_int_80) < 0) __PYX_ERR(0, 26, __pyx_L1_error)
+  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 26, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_cls, __pyx_n_s_solutions, __pyx_t_2) < 0) __PYX_ERR(0, 26, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "search_service.py":27
+ *         cls.mycounter = defaultdict(int)
  *         cls.solutions = []
- *         cls.short_stop = 80
- *         cls.hops = 0             # <<<<<<<<<<<<<<
- *         cls.stop_search = 5_000
- * 
+ *         cls.short_stop = 200             # <<<<<<<<<<<<<<
+ *         cls.hops = 0
+ *         cls.stop_search = 10_000_000
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_cls, __pyx_n_s_hops, __pyx_int_0) < 0) __PYX_ERR(0, 27, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_cls, __pyx_n_s_short_stop, __pyx_int_200) < 0) __PYX_ERR(0, 27, __pyx_L1_error)
 
   /* "search_service.py":28
- *         cls.short_stop = 80
+ *         cls.solutions = []
+ *         cls.short_stop = 200
+ *         cls.hops = 0             # <<<<<<<<<<<<<<
+ *         cls.stop_search = 10_000_000
+ * 
+ */
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_cls, __pyx_n_s_hops, __pyx_int_0) < 0) __PYX_ERR(0, 28, __pyx_L1_error)
+
+  /* "search_service.py":29
+ *         cls.short_stop = 200
  *         cls.hops = 0
- *         cls.stop_search = 5_000             # <<<<<<<<<<<<<<
+ *         cls.stop_search = 10_000_000             # <<<<<<<<<<<<<<
  * 
  *     @classmethod
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_cls, __pyx_n_s_stop_search, __pyx_int_5000) < 0) __PYX_ERR(0, 28, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_cls, __pyx_n_s_stop_search, __pyx_int_10000000) < 0) __PYX_ERR(0, 29, __pyx_L1_error)
 
-  /* "search_service.py":21
+  /* "search_service.py":22
  * 
  *     @classmethod
  *     def reset_me(cls):             # <<<<<<<<<<<<<<
@@ -1666,7 +1653,7 @@ static PyObject *__pyx_pf_14search_service_3DFS_reset_me(CYTHON_UNUSED PyObject 
   return __pyx_r;
 }
 
-/* "search_service.py":31
+/* "search_service.py":32
  * 
  *     @classmethod
  *     def add_solution(cls):             # <<<<<<<<<<<<<<
@@ -1700,41 +1687,41 @@ static PyObject *__pyx_pf_14search_service_3DFS_2add_solution(CYTHON_UNUSED PyOb
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("add_solution", 0);
 
-  /* "search_service.py":33
+  /* "search_service.py":34
  *     def add_solution(cls):
  * 
  *         cls.solutions.append(             # <<<<<<<<<<<<<<
  *             list(cls.mypath)
  *         )
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_solutions); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 33, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_solutions); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 34, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
 
-  /* "search_service.py":34
+  /* "search_service.py":35
  * 
  *         cls.solutions.append(
  *             list(cls.mypath)             # <<<<<<<<<<<<<<
  *         )
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_mypath); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 34, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_mypath); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 35, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PySequence_List(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 34, __pyx_L1_error)
+  __pyx_t_3 = PySequence_List(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 35, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "search_service.py":33
+  /* "search_service.py":34
  *     def add_solution(cls):
  * 
  *         cls.solutions.append(             # <<<<<<<<<<<<<<
  *             list(cls.mypath)
  *         )
  */
-  __pyx_t_4 = __Pyx_PyObject_Append(__pyx_t_1, __pyx_t_3); if (unlikely(__pyx_t_4 == ((int)-1))) __PYX_ERR(0, 33, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Append(__pyx_t_1, __pyx_t_3); if (unlikely(__pyx_t_4 == ((int)-1))) __PYX_ERR(0, 34, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "search_service.py":31
+  /* "search_service.py":32
  * 
  *     @classmethod
  *     def add_solution(cls):             # <<<<<<<<<<<<<<
@@ -1757,7 +1744,7 @@ static PyObject *__pyx_pf_14search_service_3DFS_2add_solution(CYTHON_UNUSED PyOb
   return __pyx_r;
 }
 
-/* "search_service.py":38
+/* "search_service.py":39
  * 
  *     @classmethod
  *     def should_stop(cls):             # <<<<<<<<<<<<<<
@@ -1795,16 +1782,16 @@ static PyObject *__pyx_pf_14search_service_3DFS_4should_stop(CYTHON_UNUSED PyObj
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("should_stop", 0);
 
-  /* "search_service.py":44
+  /* "search_service.py":45
  *         # return False
  *         # cls.mypath_set = set(cls.mypath)
- *         sumi = len( cls.mycounter.keys() )             # <<<<<<<<<<<<<<
+ *         sumi = len(cls.mycounter.keys())             # <<<<<<<<<<<<<<
  *         missing = TOTAL_ROWS - sumi
  *         # print("missing:", missing, "sumi:", sumi)
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_mycounter); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 44, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_mycounter); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 45, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_keys); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 44, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_keys); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 45, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -1819,68 +1806,68 @@ static PyObject *__pyx_pf_14search_service_3DFS_4should_stop(CYTHON_UNUSED PyObj
   }
   __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 44, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 45, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_4 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_4 == ((Py_ssize_t)-1))) __PYX_ERR(0, 44, __pyx_L1_error)
+  __pyx_t_4 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_4 == ((Py_ssize_t)-1))) __PYX_ERR(0, 45, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 44, __pyx_L1_error)
+  __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 45, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_sumi = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "search_service.py":45
+  /* "search_service.py":46
  *         # cls.mypath_set = set(cls.mypath)
- *         sumi = len( cls.mycounter.keys() )
+ *         sumi = len(cls.mycounter.keys())
  *         missing = TOTAL_ROWS - sumi             # <<<<<<<<<<<<<<
  *         # print("missing:", missing, "sumi:", sumi)
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_TOTAL_ROWS); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 45, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_TOTAL_ROWS); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = PyNumber_Subtract(__pyx_t_1, __pyx_v_sumi); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 45, __pyx_L1_error)
+  __pyx_t_3 = PyNumber_Subtract(__pyx_t_1, __pyx_v_sumi); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_missing = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "search_service.py":49
+  /* "search_service.py":50
  * 
  *         # missing = TOTAL_ROWS - len(cls.mypath_set)  # 55 - 1 = 54
  *         remaining_slots = cls.short_stop - len(cls.mypath)  # 80 - 1             # <<<<<<<<<<<<<<
  * 
  *         if missing > remaining_slots:  # 54 > 79
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_short_stop); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 49, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_short_stop); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 50, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_mypath); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 49, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_mypath); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 50, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_4 == ((Py_ssize_t)-1))) __PYX_ERR(0, 49, __pyx_L1_error)
+  __pyx_t_4 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_4 == ((Py_ssize_t)-1))) __PYX_ERR(0, 50, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 49, __pyx_L1_error)
+  __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 50, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyNumber_Subtract(__pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 49, __pyx_L1_error)
+  __pyx_t_2 = PyNumber_Subtract(__pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 50, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_remaining_slots = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "search_service.py":51
+  /* "search_service.py":52
  *         remaining_slots = cls.short_stop - len(cls.mypath)  # 80 - 1
  * 
  *         if missing > remaining_slots:  # 54 > 79             # <<<<<<<<<<<<<<
- *             # print(missing, remaining_slots)
+ *             # print(" no good outcome looking here ",missing, remaining_slots)
  *             return True
  */
-  __pyx_t_2 = PyObject_RichCompare(__pyx_v_missing, __pyx_v_remaining_slots, Py_GT); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 51, __pyx_L1_error)
-  __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 51, __pyx_L1_error)
+  __pyx_t_2 = PyObject_RichCompare(__pyx_v_missing, __pyx_v_remaining_slots, Py_GT); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 52, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 52, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (__pyx_t_5) {
 
-    /* "search_service.py":53
+    /* "search_service.py":54
  *         if missing > remaining_slots:  # 54 > 79
- *             # print(missing, remaining_slots)
+ *             # print(" no good outcome looking here ",missing, remaining_slots)
  *             return True             # <<<<<<<<<<<<<<
  * 
  *         return False
@@ -1890,16 +1877,16 @@ static PyObject *__pyx_pf_14search_service_3DFS_4should_stop(CYTHON_UNUSED PyObj
     __pyx_r = Py_True;
     goto __pyx_L0;
 
-    /* "search_service.py":51
+    /* "search_service.py":52
  *         remaining_slots = cls.short_stop - len(cls.mypath)  # 80 - 1
  * 
  *         if missing > remaining_slots:  # 54 > 79             # <<<<<<<<<<<<<<
- *             # print(missing, remaining_slots)
+ *             # print(" no good outcome looking here ",missing, remaining_slots)
  *             return True
  */
   }
 
-  /* "search_service.py":55
+  /* "search_service.py":56
  *             return True
  * 
  *         return False             # <<<<<<<<<<<<<<
@@ -1911,7 +1898,7 @@ static PyObject *__pyx_pf_14search_service_3DFS_4should_stop(CYTHON_UNUSED PyObj
   __pyx_r = Py_False;
   goto __pyx_L0;
 
-  /* "search_service.py":38
+  /* "search_service.py":39
  * 
  *     @classmethod
  *     def should_stop(cls):             # <<<<<<<<<<<<<<
@@ -1935,12 +1922,12 @@ static PyObject *__pyx_pf_14search_service_3DFS_4should_stop(CYTHON_UNUSED PyObj
   return __pyx_r;
 }
 
-/* "search_service.py":58
+/* "search_service.py":59
  * 
  *     @classmethod
  *     def pop_path(cls):             # <<<<<<<<<<<<<<
- *         if len(cls.mypath):
- *             k = cls.mypath.pop()
+ *         # print("@@@@@inside pop path")
+ *         # if len(cls.mypath):
  */
 
 /* Python wrapper */
@@ -1962,137 +1949,56 @@ static PyObject *__pyx_pf_14search_service_3DFS_6pop_path(CYTHON_UNUSED PyObject
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
-  Py_ssize_t __pyx_t_2;
-  int __pyx_t_3;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
   PyObject *__pyx_t_4 = NULL;
-  PyObject *__pyx_t_5 = NULL;
-  PyObject *__pyx_t_6 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("pop_path", 0);
 
-  /* "search_service.py":59
- *     @classmethod
- *     def pop_path(cls):
- *         if len(cls.mypath):             # <<<<<<<<<<<<<<
- *             k = cls.mypath.pop()
- *             # cls.mypath_set.remove(k)
+  /* "search_service.py":67
+ *         #     if cls.mycounter[k] < 0:
+ *         #         cls.mycounter.pop(k)
+ *         k = cls.mypath.pop()             # <<<<<<<<<<<<<<
+ *         # k = ""
+ *         cls.mycounter[k] -= 1
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_mypath); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 59, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_mypath); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 67, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 59, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Pop(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_3 = (__pyx_t_2 != 0);
-  if (__pyx_t_3) {
+  __pyx_v_k = __pyx_t_2;
+  __pyx_t_2 = 0;
 
-    /* "search_service.py":60
- *     def pop_path(cls):
- *         if len(cls.mypath):
- *             k = cls.mypath.pop()             # <<<<<<<<<<<<<<
- *             # cls.mypath_set.remove(k)
- *             cls.mycounter[k] -= 1
- */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_mypath); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 60, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_4 = __Pyx_PyObject_Pop(__pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 60, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_v_k = __pyx_t_4;
-    __pyx_t_4 = 0;
-
-    /* "search_service.py":62
- *             k = cls.mypath.pop()
- *             # cls.mypath_set.remove(k)
- *             cls.mycounter[k] -= 1             # <<<<<<<<<<<<<<
- *             if cls.mycounter[k] < 0:
- *                  cls.mycounter.pop(k)
- */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_mycounter); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 62, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __Pyx_INCREF(__pyx_v_k);
-    __pyx_t_1 = __pyx_v_k;
-    __pyx_t_5 = __Pyx_PyObject_GetItem(__pyx_t_4, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 62, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = __Pyx_PyInt_SubtractObjC(__pyx_t_5, __pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 62, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(PyObject_SetItem(__pyx_t_4, __pyx_t_1, __pyx_t_6) < 0)) __PYX_ERR(0, 62, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-
-    /* "search_service.py":63
- *             # cls.mypath_set.remove(k)
- *             cls.mycounter[k] -= 1
- *             if cls.mycounter[k] < 0:             # <<<<<<<<<<<<<<
- *                  cls.mycounter.pop(k)
- * 
- */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_mycounter); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 63, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_1 = __Pyx_PyObject_GetItem(__pyx_t_4, __pyx_v_k); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 63, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = PyObject_RichCompare(__pyx_t_1, __pyx_int_0, Py_LT); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 63, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 63, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (__pyx_t_3) {
-
-      /* "search_service.py":64
- *             cls.mycounter[k] -= 1
- *             if cls.mycounter[k] < 0:
- *                  cls.mycounter.pop(k)             # <<<<<<<<<<<<<<
+  /* "search_service.py":69
+ *         k = cls.mypath.pop()
+ *         # k = ""
+ *         cls.mycounter[k] -= 1             # <<<<<<<<<<<<<<
  * 
  *     @classmethod
  */
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_mycounter); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 64, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_pop); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 64, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_1 = NULL;
-      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
-        __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_6);
-        if (likely(__pyx_t_1)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-          __Pyx_INCREF(__pyx_t_1);
-          __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_6, function);
-        }
-      }
-      __pyx_t_4 = (__pyx_t_1) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_1, __pyx_v_k) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_v_k);
-      __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-      if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 64, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_mycounter); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 69, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_INCREF(__pyx_v_k);
+  __pyx_t_1 = __pyx_v_k;
+  __pyx_t_3 = __Pyx_PyObject_GetItem(__pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 69, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_4 = __Pyx_PyInt_SubtractObjC(__pyx_t_3, __pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 69, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  if (unlikely(PyObject_SetItem(__pyx_t_2, __pyx_t_1, __pyx_t_4) < 0)) __PYX_ERR(0, 69, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-      /* "search_service.py":63
- *             # cls.mypath_set.remove(k)
- *             cls.mycounter[k] -= 1
- *             if cls.mycounter[k] < 0:             # <<<<<<<<<<<<<<
- *                  cls.mycounter.pop(k)
- * 
- */
-    }
-
-    /* "search_service.py":59
- *     @classmethod
- *     def pop_path(cls):
- *         if len(cls.mypath):             # <<<<<<<<<<<<<<
- *             k = cls.mypath.pop()
- *             # cls.mypath_set.remove(k)
- */
-  }
-
-  /* "search_service.py":58
+  /* "search_service.py":59
  * 
  *     @classmethod
  *     def pop_path(cls):             # <<<<<<<<<<<<<<
- *         if len(cls.mypath):
- *             k = cls.mypath.pop()
+ *         # print("@@@@@inside pop path")
+ *         # if len(cls.mypath):
  */
 
   /* function exit code */
@@ -2100,9 +2006,9 @@ static PyObject *__pyx_pf_14search_service_3DFS_6pop_path(CYTHON_UNUSED PyObject
   goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_XDECREF(__pyx_t_6);
   __Pyx_AddTraceback("search_service.DFS.pop_path", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
@@ -2112,7 +2018,7 @@ static PyObject *__pyx_pf_14search_service_3DFS_6pop_path(CYTHON_UNUSED PyObject
   return __pyx_r;
 }
 
-/* "search_service.py":67
+/* "search_service.py":72
  * 
  *     @classmethod
  *     def append_path(cls, k):             # <<<<<<<<<<<<<<
@@ -2155,11 +2061,11 @@ static PyObject *__pyx_pw_14search_service_3DFS_9append_path(PyObject *__pyx_sel
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_k)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("append_path", 1, 2, 2, 1); __PYX_ERR(0, 67, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("append_path", 1, 2, 2, 1); __PYX_ERR(0, 72, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "append_path") < 0)) __PYX_ERR(0, 67, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "append_path") < 0)) __PYX_ERR(0, 72, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -2172,7 +2078,7 @@ static PyObject *__pyx_pw_14search_service_3DFS_9append_path(PyObject *__pyx_sel
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("append_path", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 67, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("append_path", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 72, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("search_service.DFS.append_path", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -2198,40 +2104,40 @@ static PyObject *__pyx_pf_14search_service_3DFS_8append_path(CYTHON_UNUSED PyObj
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("append_path", 0);
 
-  /* "search_service.py":68
+  /* "search_service.py":73
  *     @classmethod
  *     def append_path(cls, k):
  *         cls.mypath.append(k)             # <<<<<<<<<<<<<<
  *         # cls.mypath_set.add(k)
  *         cls.mycounter[k] += 1
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_mypath); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 68, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_mypath); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 73, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_Append(__pyx_t_1, __pyx_v_k); if (unlikely(__pyx_t_2 == ((int)-1))) __PYX_ERR(0, 68, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Append(__pyx_t_1, __pyx_v_k); if (unlikely(__pyx_t_2 == ((int)-1))) __PYX_ERR(0, 73, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "search_service.py":70
+  /* "search_service.py":75
  *         cls.mypath.append(k)
  *         # cls.mypath_set.add(k)
  *         cls.mycounter[k] += 1             # <<<<<<<<<<<<<<
  * 
  *     @classmethod
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_mycounter); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 70, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_mycounter); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 75, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_v_k);
   __pyx_t_3 = __pyx_v_k;
-  __pyx_t_4 = __Pyx_PyObject_GetItem(__pyx_t_1, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 70, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetItem(__pyx_t_1, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 75, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyInt_AddObjC(__pyx_t_4, __pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 70, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyInt_AddObjC(__pyx_t_4, __pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 75, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (unlikely(PyObject_SetItem(__pyx_t_1, __pyx_t_3, __pyx_t_5) < 0)) __PYX_ERR(0, 70, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(__pyx_t_1, __pyx_t_3, __pyx_t_5) < 0)) __PYX_ERR(0, 75, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "search_service.py":67
+  /* "search_service.py":72
  * 
  *     @classmethod
  *     def append_path(cls, k):             # <<<<<<<<<<<<<<
@@ -2255,7 +2161,7 @@ static PyObject *__pyx_pf_14search_service_3DFS_8append_path(CYTHON_UNUSED PyObj
   return __pyx_r;
 }
 
-/* "search_service.py":73
+/* "search_service.py":78
  * 
  *     @classmethod
  *     def start(cls):             # <<<<<<<<<<<<<<
@@ -2289,14 +2195,14 @@ static PyObject *__pyx_pf_14search_service_3DFS_10start(CYTHON_UNUSED PyObject *
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("start", 0);
 
-  /* "search_service.py":74
+  /* "search_service.py":79
  *     @classmethod
  *     def start(cls):
  *         cls.reset_me()             # <<<<<<<<<<<<<<
  * 
  *         cls.jump(RAIL_ROAD_ENTRANCE_ID)
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_reset_me); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 74, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_reset_me); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 79, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -2310,21 +2216,21 @@ static PyObject *__pyx_pf_14search_service_3DFS_10start(CYTHON_UNUSED PyObject *
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 74, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 79, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "search_service.py":76
+  /* "search_service.py":81
  *         cls.reset_me()
  * 
  *         cls.jump(RAIL_ROAD_ENTRANCE_ID)             # <<<<<<<<<<<<<<
  * 
  *     @classmethod
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_jump); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 76, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_jump); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 81, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_RAIL_ROAD_ENTRANCE_ID); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 76, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_RAIL_ROAD_ENTRANCE_ID); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 81, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -2339,12 +2245,12 @@ static PyObject *__pyx_pf_14search_service_3DFS_10start(CYTHON_UNUSED PyObject *
   __pyx_t_1 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_4, __pyx_t_3) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 76, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 81, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "search_service.py":73
+  /* "search_service.py":78
  * 
  *     @classmethod
  *     def start(cls):             # <<<<<<<<<<<<<<
@@ -2368,7 +2274,7 @@ static PyObject *__pyx_pf_14search_service_3DFS_10start(CYTHON_UNUSED PyObject *
   return __pyx_r;
 }
 
-/* "search_service.py":79
+/* "search_service.py":84
  * 
  *     @classmethod
  *     def jump(cls, curr_key):             # <<<<<<<<<<<<<<
@@ -2411,11 +2317,11 @@ static PyObject *__pyx_pw_14search_service_3DFS_13jump(PyObject *__pyx_self, PyO
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_curr_key)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("jump", 1, 2, 2, 1); __PYX_ERR(0, 79, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("jump", 1, 2, 2, 1); __PYX_ERR(0, 84, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "jump") < 0)) __PYX_ERR(0, 79, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "jump") < 0)) __PYX_ERR(0, 84, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -2428,7 +2334,7 @@ static PyObject *__pyx_pw_14search_service_3DFS_13jump(PyObject *__pyx_self, PyO
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("jump", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 79, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("jump", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 84, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("search_service.DFS.jump", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -2445,7 +2351,7 @@ static PyObject *__pyx_pf_14search_service_3DFS_12jump(CYTHON_UNUSED PyObject *_
   PyObject *__pyx_v_t = NULL;
   PyObject *__pyx_v_edges = NULL;
   PyObject *__pyx_v_k = NULL;
-  PyObject *__pyx_v_i = NULL;
+  Py_ssize_t __pyx_7genexpr__pyx_v_i;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -2453,51 +2359,54 @@ static PyObject *__pyx_pf_14search_service_3DFS_12jump(CYTHON_UNUSED PyObject *_
   PyObject *__pyx_t_3 = NULL;
   int __pyx_t_4;
   Py_ssize_t __pyx_t_5;
-  PyObject *__pyx_t_6 = NULL;
-  PyObject *(*__pyx_t_7)(PyObject *);
-  PyObject *__pyx_t_8 = NULL;
-  int __pyx_t_9;
+  Py_ssize_t __pyx_t_6;
+  Py_ssize_t __pyx_t_7;
+  Py_ssize_t __pyx_t_8;
+  PyObject *__pyx_t_9 = NULL;
+  int __pyx_t_10;
+  PyObject *__pyx_t_11 = NULL;
+  PyObject *(*__pyx_t_12)(PyObject *);
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("jump", 0);
 
-  /* "search_service.py":81
+  /* "search_service.py":86
  *     def jump(cls, curr_key):
  * 
  *         cls.hops += 1             # <<<<<<<<<<<<<<
  *         if cls.hops >= cls.stop_search:
  *             # raise Exception("TOO LONG HERE")
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_hops); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 81, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_hops); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 86, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyInt_AddObjC(__pyx_t_1, __pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 81, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_AddObjC(__pyx_t_1, __pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 86, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_cls, __pyx_n_s_hops, __pyx_t_2) < 0) __PYX_ERR(0, 81, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_cls, __pyx_n_s_hops, __pyx_t_2) < 0) __PYX_ERR(0, 86, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "search_service.py":82
+  /* "search_service.py":87
  * 
  *         cls.hops += 1
  *         if cls.hops >= cls.stop_search:             # <<<<<<<<<<<<<<
  *             # raise Exception("TOO LONG HERE")
- *             #print("STOPPED ME")
+ *             # print("STOPPED ME, jump limit reached")
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_hops); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 82, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_hops); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 87, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_stop_search); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 82, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_stop_search); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 87, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = PyObject_RichCompare(__pyx_t_2, __pyx_t_1, Py_GE); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 82, __pyx_L1_error)
+  __pyx_t_3 = PyObject_RichCompare(__pyx_t_2, __pyx_t_1, Py_GE); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 87, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 82, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 87, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   if (__pyx_t_4) {
 
-    /* "search_service.py":85
+    /* "search_service.py":90
  *             # raise Exception("TOO LONG HERE")
- *             #print("STOPPED ME")
+ *             # print("STOPPED ME, jump limit reached")
  *             return             # <<<<<<<<<<<<<<
  * 
  *         if cls.should_stop():
@@ -2506,23 +2415,23 @@ static PyObject *__pyx_pf_14search_service_3DFS_12jump(CYTHON_UNUSED PyObject *_
     __pyx_r = Py_None; __Pyx_INCREF(Py_None);
     goto __pyx_L0;
 
-    /* "search_service.py":82
+    /* "search_service.py":87
  * 
  *         cls.hops += 1
  *         if cls.hops >= cls.stop_search:             # <<<<<<<<<<<<<<
  *             # raise Exception("TOO LONG HERE")
- *             #print("STOPPED ME")
+ *             # print("STOPPED ME, jump limit reached")
  */
   }
 
-  /* "search_service.py":87
+  /* "search_service.py":92
  *             return
  * 
  *         if cls.should_stop():             # <<<<<<<<<<<<<<
- *             cls.pop_path()
- *             return
+ *             # print("about to pop and come back")
+ *             # cls.pop_path()
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_should_stop); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 87, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_should_stop); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 92, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_1))) {
@@ -2536,42 +2445,16 @@ static PyObject *__pyx_pf_14search_service_3DFS_12jump(CYTHON_UNUSED PyObject *_
   }
   __pyx_t_3 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 87, __pyx_L1_error)
+  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 92, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 87, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 92, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   if (__pyx_t_4) {
 
-    /* "search_service.py":88
- * 
- *         if cls.should_stop():
- *             cls.pop_path()             # <<<<<<<<<<<<<<
- *             return
- * 
- */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_pop_path); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 88, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = NULL;
-    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_1))) {
-      __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_1);
-      if (likely(__pyx_t_2)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_1);
-        __Pyx_INCREF(__pyx_t_2);
-        __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_1, function);
-      }
-    }
-    __pyx_t_3 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_1);
-    __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 88, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-
-    /* "search_service.py":89
- *         if cls.should_stop():
- *             cls.pop_path()
+    /* "search_service.py":95
+ *             # print("about to pop and come back")
+ *             # cls.pop_path()
  *             return             # <<<<<<<<<<<<<<
  * 
  *         # if cls.hops % 1_000_000 == 0:
@@ -2580,25 +2463,25 @@ static PyObject *__pyx_pf_14search_service_3DFS_12jump(CYTHON_UNUSED PyObject *_
     __pyx_r = Py_None; __Pyx_INCREF(Py_None);
     goto __pyx_L0;
 
-    /* "search_service.py":87
+    /* "search_service.py":92
  *             return
  * 
  *         if cls.should_stop():             # <<<<<<<<<<<<<<
- *             cls.pop_path()
- *             return
+ *             # print("about to pop and come back")
+ *             # cls.pop_path()
  */
   }
 
-  /* "search_service.py":92
+  /* "search_service.py":98
  * 
  *         # if cls.hops % 1_000_000 == 0:
  *         t = time.time()             # <<<<<<<<<<<<<<
  *         if (t - cls.last_print_time) > cls.print_interval:
- *             print(cls.hops, curr_key, len(cls.mypath), len(cls.solutions))
+ *             # print(cls.hops, curr_key, len(cls.mypath), len(cls.solutions))
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_time); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 92, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_time); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 98, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_time); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 92, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_time); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 98, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = NULL;
@@ -2613,180 +2496,89 @@ static PyObject *__pyx_pf_14search_service_3DFS_12jump(CYTHON_UNUSED PyObject *_
   }
   __pyx_t_3 = (__pyx_t_1) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_1) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 92, __pyx_L1_error)
+  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 98, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_t = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "search_service.py":93
+  /* "search_service.py":99
  *         # if cls.hops % 1_000_000 == 0:
  *         t = time.time()
  *         if (t - cls.last_print_time) > cls.print_interval:             # <<<<<<<<<<<<<<
- *             print(cls.hops, curr_key, len(cls.mypath), len(cls.solutions))
+ *             # print(cls.hops, curr_key, len(cls.mypath), len(cls.solutions))
  * 
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_last_print_time); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 93, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_last_print_time); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 99, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = PyNumber_Subtract(__pyx_v_t, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 93, __pyx_L1_error)
+  __pyx_t_2 = PyNumber_Subtract(__pyx_v_t, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 99, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_print_interval); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 93, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_print_interval); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 99, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_1 = PyObject_RichCompare(__pyx_t_2, __pyx_t_3, Py_GT); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 93, __pyx_L1_error)
+  __pyx_t_1 = PyObject_RichCompare(__pyx_t_2, __pyx_t_3, Py_GT); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 99, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 93, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 99, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (__pyx_t_4) {
 
-    /* "search_service.py":94
- *         t = time.time()
- *         if (t - cls.last_print_time) > cls.print_interval:
- *             print(cls.hops, curr_key, len(cls.mypath), len(cls.solutions))             # <<<<<<<<<<<<<<
- * 
- *             edges = [(cls.mypath[i - 1], cls.mypath[i]) for i in range(1, len(cls.mypath))]
- */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_hops); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 94, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_mypath); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 94, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_5 = PyObject_Length(__pyx_t_3); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(0, 94, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = PyInt_FromSsize_t(__pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 94, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_solutions); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 94, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_5 = PyObject_Length(__pyx_t_2); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(0, 94, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = PyInt_FromSsize_t(__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 94, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_6 = PyTuple_New(4); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 94, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __Pyx_GIVEREF(__pyx_t_1);
-    PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_1);
-    __Pyx_INCREF(__pyx_v_curr_key);
-    __Pyx_GIVEREF(__pyx_v_curr_key);
-    PyTuple_SET_ITEM(__pyx_t_6, 1, __pyx_v_curr_key);
-    __Pyx_GIVEREF(__pyx_t_3);
-    PyTuple_SET_ITEM(__pyx_t_6, 2, __pyx_t_3);
-    __Pyx_GIVEREF(__pyx_t_2);
-    PyTuple_SET_ITEM(__pyx_t_6, 3, __pyx_t_2);
-    __pyx_t_1 = 0;
-    __pyx_t_3 = 0;
-    __pyx_t_2 = 0;
-    if (__Pyx_PrintOne(0, __pyx_t_6) < 0) __PYX_ERR(0, 94, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-
-    /* "search_service.py":96
- *             print(cls.hops, curr_key, len(cls.mypath), len(cls.solutions))
+    /* "search_service.py":102
+ *             # print(cls.hops, curr_key, len(cls.mypath), len(cls.solutions))
  * 
  *             edges = [(cls.mypath[i - 1], cls.mypath[i]) for i in range(1, len(cls.mypath))]             # <<<<<<<<<<<<<<
  *             display_dictionary(cls.mydict, edges)
  * 
  */
-    __pyx_t_6 = PyList_New(0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 96, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_mypath); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 96, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_5 = PyObject_Length(__pyx_t_2); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(0, 96, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = PyInt_FromSsize_t(__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 96, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 96, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_INCREF(__pyx_int_1);
-    __Pyx_GIVEREF(__pyx_int_1);
-    PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_int_1);
-    __Pyx_GIVEREF(__pyx_t_2);
-    PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_t_2);
-    __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_range, __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 96, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    if (likely(PyList_CheckExact(__pyx_t_2)) || PyTuple_CheckExact(__pyx_t_2)) {
-      __pyx_t_3 = __pyx_t_2; __Pyx_INCREF(__pyx_t_3); __pyx_t_5 = 0;
-      __pyx_t_7 = NULL;
-    } else {
-      __pyx_t_5 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 96, __pyx_L1_error)
+    { /* enter inner scope */
+      __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 102, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_mypath); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 102, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_7 = Py_TYPE(__pyx_t_3)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 96, __pyx_L1_error)
-    }
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    for (;;) {
-      if (likely(!__pyx_t_7)) {
-        if (likely(PyList_CheckExact(__pyx_t_3))) {
-          if (__pyx_t_5 >= PyList_GET_SIZE(__pyx_t_3)) break;
-          #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_2 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_5); __Pyx_INCREF(__pyx_t_2); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 96, __pyx_L1_error)
-          #else
-          __pyx_t_2 = PySequence_ITEM(__pyx_t_3, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 96, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_2);
-          #endif
-        } else {
-          if (__pyx_t_5 >= PyTuple_GET_SIZE(__pyx_t_3)) break;
-          #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_5); __Pyx_INCREF(__pyx_t_2); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 96, __pyx_L1_error)
-          #else
-          __pyx_t_2 = PySequence_ITEM(__pyx_t_3, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 96, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_2);
-          #endif
-        }
-      } else {
-        __pyx_t_2 = __pyx_t_7(__pyx_t_3);
-        if (unlikely(!__pyx_t_2)) {
-          PyObject* exc_type = PyErr_Occurred();
-          if (exc_type) {
-            if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 96, __pyx_L1_error)
-          }
-          break;
-        }
+      __pyx_t_5 = PyObject_Length(__pyx_t_3); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(0, 102, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __pyx_t_6 = __pyx_t_5;
+      for (__pyx_t_7 = 1; __pyx_t_7 < __pyx_t_6; __pyx_t_7+=1) {
+        __pyx_7genexpr__pyx_v_i = __pyx_t_7;
+        __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_mypath); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 102, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_3);
+        __pyx_t_8 = (__pyx_7genexpr__pyx_v_i - 1);
+        __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_3, __pyx_t_8, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 102, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_mypath); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 102, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_3);
+        __pyx_t_9 = __Pyx_GetItemInt(__pyx_t_3, __pyx_7genexpr__pyx_v_i, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 1, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 102, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_9);
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 102, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_3);
+        __Pyx_GIVEREF(__pyx_t_2);
+        PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
+        __Pyx_GIVEREF(__pyx_t_9);
+        PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_t_9);
+        __pyx_t_2 = 0;
+        __pyx_t_9 = 0;
+        if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_3))) __PYX_ERR(0, 102, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       }
-      __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_2);
-      __pyx_t_2 = 0;
-      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_mypath); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 96, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_1 = __Pyx_PyInt_SubtractObjC(__pyx_v_i, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 96, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_8 = __Pyx_PyObject_GetItem(__pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 96, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_8);
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_mypath); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 96, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_2 = __Pyx_PyObject_GetItem(__pyx_t_1, __pyx_v_i); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 96, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 96, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_GIVEREF(__pyx_t_8);
-      PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_8);
-      __Pyx_GIVEREF(__pyx_t_2);
-      PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_t_2);
-      __pyx_t_8 = 0;
-      __pyx_t_2 = 0;
-      if (unlikely(__Pyx_ListComp_Append(__pyx_t_6, (PyObject*)__pyx_t_1))) __PYX_ERR(0, 96, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    }
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_v_edges = ((PyObject*)__pyx_t_6);
-    __pyx_t_6 = 0;
+    } /* exit inner scope */
+    __pyx_v_edges = ((PyObject*)__pyx_t_1);
+    __pyx_t_1 = 0;
 
-    /* "search_service.py":97
+    /* "search_service.py":103
  * 
  *             edges = [(cls.mypath[i - 1], cls.mypath[i]) for i in range(1, len(cls.mypath))]
  *             display_dictionary(cls.mydict, edges)             # <<<<<<<<<<<<<<
  * 
  *             cls.last_print_time = t
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_display_dictionary); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 97, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_display_dictionary); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 103, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_mydict); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 97, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_mydict); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 103, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_9);
     __pyx_t_2 = NULL;
-    __pyx_t_9 = 0;
+    __pyx_t_10 = 0;
     if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
       __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_3);
       if (likely(__pyx_t_2)) {
@@ -2794,316 +2586,289 @@ static PyObject *__pyx_pf_14search_service_3DFS_12jump(CYTHON_UNUSED PyObject *_
         __Pyx_INCREF(__pyx_t_2);
         __Pyx_INCREF(function);
         __Pyx_DECREF_SET(__pyx_t_3, function);
-        __pyx_t_9 = 1;
+        __pyx_t_10 = 1;
       }
     }
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_3)) {
-      PyObject *__pyx_temp[3] = {__pyx_t_2, __pyx_t_1, __pyx_v_edges};
-      __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 97, __pyx_L1_error)
+      PyObject *__pyx_temp[3] = {__pyx_t_2, __pyx_t_9, __pyx_v_edges};
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_10, 2+__pyx_t_10); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 103, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     } else
     #endif
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
-      PyObject *__pyx_temp[3] = {__pyx_t_2, __pyx_t_1, __pyx_v_edges};
-      __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 97, __pyx_L1_error)
+      PyObject *__pyx_temp[3] = {__pyx_t_2, __pyx_t_9, __pyx_v_edges};
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_10, 2+__pyx_t_10); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 103, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     } else
     #endif
     {
-      __pyx_t_8 = PyTuple_New(2+__pyx_t_9); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 97, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_8);
+      __pyx_t_11 = PyTuple_New(2+__pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 103, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_11);
       if (__pyx_t_2) {
-        __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_2); __pyx_t_2 = NULL;
+        __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_11, 0, __pyx_t_2); __pyx_t_2 = NULL;
       }
-      __Pyx_GIVEREF(__pyx_t_1);
-      PyTuple_SET_ITEM(__pyx_t_8, 0+__pyx_t_9, __pyx_t_1);
+      __Pyx_GIVEREF(__pyx_t_9);
+      PyTuple_SET_ITEM(__pyx_t_11, 0+__pyx_t_10, __pyx_t_9);
       __Pyx_INCREF(__pyx_v_edges);
       __Pyx_GIVEREF(__pyx_v_edges);
-      PyTuple_SET_ITEM(__pyx_t_8, 1+__pyx_t_9, __pyx_v_edges);
-      __pyx_t_1 = 0;
-      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_8, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 97, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+      PyTuple_SET_ITEM(__pyx_t_11, 1+__pyx_t_10, __pyx_v_edges);
+      __pyx_t_9 = 0;
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_11, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 103, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
     }
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "search_service.py":99
+    /* "search_service.py":105
  *             display_dictionary(cls.mydict, edges)
  * 
  *             cls.last_print_time = t             # <<<<<<<<<<<<<<
  * 
  *         if len(set(cls.mypath)) == TOTAL_ROWS:
  */
-    if (__Pyx_PyObject_SetAttrStr(__pyx_v_cls, __pyx_n_s_last_print_time, __pyx_v_t) < 0) __PYX_ERR(0, 99, __pyx_L1_error)
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_cls, __pyx_n_s_last_print_time, __pyx_v_t) < 0) __PYX_ERR(0, 105, __pyx_L1_error)
 
-    /* "search_service.py":93
+    /* "search_service.py":99
  *         # if cls.hops % 1_000_000 == 0:
  *         t = time.time()
  *         if (t - cls.last_print_time) > cls.print_interval:             # <<<<<<<<<<<<<<
- *             print(cls.hops, curr_key, len(cls.mypath), len(cls.solutions))
- * 
- */
-  }
-
-  /* "search_service.py":101
- *             cls.last_print_time = t
- * 
- *         if len(set(cls.mypath)) == TOTAL_ROWS:             # <<<<<<<<<<<<<<
- *             cls.add_solution()
- * 
- */
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_mypath); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 101, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_3 = PySet_New(__pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 101, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_5 = PySet_GET_SIZE(__pyx_t_3); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(0, 101, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = PyInt_FromSsize_t(__pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 101, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_TOTAL_ROWS); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 101, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_8 = PyObject_RichCompare(__pyx_t_3, __pyx_t_6, Py_EQ); __Pyx_XGOTREF(__pyx_t_8); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 101, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_8); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 101, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  if (__pyx_t_4) {
-
-    /* "search_service.py":102
- * 
- *         if len(set(cls.mypath)) == TOTAL_ROWS:
- *             cls.add_solution()             # <<<<<<<<<<<<<<
- * 
- *             cls.pop_path()
- */
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_add_solution); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 102, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_3 = NULL;
-    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
-      __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_6);
-      if (likely(__pyx_t_3)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-        __Pyx_INCREF(__pyx_t_3);
-        __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_6, function);
-      }
-    }
-    __pyx_t_8 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_6);
-    __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-    if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 102, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_8);
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-
-    /* "search_service.py":104
- *             cls.add_solution()
- * 
- *             cls.pop_path()             # <<<<<<<<<<<<<<
- *             return
- * 
- */
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_pop_path); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 104, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_3 = NULL;
-    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
-      __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_6);
-      if (likely(__pyx_t_3)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-        __Pyx_INCREF(__pyx_t_3);
-        __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_6, function);
-      }
-    }
-    __pyx_t_8 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_6);
-    __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-    if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 104, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_8);
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-
-    /* "search_service.py":105
- * 
- *             cls.pop_path()
- *             return             # <<<<<<<<<<<<<<
- * 
- *         for k in cls.edges_dict[curr_key]:
- */
-    __Pyx_XDECREF(__pyx_r);
-    __pyx_r = Py_None; __Pyx_INCREF(Py_None);
-    goto __pyx_L0;
-
-    /* "search_service.py":101
- *             cls.last_print_time = t
- * 
- *         if len(set(cls.mypath)) == TOTAL_ROWS:             # <<<<<<<<<<<<<<
- *             cls.add_solution()
+ *             # print(cls.hops, curr_key, len(cls.mypath), len(cls.solutions))
  * 
  */
   }
 
   /* "search_service.py":107
- *             return
+ *             cls.last_print_time = t
+ * 
+ *         if len(set(cls.mypath)) == TOTAL_ROWS:             # <<<<<<<<<<<<<<
+ *             cls.add_solution()
+ * 
+ */
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_mypath); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 107, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_3 = PySet_New(__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 107, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_5 = PySet_GET_SIZE(__pyx_t_3); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(0, 107, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_3 = PyInt_FromSsize_t(__pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 107, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_TOTAL_ROWS); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 107, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_11 = PyObject_RichCompare(__pyx_t_3, __pyx_t_1, Py_EQ); __Pyx_XGOTREF(__pyx_t_11); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 107, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_11); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 107, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+  if (__pyx_t_4) {
+
+    /* "search_service.py":108
+ * 
+ *         if len(set(cls.mypath)) == TOTAL_ROWS:
+ *             cls.add_solution()             # <<<<<<<<<<<<<<
+ * 
+ *             # cls.pop_path()
+ */
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_add_solution); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 108, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_3 = NULL;
+    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_1))) {
+      __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_1);
+      if (likely(__pyx_t_3)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_1);
+        __Pyx_INCREF(__pyx_t_3);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_1, function);
+      }
+    }
+    __pyx_t_11 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_1);
+    __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+    if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 108, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_11);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+
+    /* "search_service.py":111
+ * 
+ *             # cls.pop_path()
+ *             return             # <<<<<<<<<<<<<<
+ *         else:
+ *             # print(len(set(cls.mypath)), TOTAL_ROWS)
+ */
+    __Pyx_XDECREF(__pyx_r);
+    __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+    goto __pyx_L0;
+
+    /* "search_service.py":107
+ *             cls.last_print_time = t
+ * 
+ *         if len(set(cls.mypath)) == TOTAL_ROWS:             # <<<<<<<<<<<<<<
+ *             cls.add_solution()
+ * 
+ */
+  }
+
+  /* "search_service.py":114
+ *         else:
+ *             # print(len(set(cls.mypath)), TOTAL_ROWS)
+ *             pass             # <<<<<<<<<<<<<<
+ * 
+ *         for k in cls.edges_dict[curr_key]:
+ */
+  /*else*/ {
+  }
+
+  /* "search_service.py":116
+ *             pass
  * 
  *         for k in cls.edges_dict[curr_key]:             # <<<<<<<<<<<<<<
  *             # if k in cls.mypath_set:
  *             #     continue
  */
-  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_edges_dict); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 107, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_8);
-  __pyx_t_6 = __Pyx_PyObject_GetItem(__pyx_t_8, __pyx_v_curr_key); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 107, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_6);
-  __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  if (likely(PyList_CheckExact(__pyx_t_6)) || PyTuple_CheckExact(__pyx_t_6)) {
-    __pyx_t_8 = __pyx_t_6; __Pyx_INCREF(__pyx_t_8); __pyx_t_5 = 0;
-    __pyx_t_7 = NULL;
+  __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_edges_dict); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 116, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_11);
+  __pyx_t_1 = __Pyx_PyObject_GetItem(__pyx_t_11, __pyx_v_curr_key); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 116, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+  if (likely(PyList_CheckExact(__pyx_t_1)) || PyTuple_CheckExact(__pyx_t_1)) {
+    __pyx_t_11 = __pyx_t_1; __Pyx_INCREF(__pyx_t_11); __pyx_t_5 = 0;
+    __pyx_t_12 = NULL;
   } else {
-    __pyx_t_5 = -1; __pyx_t_8 = PyObject_GetIter(__pyx_t_6); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 107, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_7 = Py_TYPE(__pyx_t_8)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 107, __pyx_L1_error)
+    __pyx_t_5 = -1; __pyx_t_11 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 116, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_11);
+    __pyx_t_12 = Py_TYPE(__pyx_t_11)->tp_iternext; if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 116, __pyx_L1_error)
   }
-  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   for (;;) {
-    if (likely(!__pyx_t_7)) {
-      if (likely(PyList_CheckExact(__pyx_t_8))) {
-        if (__pyx_t_5 >= PyList_GET_SIZE(__pyx_t_8)) break;
+    if (likely(!__pyx_t_12)) {
+      if (likely(PyList_CheckExact(__pyx_t_11))) {
+        if (__pyx_t_5 >= PyList_GET_SIZE(__pyx_t_11)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_6 = PyList_GET_ITEM(__pyx_t_8, __pyx_t_5); __Pyx_INCREF(__pyx_t_6); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 107, __pyx_L1_error)
+        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_11, __pyx_t_5); __Pyx_INCREF(__pyx_t_1); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 116, __pyx_L1_error)
         #else
-        __pyx_t_6 = PySequence_ITEM(__pyx_t_8, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 107, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_6);
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_11, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 116, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_1);
         #endif
       } else {
-        if (__pyx_t_5 >= PyTuple_GET_SIZE(__pyx_t_8)) break;
+        if (__pyx_t_5 >= PyTuple_GET_SIZE(__pyx_t_11)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_6 = PyTuple_GET_ITEM(__pyx_t_8, __pyx_t_5); __Pyx_INCREF(__pyx_t_6); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 107, __pyx_L1_error)
+        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_11, __pyx_t_5); __Pyx_INCREF(__pyx_t_1); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 116, __pyx_L1_error)
         #else
-        __pyx_t_6 = PySequence_ITEM(__pyx_t_8, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 107, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_6);
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_11, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 116, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_1);
         #endif
       }
     } else {
-      __pyx_t_6 = __pyx_t_7(__pyx_t_8);
-      if (unlikely(!__pyx_t_6)) {
+      __pyx_t_1 = __pyx_t_12(__pyx_t_11);
+      if (unlikely(!__pyx_t_1)) {
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 107, __pyx_L1_error)
+          else __PYX_ERR(0, 116, __pyx_L1_error)
         }
         break;
       }
-      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_GOTREF(__pyx_t_1);
     }
-    __Pyx_XDECREF_SET(__pyx_v_k, __pyx_t_6);
-    __pyx_t_6 = 0;
+    __Pyx_XDECREF_SET(__pyx_v_k, __pyx_t_1);
+    __pyx_t_1 = 0;
 
-    /* "search_service.py":111
+    /* "search_service.py":120
  *             #     continue
  * 
  *             cls.append_path(k)             # <<<<<<<<<<<<<<
  *             cls.jump(k)
- * 
+ *             cls.pop_path()
  */
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_append_path); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 111, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_append_path); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 120, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_1 = NULL;
+    __pyx_t_9 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
-      __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_3);
-      if (likely(__pyx_t_1)) {
+      __pyx_t_9 = PyMethod_GET_SELF(__pyx_t_3);
+      if (likely(__pyx_t_9)) {
         PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-        __Pyx_INCREF(__pyx_t_1);
+        __Pyx_INCREF(__pyx_t_9);
         __Pyx_INCREF(function);
         __Pyx_DECREF_SET(__pyx_t_3, function);
       }
     }
-    __pyx_t_6 = (__pyx_t_1) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_1, __pyx_v_k) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_k);
-    __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-    if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 111, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_1 = (__pyx_t_9) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_9, __pyx_v_k) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_k);
+    __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 120, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "search_service.py":112
+    /* "search_service.py":121
  * 
  *             cls.append_path(k)
  *             cls.jump(k)             # <<<<<<<<<<<<<<
+ *             cls.pop_path()
  * 
- *         cls.pop_path()
  */
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_jump); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 112, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_jump); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 121, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_1 = NULL;
+    __pyx_t_9 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
-      __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_3);
-      if (likely(__pyx_t_1)) {
+      __pyx_t_9 = PyMethod_GET_SELF(__pyx_t_3);
+      if (likely(__pyx_t_9)) {
         PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-        __Pyx_INCREF(__pyx_t_1);
+        __Pyx_INCREF(__pyx_t_9);
         __Pyx_INCREF(function);
         __Pyx_DECREF_SET(__pyx_t_3, function);
       }
     }
-    __pyx_t_6 = (__pyx_t_1) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_1, __pyx_v_k) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_k);
-    __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-    if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 112, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_1 = (__pyx_t_9) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_9, __pyx_v_k) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_k);
+    __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 121, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "search_service.py":107
- *             return
+    /* "search_service.py":122
+ *             cls.append_path(k)
+ *             cls.jump(k)
+ *             cls.pop_path()             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_pop_path); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 122, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_t_9 = NULL;
+    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
+      __pyx_t_9 = PyMethod_GET_SELF(__pyx_t_3);
+      if (likely(__pyx_t_9)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+        __Pyx_INCREF(__pyx_t_9);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_3, function);
+      }
+    }
+    __pyx_t_1 = (__pyx_t_9) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_9) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
+    __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 122, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+    /* "search_service.py":116
+ *             pass
  * 
  *         for k in cls.edges_dict[curr_key]:             # <<<<<<<<<<<<<<
  *             # if k in cls.mypath_set:
  *             #     continue
  */
   }
-  __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+  __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
 
-  /* "search_service.py":114
- *             cls.jump(k)
- * 
- *         cls.pop_path()             # <<<<<<<<<<<<<<
- * 
- *         return
- */
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_pop_path); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 114, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_3 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
-    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_6);
-    if (likely(__pyx_t_3)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-      __Pyx_INCREF(__pyx_t_3);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_6, function);
-    }
-  }
-  __pyx_t_8 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_6);
-  __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 114, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_8);
-  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-
-  /* "search_service.py":116
- *         cls.pop_path()
- * 
- *         return             # <<<<<<<<<<<<<<
- * 
- * 
- */
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
-  goto __pyx_L0;
-
-  /* "search_service.py":79
+  /* "search_service.py":84
  * 
  *     @classmethod
  *     def jump(cls, curr_key):             # <<<<<<<<<<<<<<
@@ -3112,19 +2877,20 @@ static PyObject *__pyx_pf_14search_service_3DFS_12jump(CYTHON_UNUSED PyObject *_
  */
 
   /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_XDECREF(__pyx_t_8);
+  __Pyx_XDECREF(__pyx_t_9);
+  __Pyx_XDECREF(__pyx_t_11);
   __Pyx_AddTraceback("search_service.DFS.jump", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_t);
   __Pyx_XDECREF(__pyx_v_edges);
   __Pyx_XDECREF(__pyx_v_k);
-  __Pyx_XDECREF(__pyx_v_i);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
@@ -3189,6 +2955,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_add_solution, __pyx_k_add_solution, sizeof(__pyx_k_add_solution), 0, 0, 1, 1},
   {&__pyx_n_s_append, __pyx_k_append, sizeof(__pyx_k_append), 0, 0, 1, 1},
   {&__pyx_n_s_append_path, __pyx_k_append_path, sizeof(__pyx_k_append_path), 0, 0, 1, 1},
+  {&__pyx_n_s_attraction_map, __pyx_k_attraction_map, sizeof(__pyx_k_attraction_map), 0, 0, 1, 1},
   {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
   {&__pyx_n_s_cls, __pyx_k_cls, sizeof(__pyx_k_cls), 0, 0, 1, 1},
   {&__pyx_n_s_collections, __pyx_k_collections, sizeof(__pyx_k_collections), 0, 0, 1, 1},
@@ -3198,8 +2965,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_doc, __pyx_k_doc, sizeof(__pyx_k_doc), 0, 0, 1, 1},
   {&__pyx_n_s_edges, __pyx_k_edges, sizeof(__pyx_k_edges), 0, 0, 1, 1},
   {&__pyx_n_s_edges_dict, __pyx_k_edges_dict, sizeof(__pyx_k_edges_dict), 0, 0, 1, 1},
-  {&__pyx_n_s_end, __pyx_k_end, sizeof(__pyx_k_end), 0, 0, 1, 1},
-  {&__pyx_n_s_file, __pyx_k_file, sizeof(__pyx_k_file), 0, 0, 1, 1},
+  {&__pyx_n_s_getEdgesDict, __pyx_k_getEdgesDict, sizeof(__pyx_k_getEdgesDict), 0, 0, 1, 1},
   {&__pyx_n_s_hops, __pyx_k_hops, sizeof(__pyx_k_hops), 0, 0, 1, 1},
   {&__pyx_n_s_i, __pyx_k_i, sizeof(__pyx_k_i), 0, 0, 1, 1},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
@@ -3209,6 +2975,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_last_print_time, __pyx_k_last_print_time, sizeof(__pyx_k_last_print_time), 0, 0, 1, 1},
   {&__pyx_n_s_load_maps, __pyx_k_load_maps, sizeof(__pyx_k_load_maps), 0, 0, 1, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
+  {&__pyx_n_u_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 1, 0, 1},
   {&__pyx_n_s_metaclass, __pyx_k_metaclass, sizeof(__pyx_k_metaclass), 0, 0, 1, 1},
   {&__pyx_n_s_missing, __pyx_k_missing, sizeof(__pyx_k_missing), 0, 0, 1, 1},
   {&__pyx_n_s_module, __pyx_k_module, sizeof(__pyx_k_module), 0, 0, 1, 1},
@@ -3226,6 +2993,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_range, __pyx_k_range, sizeof(__pyx_k_range), 0, 0, 1, 1},
   {&__pyx_n_s_remaining_slots, __pyx_k_remaining_slots, sizeof(__pyx_k_remaining_slots), 0, 0, 1, 1},
   {&__pyx_n_s_reset_me, __pyx_k_reset_me, sizeof(__pyx_k_reset_me), 0, 0, 1, 1},
+  {&__pyx_n_s_s, __pyx_k_s, sizeof(__pyx_k_s), 0, 0, 1, 1},
   {&__pyx_n_s_search_service, __pyx_k_search_service, sizeof(__pyx_k_search_service), 0, 0, 1, 1},
   {&__pyx_kp_s_search_service_py, __pyx_k_search_service_py, sizeof(__pyx_k_search_service_py), 0, 0, 1, 0},
   {&__pyx_n_s_settings, __pyx_k_settings, sizeof(__pyx_k_settings), 0, 0, 1, 1},
@@ -3242,7 +3010,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 96, __pyx_L1_error)
+  __pyx_builtin_print = __Pyx_GetBuiltinName(__pyx_n_s_print); if (!__pyx_builtin_print) __PYX_ERR(0, 135, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 102, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -3252,89 +3021,89 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "search_service.py":21
+  /* "search_service.py":22
  * 
  *     @classmethod
  *     def reset_me(cls):             # <<<<<<<<<<<<<<
  *         cls.mypath = [RAIL_ROAD_ENTRANCE_ID, ]
  *         # cls.mypath_set = set([RAIL_ROAD_ENTRANCE_ID,])
  */
-  __pyx_tuple_ = PyTuple_Pack(1, __pyx_n_s_cls); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 21, __pyx_L1_error)
+  __pyx_tuple_ = PyTuple_Pack(1, __pyx_n_s_cls); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 22, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
-  __pyx_codeobj__2 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple_, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_search_service_py, __pyx_n_s_reset_me, 21, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__2)) __PYX_ERR(0, 21, __pyx_L1_error)
+  __pyx_codeobj__2 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple_, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_search_service_py, __pyx_n_s_reset_me, 22, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__2)) __PYX_ERR(0, 22, __pyx_L1_error)
 
-  /* "search_service.py":31
+  /* "search_service.py":32
  * 
  *     @classmethod
  *     def add_solution(cls):             # <<<<<<<<<<<<<<
  * 
  *         cls.solutions.append(
  */
-  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_n_s_cls); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 31, __pyx_L1_error)
+  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_n_s_cls); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 32, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__3);
   __Pyx_GIVEREF(__pyx_tuple__3);
-  __pyx_codeobj__4 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__3, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_search_service_py, __pyx_n_s_add_solution, 31, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__4)) __PYX_ERR(0, 31, __pyx_L1_error)
+  __pyx_codeobj__4 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__3, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_search_service_py, __pyx_n_s_add_solution, 32, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__4)) __PYX_ERR(0, 32, __pyx_L1_error)
 
-  /* "search_service.py":38
+  /* "search_service.py":39
  * 
  *     @classmethod
  *     def should_stop(cls):             # <<<<<<<<<<<<<<
  *         # if len(cls.mypath) > cls.short_stop:
  *         #     return True
  */
-  __pyx_tuple__5 = PyTuple_Pack(4, __pyx_n_s_cls, __pyx_n_s_sumi, __pyx_n_s_missing, __pyx_n_s_remaining_slots); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 38, __pyx_L1_error)
+  __pyx_tuple__5 = PyTuple_Pack(4, __pyx_n_s_cls, __pyx_n_s_sumi, __pyx_n_s_missing, __pyx_n_s_remaining_slots); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 39, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__5);
   __Pyx_GIVEREF(__pyx_tuple__5);
-  __pyx_codeobj__6 = (PyObject*)__Pyx_PyCode_New(1, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__5, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_search_service_py, __pyx_n_s_should_stop, 38, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__6)) __PYX_ERR(0, 38, __pyx_L1_error)
+  __pyx_codeobj__6 = (PyObject*)__Pyx_PyCode_New(1, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__5, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_search_service_py, __pyx_n_s_should_stop, 39, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__6)) __PYX_ERR(0, 39, __pyx_L1_error)
 
-  /* "search_service.py":58
+  /* "search_service.py":59
  * 
  *     @classmethod
  *     def pop_path(cls):             # <<<<<<<<<<<<<<
- *         if len(cls.mypath):
- *             k = cls.mypath.pop()
+ *         # print("@@@@@inside pop path")
+ *         # if len(cls.mypath):
  */
-  __pyx_tuple__7 = PyTuple_Pack(2, __pyx_n_s_cls, __pyx_n_s_k); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 58, __pyx_L1_error)
+  __pyx_tuple__7 = PyTuple_Pack(2, __pyx_n_s_cls, __pyx_n_s_k); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 59, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__7);
   __Pyx_GIVEREF(__pyx_tuple__7);
-  __pyx_codeobj__8 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__7, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_search_service_py, __pyx_n_s_pop_path, 58, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__8)) __PYX_ERR(0, 58, __pyx_L1_error)
+  __pyx_codeobj__8 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__7, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_search_service_py, __pyx_n_s_pop_path, 59, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__8)) __PYX_ERR(0, 59, __pyx_L1_error)
 
-  /* "search_service.py":67
+  /* "search_service.py":72
  * 
  *     @classmethod
  *     def append_path(cls, k):             # <<<<<<<<<<<<<<
  *         cls.mypath.append(k)
  *         # cls.mypath_set.add(k)
  */
-  __pyx_tuple__9 = PyTuple_Pack(2, __pyx_n_s_cls, __pyx_n_s_k); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_tuple__9 = PyTuple_Pack(2, __pyx_n_s_cls, __pyx_n_s_k); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(0, 72, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__9);
   __Pyx_GIVEREF(__pyx_tuple__9);
-  __pyx_codeobj__10 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__9, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_search_service_py, __pyx_n_s_append_path, 67, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__10)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_codeobj__10 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__9, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_search_service_py, __pyx_n_s_append_path, 72, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__10)) __PYX_ERR(0, 72, __pyx_L1_error)
 
-  /* "search_service.py":73
+  /* "search_service.py":78
  * 
  *     @classmethod
  *     def start(cls):             # <<<<<<<<<<<<<<
  *         cls.reset_me()
  * 
  */
-  __pyx_tuple__11 = PyTuple_Pack(1, __pyx_n_s_cls); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 73, __pyx_L1_error)
+  __pyx_tuple__11 = PyTuple_Pack(1, __pyx_n_s_cls); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 78, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__11);
   __Pyx_GIVEREF(__pyx_tuple__11);
-  __pyx_codeobj__12 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__11, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_search_service_py, __pyx_n_s_start, 73, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__12)) __PYX_ERR(0, 73, __pyx_L1_error)
+  __pyx_codeobj__12 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__11, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_search_service_py, __pyx_n_s_start, 78, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__12)) __PYX_ERR(0, 78, __pyx_L1_error)
 
-  /* "search_service.py":79
+  /* "search_service.py":84
  * 
  *     @classmethod
  *     def jump(cls, curr_key):             # <<<<<<<<<<<<<<
  * 
  *         cls.hops += 1
  */
-  __pyx_tuple__13 = PyTuple_Pack(6, __pyx_n_s_cls, __pyx_n_s_curr_key, __pyx_n_s_t, __pyx_n_s_edges, __pyx_n_s_k, __pyx_n_s_i); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(0, 79, __pyx_L1_error)
+  __pyx_tuple__13 = PyTuple_Pack(6, __pyx_n_s_cls, __pyx_n_s_curr_key, __pyx_n_s_t, __pyx_n_s_edges, __pyx_n_s_k, __pyx_n_s_i); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(0, 84, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__13);
   __Pyx_GIVEREF(__pyx_tuple__13);
-  __pyx_codeobj__14 = (PyObject*)__Pyx_PyCode_New(2, 0, 6, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__13, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_search_service_py, __pyx_n_s_jump, 79, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__14)) __PYX_ERR(0, 79, __pyx_L1_error)
+  __pyx_codeobj__14 = (PyObject*)__Pyx_PyCode_New(2, 0, 6, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__13, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_search_service_py, __pyx_n_s_jump, 84, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__14)) __PYX_ERR(0, 84, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -3347,10 +3116,10 @@ static CYTHON_SMALL_CODE int __Pyx_InitGlobals(void) {
   if (__Pyx_InitStrings(__pyx_string_tab) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   __pyx_int_0 = PyInt_FromLong(0); if (unlikely(!__pyx_int_0)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_1 = PyInt_FromLong(1); if (unlikely(!__pyx_int_1)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __pyx_int_80 = PyInt_FromLong(80); if (unlikely(!__pyx_int_80)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_int_200 = PyInt_FromLong(200); if (unlikely(!__pyx_int_200)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_300 = PyInt_FromLong(300); if (unlikely(!__pyx_int_300)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __pyx_int_5000 = PyInt_FromLong(5000); if (unlikely(!__pyx_int_5000)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_1000000 = PyInt_FromLong(1000000L); if (unlikely(!__pyx_int_1000000)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_int_10000000 = PyInt_FromLong(10000000L); if (unlikely(!__pyx_int_10000000)) __PYX_ERR(0, 1, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -3519,6 +3288,8 @@ static CYTHON_SMALL_CODE int __pyx_pymod_exec_search_service(PyObject *__pyx_pyi
   PyObject *__pyx_t_3 = NULL;
   PyObject *__pyx_t_4 = NULL;
   int __pyx_t_5;
+  Py_ssize_t __pyx_t_6;
+  PyObject *(*__pyx_t_7)(PyObject *);
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -3628,7 +3399,7 @@ if (!__Pyx_RefNanny) {
 
   /* "search_service.py":1
  * from settings import TOTAL_ROWS, RAIL_ROAD_ENTRANCE_ID             # <<<<<<<<<<<<<<
- * from utils import display_dictionary
+ * from utils import display_dictionary,getEdgesDict
  * import time
  */
   __pyx_t_1 = PyList_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
@@ -3639,7 +3410,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_INCREF(__pyx_n_s_RAIL_ROAD_ENTRANCE_ID);
   __Pyx_GIVEREF(__pyx_n_s_RAIL_ROAD_ENTRANCE_ID);
   PyList_SET_ITEM(__pyx_t_1, 1, __pyx_n_s_RAIL_ROAD_ENTRANCE_ID);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_settings, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_settings, __pyx_t_1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_TOTAL_ROWS); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
@@ -3654,38 +3425,45 @@ if (!__Pyx_RefNanny) {
 
   /* "search_service.py":2
  * from settings import TOTAL_ROWS, RAIL_ROAD_ENTRANCE_ID
- * from utils import display_dictionary             # <<<<<<<<<<<<<<
+ * from utils import display_dictionary,getEdgesDict             # <<<<<<<<<<<<<<
  * import time
  * from collections import defaultdict
  */
-  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 2, __pyx_L1_error)
+  __pyx_t_2 = PyList_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_n_s_display_dictionary);
   __Pyx_GIVEREF(__pyx_n_s_display_dictionary);
   PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_display_dictionary);
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_utils, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2, __pyx_L1_error)
+  __Pyx_INCREF(__pyx_n_s_getEdgesDict);
+  __Pyx_GIVEREF(__pyx_n_s_getEdgesDict);
+  PyList_SET_ITEM(__pyx_t_2, 1, __pyx_n_s_getEdgesDict);
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_utils, __pyx_t_2, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_display_dictionary); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_display_dictionary, __pyx_t_2) < 0) __PYX_ERR(0, 2, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_getEdgesDict); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_getEdgesDict, __pyx_t_2) < 0) __PYX_ERR(0, 2, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "search_service.py":3
  * from settings import TOTAL_ROWS, RAIL_ROAD_ENTRANCE_ID
- * from utils import display_dictionary
+ * from utils import display_dictionary,getEdgesDict
  * import time             # <<<<<<<<<<<<<<
  * from collections import defaultdict
  * from utils import load_maps
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_time, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_time, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_time, __pyx_t_1) < 0) __PYX_ERR(0, 3, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "search_service.py":4
- * from utils import display_dictionary
+ * from utils import display_dictionary,getEdgesDict
  * import time
  * from collections import defaultdict             # <<<<<<<<<<<<<<
  * from utils import load_maps
@@ -3696,7 +3474,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_INCREF(__pyx_n_s_defaultdict);
   __Pyx_GIVEREF(__pyx_n_s_defaultdict);
   PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_defaultdict);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_collections, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 4, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_collections, __pyx_t_1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_defaultdict); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 4, __pyx_L1_error)
@@ -3710,14 +3488,14 @@ if (!__Pyx_RefNanny) {
  * from collections import defaultdict
  * from utils import load_maps             # <<<<<<<<<<<<<<
  * 
- * class DFS:
+ * 
  */
   __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_n_s_load_maps);
   __Pyx_GIVEREF(__pyx_n_s_load_maps);
   PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_load_maps);
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_utils, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 5, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_utils, __pyx_t_2, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_load_maps); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 5, __pyx_L1_error)
@@ -3726,57 +3504,57 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "search_service.py":7
- * from utils import load_maps
+  /* "search_service.py":8
+ * 
  * 
  * class DFS:             # <<<<<<<<<<<<<<
  *     mypath = [RAIL_ROAD_ENTRANCE_ID, ]
  *     mypath_set = set([RAIL_ROAD_ENTRANCE_ID, ])
  */
-  __pyx_t_1 = __Pyx_Py3MetaclassPrepare((PyObject *) NULL, __pyx_empty_tuple, __pyx_n_s_DFS, __pyx_n_s_DFS, (PyObject *) NULL, __pyx_n_s_search_service, (PyObject *) NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 7, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Py3MetaclassPrepare((PyObject *) NULL, __pyx_empty_tuple, __pyx_n_s_DFS, __pyx_n_s_DFS, (PyObject *) NULL, __pyx_n_s_search_service, (PyObject *) NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 8, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
 
-  /* "search_service.py":8
+  /* "search_service.py":9
  * 
  * class DFS:
  *     mypath = [RAIL_ROAD_ENTRANCE_ID, ]             # <<<<<<<<<<<<<<
  *     mypath_set = set([RAIL_ROAD_ENTRANCE_ID, ])
  *     mycounter = defaultdict(int)
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_RAIL_ROAD_ENTRANCE_ID); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 8, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_RAIL_ROAD_ENTRANCE_ID); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 9, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyList_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 8, __pyx_L1_error)
+  __pyx_t_3 = PyList_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 9, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_2);
   PyList_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
   __pyx_t_2 = 0;
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_mypath, __pyx_t_3) < 0) __PYX_ERR(0, 8, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_mypath, __pyx_t_3) < 0) __PYX_ERR(0, 9, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "search_service.py":9
+  /* "search_service.py":10
  * class DFS:
  *     mypath = [RAIL_ROAD_ENTRANCE_ID, ]
  *     mypath_set = set([RAIL_ROAD_ENTRANCE_ID, ])             # <<<<<<<<<<<<<<
  *     mycounter = defaultdict(int)
  *     solutions = []
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_RAIL_ROAD_ENTRANCE_ID); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 9, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_RAIL_ROAD_ENTRANCE_ID); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 10, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = PySet_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 9, __pyx_L1_error)
+  __pyx_t_2 = PySet_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 10, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PySet_Add(__pyx_t_2, __pyx_t_3) < 0) __PYX_ERR(0, 9, __pyx_L1_error)
+  if (PySet_Add(__pyx_t_2, __pyx_t_3) < 0) __PYX_ERR(0, 10, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_mypath_set, __pyx_t_2) < 0) __PYX_ERR(0, 9, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_mypath_set, __pyx_t_2) < 0) __PYX_ERR(0, 10, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "search_service.py":10
+  /* "search_service.py":11
  *     mypath = [RAIL_ROAD_ENTRANCE_ID, ]
  *     mypath_set = set([RAIL_ROAD_ENTRANCE_ID, ])
  *     mycounter = defaultdict(int)             # <<<<<<<<<<<<<<
  *     solutions = []
- *     short_stop = 80
+ *     short_stop = 200
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_defaultdict); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 10, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_defaultdict); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 11, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
@@ -3790,61 +3568,61 @@ if (!__Pyx_RefNanny) {
   }
   __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, ((PyObject *)(&PyInt_Type))) : __Pyx_PyObject_CallOneArg(__pyx_t_3, ((PyObject *)(&PyInt_Type)));
   __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 10, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 11, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_mycounter, __pyx_t_2) < 0) __PYX_ERR(0, 10, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-
-  /* "search_service.py":11
- *     mypath_set = set([RAIL_ROAD_ENTRANCE_ID, ])
- *     mycounter = defaultdict(int)
- *     solutions = []             # <<<<<<<<<<<<<<
- *     short_stop = 80
- *     hops = 0
- */
-  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 11, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_solutions, __pyx_t_2) < 0) __PYX_ERR(0, 11, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_mycounter, __pyx_t_2) < 0) __PYX_ERR(0, 11, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "search_service.py":12
+ *     mypath_set = set([RAIL_ROAD_ENTRANCE_ID, ])
+ *     mycounter = defaultdict(int)
+ *     solutions = []             # <<<<<<<<<<<<<<
+ *     short_stop = 200
+ *     hops = 0
+ */
+  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 12, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_solutions, __pyx_t_2) < 0) __PYX_ERR(0, 12, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+  /* "search_service.py":13
  *     mycounter = defaultdict(int)
  *     solutions = []
- *     short_stop = 80             # <<<<<<<<<<<<<<
+ *     short_stop = 200             # <<<<<<<<<<<<<<
  *     hops = 0
  *     stop_search = 1_000_000
  */
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_short_stop, __pyx_int_80) < 0) __PYX_ERR(0, 12, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_short_stop, __pyx_int_200) < 0) __PYX_ERR(0, 13, __pyx_L1_error)
 
-  /* "search_service.py":13
+  /* "search_service.py":14
  *     solutions = []
- *     short_stop = 80
+ *     short_stop = 200
  *     hops = 0             # <<<<<<<<<<<<<<
  *     stop_search = 1_000_000
  *     last_print_time = time.time()
  */
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_hops, __pyx_int_0) < 0) __PYX_ERR(0, 13, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_hops, __pyx_int_0) < 0) __PYX_ERR(0, 14, __pyx_L1_error)
 
-  /* "search_service.py":14
- *     short_stop = 80
+  /* "search_service.py":15
+ *     short_stop = 200
  *     hops = 0
  *     stop_search = 1_000_000             # <<<<<<<<<<<<<<
  *     last_print_time = time.time()
  *     print_interval = 60 * 5
  */
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_stop_search, __pyx_int_1000000) < 0) __PYX_ERR(0, 14, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_stop_search, __pyx_int_1000000) < 0) __PYX_ERR(0, 15, __pyx_L1_error)
 
-  /* "search_service.py":15
+  /* "search_service.py":16
  *     hops = 0
  *     stop_search = 1_000_000
  *     last_print_time = time.time()             # <<<<<<<<<<<<<<
  *     print_interval = 60 * 5
  *     mydict = load_maps()
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_time); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 15, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_time); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 16, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_time); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 15, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_time); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 16, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = NULL;
@@ -3859,29 +3637,29 @@ if (!__Pyx_RefNanny) {
   }
   __pyx_t_2 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 15, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 16, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_last_print_time, __pyx_t_2) < 0) __PYX_ERR(0, 15, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_last_print_time, __pyx_t_2) < 0) __PYX_ERR(0, 16, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "search_service.py":16
+  /* "search_service.py":17
  *     stop_search = 1_000_000
  *     last_print_time = time.time()
  *     print_interval = 60 * 5             # <<<<<<<<<<<<<<
  *     mydict = load_maps()
  *     edges_dict = None
  */
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_print_interval, __pyx_int_300) < 0) __PYX_ERR(0, 16, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_print_interval, __pyx_int_300) < 0) __PYX_ERR(0, 17, __pyx_L1_error)
 
-  /* "search_service.py":17
+  /* "search_service.py":18
  *     last_print_time = time.time()
  *     print_interval = 60 * 5
  *     mydict = load_maps()             # <<<<<<<<<<<<<<
  *     edges_dict = None
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_load_maps); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 17, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_load_maps); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 18, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_4))) {
@@ -3895,233 +3673,368 @@ if (!__Pyx_RefNanny) {
   }
   __pyx_t_2 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 17, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 18, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_mydict, __pyx_t_2) < 0) __PYX_ERR(0, 17, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_mydict, __pyx_t_2) < 0) __PYX_ERR(0, 18, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "search_service.py":18
+  /* "search_service.py":19
  *     print_interval = 60 * 5
  *     mydict = load_maps()
  *     edges_dict = None             # <<<<<<<<<<<<<<
  * 
  *     @classmethod
  */
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_edges_dict, Py_None) < 0) __PYX_ERR(0, 18, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_edges_dict, Py_None) < 0) __PYX_ERR(0, 19, __pyx_L1_error)
 
-  /* "search_service.py":21
+  /* "search_service.py":22
  * 
  *     @classmethod
  *     def reset_me(cls):             # <<<<<<<<<<<<<<
  *         cls.mypath = [RAIL_ROAD_ENTRANCE_ID, ]
  *         # cls.mypath_set = set([RAIL_ROAD_ENTRANCE_ID,])
  */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_14search_service_3DFS_1reset_me, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_DFS_reset_me, NULL, __pyx_n_s_search_service, __pyx_d, ((PyObject *)__pyx_codeobj__2)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 21, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_14search_service_3DFS_1reset_me, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_DFS_reset_me, NULL, __pyx_n_s_search_service, __pyx_d, ((PyObject *)__pyx_codeobj__2)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 22, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
 
-  /* "search_service.py":20
+  /* "search_service.py":21
  *     edges_dict = None
  * 
  *     @classmethod             # <<<<<<<<<<<<<<
  *     def reset_me(cls):
  *         cls.mypath = [RAIL_ROAD_ENTRANCE_ID, ]
  */
-  __pyx_t_4 = __Pyx_Method_ClassMethod(__pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 20, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_Method_ClassMethod(__pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 21, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_reset_me, __pyx_t_4) < 0) __PYX_ERR(0, 21, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_reset_me, __pyx_t_4) < 0) __PYX_ERR(0, 22, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "search_service.py":31
+  /* "search_service.py":32
  * 
  *     @classmethod
  *     def add_solution(cls):             # <<<<<<<<<<<<<<
  * 
  *         cls.solutions.append(
  */
-  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_14search_service_3DFS_3add_solution, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_DFS_add_solution, NULL, __pyx_n_s_search_service, __pyx_d, ((PyObject *)__pyx_codeobj__4)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 31, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_14search_service_3DFS_3add_solution, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_DFS_add_solution, NULL, __pyx_n_s_search_service, __pyx_d, ((PyObject *)__pyx_codeobj__4)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 32, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
 
-  /* "search_service.py":30
- *         cls.stop_search = 5_000
+  /* "search_service.py":31
+ *         cls.stop_search = 10_000_000
  * 
  *     @classmethod             # <<<<<<<<<<<<<<
  *     def add_solution(cls):
  * 
  */
-  __pyx_t_2 = __Pyx_Method_ClassMethod(__pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 30, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Method_ClassMethod(__pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 31, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_add_solution, __pyx_t_2) < 0) __PYX_ERR(0, 31, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_add_solution, __pyx_t_2) < 0) __PYX_ERR(0, 32, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "search_service.py":38
+  /* "search_service.py":39
  * 
  *     @classmethod
  *     def should_stop(cls):             # <<<<<<<<<<<<<<
  *         # if len(cls.mypath) > cls.short_stop:
  *         #     return True
  */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_14search_service_3DFS_5should_stop, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_DFS_should_stop, NULL, __pyx_n_s_search_service, __pyx_d, ((PyObject *)__pyx_codeobj__6)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 38, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_14search_service_3DFS_5should_stop, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_DFS_should_stop, NULL, __pyx_n_s_search_service, __pyx_d, ((PyObject *)__pyx_codeobj__6)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 39, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
 
-  /* "search_service.py":37
+  /* "search_service.py":38
  *         )
  * 
  *     @classmethod             # <<<<<<<<<<<<<<
  *     def should_stop(cls):
  *         # if len(cls.mypath) > cls.short_stop:
  */
-  __pyx_t_4 = __Pyx_Method_ClassMethod(__pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 37, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_Method_ClassMethod(__pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 38, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_should_stop, __pyx_t_4) < 0) __PYX_ERR(0, 38, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_should_stop, __pyx_t_4) < 0) __PYX_ERR(0, 39, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "search_service.py":58
+  /* "search_service.py":59
  * 
  *     @classmethod
  *     def pop_path(cls):             # <<<<<<<<<<<<<<
- *         if len(cls.mypath):
- *             k = cls.mypath.pop()
+ *         # print("@@@@@inside pop path")
+ *         # if len(cls.mypath):
  */
-  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_14search_service_3DFS_7pop_path, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_DFS_pop_path, NULL, __pyx_n_s_search_service, __pyx_d, ((PyObject *)__pyx_codeobj__8)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 58, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_14search_service_3DFS_7pop_path, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_DFS_pop_path, NULL, __pyx_n_s_search_service, __pyx_d, ((PyObject *)__pyx_codeobj__8)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 59, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
 
-  /* "search_service.py":57
+  /* "search_service.py":58
  *         return False
  * 
  *     @classmethod             # <<<<<<<<<<<<<<
  *     def pop_path(cls):
- *         if len(cls.mypath):
+ *         # print("@@@@@inside pop path")
  */
-  __pyx_t_2 = __Pyx_Method_ClassMethod(__pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 57, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Method_ClassMethod(__pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 58, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_pop_path, __pyx_t_2) < 0) __PYX_ERR(0, 58, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_pop_path, __pyx_t_2) < 0) __PYX_ERR(0, 59, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "search_service.py":67
+  /* "search_service.py":72
  * 
  *     @classmethod
  *     def append_path(cls, k):             # <<<<<<<<<<<<<<
  *         cls.mypath.append(k)
  *         # cls.mypath_set.add(k)
  */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_14search_service_3DFS_9append_path, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_DFS_append_path, NULL, __pyx_n_s_search_service, __pyx_d, ((PyObject *)__pyx_codeobj__10)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_14search_service_3DFS_9append_path, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_DFS_append_path, NULL, __pyx_n_s_search_service, __pyx_d, ((PyObject *)__pyx_codeobj__10)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 72, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
 
-  /* "search_service.py":66
- *                  cls.mycounter.pop(k)
+  /* "search_service.py":71
+ *         cls.mycounter[k] -= 1
  * 
  *     @classmethod             # <<<<<<<<<<<<<<
  *     def append_path(cls, k):
  *         cls.mypath.append(k)
  */
-  __pyx_t_4 = __Pyx_Method_ClassMethod(__pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 66, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_Method_ClassMethod(__pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 71, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_append_path, __pyx_t_4) < 0) __PYX_ERR(0, 67, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_append_path, __pyx_t_4) < 0) __PYX_ERR(0, 72, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "search_service.py":73
+  /* "search_service.py":78
  * 
  *     @classmethod
  *     def start(cls):             # <<<<<<<<<<<<<<
  *         cls.reset_me()
  * 
  */
-  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_14search_service_3DFS_11start, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_DFS_start, NULL, __pyx_n_s_search_service, __pyx_d, ((PyObject *)__pyx_codeobj__12)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 73, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_14search_service_3DFS_11start, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_DFS_start, NULL, __pyx_n_s_search_service, __pyx_d, ((PyObject *)__pyx_codeobj__12)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 78, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
 
-  /* "search_service.py":72
+  /* "search_service.py":77
  *         cls.mycounter[k] += 1
  * 
  *     @classmethod             # <<<<<<<<<<<<<<
  *     def start(cls):
  *         cls.reset_me()
  */
-  __pyx_t_2 = __Pyx_Method_ClassMethod(__pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 72, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Method_ClassMethod(__pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 77, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_start, __pyx_t_2) < 0) __PYX_ERR(0, 73, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_start, __pyx_t_2) < 0) __PYX_ERR(0, 78, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "search_service.py":79
+  /* "search_service.py":84
  * 
  *     @classmethod
  *     def jump(cls, curr_key):             # <<<<<<<<<<<<<<
  * 
  *         cls.hops += 1
  */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_14search_service_3DFS_13jump, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_DFS_jump, NULL, __pyx_n_s_search_service, __pyx_d, ((PyObject *)__pyx_codeobj__14)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 79, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_14search_service_3DFS_13jump, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_DFS_jump, NULL, __pyx_n_s_search_service, __pyx_d, ((PyObject *)__pyx_codeobj__14)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 84, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
 
-  /* "search_service.py":78
+  /* "search_service.py":83
  *         cls.jump(RAIL_ROAD_ENTRANCE_ID)
  * 
  *     @classmethod             # <<<<<<<<<<<<<<
  *     def jump(cls, curr_key):
  * 
  */
-  __pyx_t_4 = __Pyx_Method_ClassMethod(__pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 78, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_Method_ClassMethod(__pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 83, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_jump, __pyx_t_4) < 0) __PYX_ERR(0, 79, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_jump, __pyx_t_4) < 0) __PYX_ERR(0, 84, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "search_service.py":7
- * from utils import load_maps
+  /* "search_service.py":8
+ * 
  * 
  * class DFS:             # <<<<<<<<<<<<<<
  *     mypath = [RAIL_ROAD_ENTRANCE_ID, ]
  *     mypath_set = set([RAIL_ROAD_ENTRANCE_ID, ])
  */
-  __pyx_t_4 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_DFS, __pyx_empty_tuple, __pyx_t_1, NULL, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 7, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_DFS, __pyx_empty_tuple, __pyx_t_1, NULL, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 8, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_DFS, __pyx_t_4) < 0) __PYX_ERR(0, 7, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_DFS, __pyx_t_4) < 0) __PYX_ERR(0, 8, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "search_service.py":119
+  /* "search_service.py":131
  * 
  * 
  * if __name__ == "__main__":             # <<<<<<<<<<<<<<
- *     DFS.start()
+ *     attraction_map  = load_maps()
+ *     DFS.edges_dict = getEdgesDict(attraction_map)
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_name); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 119, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_name); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 131, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_5 = (__Pyx_PyString_Equals(__pyx_t_1, __pyx_n_s_main, Py_EQ)); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 119, __pyx_L1_error)
+  __pyx_t_5 = (__Pyx_PyUnicode_Equals(__pyx_t_1, __pyx_n_u_main, Py_EQ)); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 131, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (__pyx_t_5) {
 
-    /* "search_service.py":120
+    /* "search_service.py":132
  * 
  * if __name__ == "__main__":
- *     DFS.start()             # <<<<<<<<<<<<<<
+ *     attraction_map  = load_maps()             # <<<<<<<<<<<<<<
+ *     DFS.edges_dict = getEdgesDict(attraction_map)
+ *     DFS.start()
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_DFS); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 120, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_load_maps); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 132, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_start); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 120, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_CallNoArg(__pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 132, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 120, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_d, __pyx_n_s_attraction_map, __pyx_t_4) < 0) __PYX_ERR(0, 132, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+
+    /* "search_service.py":133
+ * if __name__ == "__main__":
+ *     attraction_map  = load_maps()
+ *     DFS.edges_dict = getEdgesDict(attraction_map)             # <<<<<<<<<<<<<<
+ *     DFS.start()
+ *     print(DFS.hops)
+ */
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_getEdgesDict); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 133, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_attraction_map); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 133, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 133, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_DFS); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 133, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    if (__Pyx_PyObject_SetAttrStr(__pyx_t_1, __pyx_n_s_edges_dict, __pyx_t_2) < 0) __PYX_ERR(0, 133, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "search_service.py":119
+    /* "search_service.py":134
+ *     attraction_map  = load_maps()
+ *     DFS.edges_dict = getEdgesDict(attraction_map)
+ *     DFS.start()             # <<<<<<<<<<<<<<
+ *     print(DFS.hops)
+ *     for s in DFS.solutions:
+ */
+    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_DFS); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 134, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_start); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 134, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 134, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+    /* "search_service.py":135
+ *     DFS.edges_dict = getEdgesDict(attraction_map)
+ *     DFS.start()
+ *     print(DFS.hops)             # <<<<<<<<<<<<<<
+ *     for s in DFS.solutions:
+ *         print(s)
+ */
+    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_DFS); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 135, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_hops); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 135, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 135, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+    /* "search_service.py":136
+ *     DFS.start()
+ *     print(DFS.hops)
+ *     for s in DFS.solutions:             # <<<<<<<<<<<<<<
+ *         print(s)
+ *     pass
+ */
+    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_DFS); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 136, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_solutions); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 136, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    if (likely(PyList_CheckExact(__pyx_t_2)) || PyTuple_CheckExact(__pyx_t_2)) {
+      __pyx_t_1 = __pyx_t_2; __Pyx_INCREF(__pyx_t_1); __pyx_t_6 = 0;
+      __pyx_t_7 = NULL;
+    } else {
+      __pyx_t_6 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 136, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_7 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 136, __pyx_L1_error)
+    }
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    for (;;) {
+      if (likely(!__pyx_t_7)) {
+        if (likely(PyList_CheckExact(__pyx_t_1))) {
+          if (__pyx_t_6 >= PyList_GET_SIZE(__pyx_t_1)) break;
+          #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+          __pyx_t_2 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_6); __Pyx_INCREF(__pyx_t_2); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 136, __pyx_L1_error)
+          #else
+          __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 136, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_2);
+          #endif
+        } else {
+          if (__pyx_t_6 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
+          #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+          __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_6); __Pyx_INCREF(__pyx_t_2); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 136, __pyx_L1_error)
+          #else
+          __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 136, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_2);
+          #endif
+        }
+      } else {
+        __pyx_t_2 = __pyx_t_7(__pyx_t_1);
+        if (unlikely(!__pyx_t_2)) {
+          PyObject* exc_type = PyErr_Occurred();
+          if (exc_type) {
+            if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
+            else __PYX_ERR(0, 136, __pyx_L1_error)
+          }
+          break;
+        }
+        __Pyx_GOTREF(__pyx_t_2);
+      }
+      if (PyDict_SetItem(__pyx_d, __pyx_n_s_s, __pyx_t_2) < 0) __PYX_ERR(0, 136, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+      /* "search_service.py":137
+ *     print(DFS.hops)
+ *     for s in DFS.solutions:
+ *         print(s)             # <<<<<<<<<<<<<<
+ *     pass
+ */
+      __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_s); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 137, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 137, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+
+      /* "search_service.py":136
+ *     DFS.start()
+ *     print(DFS.hops)
+ *     for s in DFS.solutions:             # <<<<<<<<<<<<<<
+ *         print(s)
+ *     pass
+ */
+    }
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+    /* "search_service.py":131
  * 
  * 
  * if __name__ == "__main__":             # <<<<<<<<<<<<<<
- *     DFS.start()
+ *     attraction_map  = load_maps()
+ *     DFS.edges_dict = getEdgesDict(attraction_map)
  */
   }
 
   /* "search_service.py":1
  * from settings import TOTAL_ROWS, RAIL_ROAD_ENTRANCE_ID             # <<<<<<<<<<<<<<
- * from utils import display_dictionary
+ * from utils import display_dictionary,getEdgesDict
  * import time
  */
   __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
@@ -6514,149 +6427,6 @@ bad:
     Py_XDECREF(py_code);
     Py_XDECREF(py_frame);
 }
-
-/* Print */
-#if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION < 3
-static PyObject *__Pyx_GetStdout(void) {
-    PyObject *f = PySys_GetObject((char *)"stdout");
-    if (!f) {
-        PyErr_SetString(PyExc_RuntimeError, "lost sys.stdout");
-    }
-    return f;
-}
-static int __Pyx_Print(PyObject* f, PyObject *arg_tuple, int newline) {
-    int i;
-    if (!f) {
-        if (!(f = __Pyx_GetStdout()))
-            return -1;
-    }
-    Py_INCREF(f);
-    for (i=0; i < PyTuple_GET_SIZE(arg_tuple); i++) {
-        PyObject* v;
-        if (PyFile_SoftSpace(f, 1)) {
-            if (PyFile_WriteString(" ", f) < 0)
-                goto error;
-        }
-        v = PyTuple_GET_ITEM(arg_tuple, i);
-        if (PyFile_WriteObject(v, f, Py_PRINT_RAW) < 0)
-            goto error;
-        if (PyString_Check(v)) {
-            char *s = PyString_AsString(v);
-            Py_ssize_t len = PyString_Size(v);
-            if (len > 0) {
-                switch (s[len-1]) {
-                    case ' ': break;
-                    case '\f': case '\r': case '\n': case '\t': case '\v':
-                        PyFile_SoftSpace(f, 0);
-                        break;
-                    default:  break;
-                }
-            }
-        }
-    }
-    if (newline) {
-        if (PyFile_WriteString("\n", f) < 0)
-            goto error;
-        PyFile_SoftSpace(f, 0);
-    }
-    Py_DECREF(f);
-    return 0;
-error:
-    Py_DECREF(f);
-    return -1;
-}
-#else
-static int __Pyx_Print(PyObject* stream, PyObject *arg_tuple, int newline) {
-    PyObject* kwargs = 0;
-    PyObject* result = 0;
-    PyObject* end_string;
-    if (unlikely(!__pyx_print)) {
-        __pyx_print = PyObject_GetAttr(__pyx_b, __pyx_n_s_print);
-        if (!__pyx_print)
-            return -1;
-    }
-    if (stream) {
-        kwargs = PyDict_New();
-        if (unlikely(!kwargs))
-            return -1;
-        if (unlikely(PyDict_SetItem(kwargs, __pyx_n_s_file, stream) < 0))
-            goto bad;
-        if (!newline) {
-            end_string = PyUnicode_FromStringAndSize(" ", 1);
-            if (unlikely(!end_string))
-                goto bad;
-            if (PyDict_SetItem(kwargs, __pyx_n_s_end, end_string) < 0) {
-                Py_DECREF(end_string);
-                goto bad;
-            }
-            Py_DECREF(end_string);
-        }
-    } else if (!newline) {
-        if (unlikely(!__pyx_print_kwargs)) {
-            __pyx_print_kwargs = PyDict_New();
-            if (unlikely(!__pyx_print_kwargs))
-                return -1;
-            end_string = PyUnicode_FromStringAndSize(" ", 1);
-            if (unlikely(!end_string))
-                return -1;
-            if (PyDict_SetItem(__pyx_print_kwargs, __pyx_n_s_end, end_string) < 0) {
-                Py_DECREF(end_string);
-                return -1;
-            }
-            Py_DECREF(end_string);
-        }
-        kwargs = __pyx_print_kwargs;
-    }
-    result = PyObject_Call(__pyx_print, arg_tuple, kwargs);
-    if (unlikely(kwargs) && (kwargs != __pyx_print_kwargs))
-        Py_DECREF(kwargs);
-    if (!result)
-        return -1;
-    Py_DECREF(result);
-    return 0;
-bad:
-    if (kwargs != __pyx_print_kwargs)
-        Py_XDECREF(kwargs);
-    return -1;
-}
-#endif
-
-/* PrintOne */
-#if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION < 3
-static int __Pyx_PrintOne(PyObject* f, PyObject *o) {
-    if (!f) {
-        if (!(f = __Pyx_GetStdout()))
-            return -1;
-    }
-    Py_INCREF(f);
-    if (PyFile_SoftSpace(f, 0)) {
-        if (PyFile_WriteString(" ", f) < 0)
-            goto error;
-    }
-    if (PyFile_WriteObject(o, f, Py_PRINT_RAW) < 0)
-        goto error;
-    if (PyFile_WriteString("\n", f) < 0)
-        goto error;
-    Py_DECREF(f);
-    return 0;
-error:
-    Py_DECREF(f);
-    return -1;
-    /* the line below is just to avoid C compiler
-     * warnings about unused functions */
-    return __Pyx_Print(f, NULL, 0);
-}
-#else
-static int __Pyx_PrintOne(PyObject* stream, PyObject *o) {
-    int res;
-    PyObject* arg_tuple = PyTuple_Pack(1, o);
-    if (unlikely(!arg_tuple))
-        return -1;
-    res = __Pyx_Print(stream, arg_tuple, 1);
-    Py_DECREF(arg_tuple);
-    return res;
-}
-#endif
 
 /* CIntToPy */
 static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value) {
