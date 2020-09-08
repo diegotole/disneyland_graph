@@ -86,8 +86,8 @@ def get_hard_coded_edges():
 
 def generate_edges_file():
     max_distance = 80 / 1000  # havesine returns in KM. we are checking for landmarks 80 meters away
-    print("FILE NAME: ", settings.ATTRACTIONS_EDGES_FNAME)
-    logging.warning("FILE NAME: "+ settings.ATTRACTIONS_EDGES_FNAME)
+    # print("FILE NAME: ", settings.ATTRACTIONS_EDGES_FNAME)
+    # logging.warning("FILE NAME: "+ settings.ATTRACTIONS_EDGES_FNAME)
 
     with open( settings.ATTRACTIONS_EDGES_FNAME, 'w') as fout:
         csw = csv.writer(fout)

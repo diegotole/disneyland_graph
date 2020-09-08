@@ -13,7 +13,7 @@ def parse_kml():
 
     data_dict = transform_kml_into_dict()
 
-    with open("../data/disneyland_attractions.csv", 'w') as fout:
+    with open("data/disneyland_attractions.csv", 'w') as fout:
         csv_writer = csv.writer(fout)
         csv_writer.writerow(['id', 'gearth_id', 'name', 'lat', 'long'])
         rows = []
