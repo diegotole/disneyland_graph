@@ -27,6 +27,9 @@ def haversine_km(lon1, lat1, lon2, lat2):
 def get_hard_coded_edges():
     hard_coded_edges = set()
 
+    hard_coded_edges.add((MATTERHORN, NEMO))
+    hard_coded_edges.add((NEMO, MATTERHORN))
+
     hard_coded_edges.add((SPACE_MOUNTAIN_ID, SW_LAUNCH_BAY))
     hard_coded_edges.add((SW_LAUNCH_BAY, SPACE_MOUNTAIN_ID))
 

@@ -38,7 +38,8 @@ STORY_BOOK = get_ride_id("0F27749CE713A7C2EBF6")
 SMALL_WORLD = get_ride_id("0600C026F613A7C19D77")
 SMALL_WORLD_HOLIDAY = get_ride_id("0B4FDB258813BC04D88B")
 
-
+MATTERHORN = get_ride_id("0BDDD94EB613A7C20841")
+NEMO = get_ride_id("0B73DF4CAC13A7C403A6")
 ## website lists 55 attractions
 # -1 holiday decoration is outside park, discarded
 # +1 fortune teller has 2 locations

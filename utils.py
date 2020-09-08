@@ -161,6 +161,9 @@ def display_disneyland(edges=None):
     plt.annotate("Space Mountain",
                  (mymap[SPACE_MOUNTAIN_ID]['long'], mymap[SPACE_MOUNTAIN_ID]['lat']))
 
+    plt.annotate("Matterhorn",
+                 (mymap[MATTERHORN]['long'], mymap[MATTERHORN]['lat']))
+
     if edges:
 
         edges_coord = [
