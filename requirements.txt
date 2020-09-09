@@ -8,3 +8,4 @@ cython
 cachetools
 coverage
 pytest
+numba
