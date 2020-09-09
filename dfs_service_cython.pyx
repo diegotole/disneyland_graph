@@ -68,12 +68,12 @@ def find(curr_key, visited, path,jump_count, edges_dict, solutions):
 
 
 def start():
+    t1 = time.time()
     find(settings.RAIL_ROAD_ENTRANCE_ID, set([0]), [0], 0, myedges_dict, set([0]))
-    print("here")
+    print(f" time took {time.time() - t1}")
 
-t1 = time.time()
 # d = DFS()
 # d.start()
 
-start()
-print(f" time took {time.time() - t1}")
+# start()
+
