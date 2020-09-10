@@ -3,16 +3,19 @@ from collections import defaultdict
 import csv
 from decimal import Decimal
 import time
-from numba import jit
+
+
+# from numba import jit
 
 class DFS:
 
-    def __init__(self):
+    def __init__(self, disney_area):
         self.edges_dict = defaultdict(set)
         self.distance = {}
         self.visited = set()
         self.path = []
         self.solutions = []
+        self.disney_area = disney_area
 
         self.jump_count = 0
 
@@ -31,39 +34,53 @@ class DFS:
         possible_solutions /= (len(self.edges_dict[settings.RAIL_ROAD_ENTRANCE_ID]) - 1)
         possible_solutions *= (len(self.edges_dict[settings.RAIL_ROAD_ENTRANCE_ID]))
 
-        print(f"possible solutions {possible_solutions}")
+        # print(f"possible solutions {possible_solutions}")
 
     # @profile
-    @jit(nopython=True)
+    # @jit(nopython=True)
     def find(self, curr_key):
-
 
         for k in self.edges_dict[curr_key]:
 
+            if k not in self.disney_area:
+                continue
+
             if k not in self.visited:
                 self.visited.add(k)
-                if len(self.visited) == settings.TOTAL_ROWS:
+                self.path.append(k)
+                if len(self.visited) == len(self.disney_area):
                     self.solutions.append(list(self.path))
 
-                self.path.append(k)
                 self.find(k)
                 self.path.pop()
                 self.visited.remove(k)
 
-                self.jump_count+=1
+                self.jump_count += 1
                 if self.jump_count > 10_000_000:
                     return
                 if self.jump_count % 1_000_000 == 0:
                     print(self.jump_count)
 
-
-
     def start(self):
-        self.find( settings.RAIL_ROAD_ENTRANCE_ID )
-        print("here")
+
+        for source in self.disney_area:
+            self.path = [source]
+            self.visited = set([source])
+            self.find(source)
+            # print(source)
+
+        print(f" solutions {len(self.solutions)} ")
+        return self.solutions
 
 
-t1 = time.time()
-d = DFS()
-d.start()
-print(f" time took {time.time() - t1}")
+
+
+solution_map = {}
+t0 = time.time()
+for region in settings.REGIONS_LIST:
+    t1 = time.time()
+    d = DFS(region[0])
+    solution_map[region[1]] = d.start()
+    print(f" {region[1]} region took {time.time() - t1}\n")
+
+print(f" full test took {time.time() - t0}")
