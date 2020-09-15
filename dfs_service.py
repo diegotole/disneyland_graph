@@ -3,9 +3,14 @@ from collections import defaultdict
 import csv
 from decimal import Decimal
 import time
+from itertools import permutations
 
 
-# from numba import jit
+
+def find_best_connection(region1, region2, mysolutions):
+    #check each end node from region1 against all start node from region2
+
+
 
 class DFS:
 
@@ -75,12 +80,21 @@ class DFS:
 
 
 
+
+#nested loop,region to region connection
+all_regions_connections = permutations( [ region_name for region_list, region_name in settings.REGIONS_LIST] )
+all_regions_connections = list(all_regions_connections)
+print(len(list(all_regions_connections)))
+
 solution_map = {}
 t0 = time.time()
-for region in settings.REGIONS_LIST:
+for region_list, region_name in settings.REGIONS_LIST:
     t1 = time.time()
-    d = DFS(region[0])
-    solution_map[region[1]] = d.start()
-    print(f" {region[1]} region took {time.time() - t1}\n")
+    d = DFS(region_list)
+    solution_map[region_name] = d.start()
+    print(f" {region_name} region took {time.time() - t1}\n")
 
-print(f" full test took {time.time() - t0}")
+print(f" full searches took {time.time() - t0}")
+
+
+
