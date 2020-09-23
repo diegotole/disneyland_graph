@@ -20,7 +20,7 @@ def get_ride_region(id):
             break
 
     if resp is None:
-        if id in settings.EXTRAS_CONNECTORS:
+        if id in settings.SW_EXTRAS_CONNECTORS:
             resp = "noregion"
         else:
             raise Exception(f"no region found {id}")

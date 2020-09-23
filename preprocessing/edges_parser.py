@@ -24,6 +24,7 @@ def haversine_km(lon1, lat1, lon2, lat2):
     return c * r
 
 
+#those are edges that are too
 def get_hard_coded_edges():
     hard_coded_edges = set()
 
@@ -48,20 +49,22 @@ def get_hard_coded_edges():
     hard_coded_edges.add((RISE_RESISTANCE, SMUGGLERS_RUN))
     hard_coded_edges.add((SMUGGLERS_RUN, RISE_RESISTANCE))
 
-    hard_coded_edges.add((RISE_RESISTANCE, SW_ENTRANCE_FRONTIER_LAND))
-    hard_coded_edges.add((SW_ENTRANCE_FRONTIER_LAND, RISE_RESISTANCE))
+    # hard_coded_edges.add((RISE_RESISTANCE, SW_ENTRANCE_FRONTIER_LAND))
+    # hard_coded_edges.add((SW_ENTRANCE_FRONTIER_LAND, RISE_RESISTANCE))
+    #
+    # hard_coded_edges.add((DAVY_CROC, SW_ENTRANCE_FRONTIER_LAND))
+    # hard_coded_edges.add((SW_ENTRANCE_FRONTIER_LAND, DAVY_CROC))
+    #
+    # hard_coded_edges.add((WINNIE_POOH, SW_ENTRANCE_FRONTIER_LAND))
+    # hard_coded_edges.add((SW_ENTRANCE_FRONTIER_LAND, WINNIE_POOH))
 
-    hard_coded_edges.add((SW_ENTRANCE_FANTASY_LAND, SMUGGLERS_RUN))
-    hard_coded_edges.add((SMUGGLERS_RUN, SW_ENTRANCE_FANTASY_LAND))
+    # hard_coded_edges.add((SW_ENTRANCE_FANTASY_LAND, SMUGGLERS_RUN))
+    # hard_coded_edges.add((SMUGGLERS_RUN, SW_ENTRANCE_FANTASY_LAND))
+    #
+    # hard_coded_edges.add((SW_ENTRANCE_ADV_LAND, SMUGGLERS_RUN))
+    # hard_coded_edges.add((SMUGGLERS_RUN, SW_ENTRANCE_ADV_LAND))
 
-    hard_coded_edges.add((SW_ENTRANCE_ADV_LAND, SMUGGLERS_RUN))
-    hard_coded_edges.add((SMUGGLERS_RUN, SW_ENTRANCE_ADV_LAND))
 
-    hard_coded_edges.add((DAVY_CROC, SW_ENTRANCE_FRONTIER_LAND))
-    hard_coded_edges.add((SW_ENTRANCE_FRONTIER_LAND, DAVY_CROC))
-
-    hard_coded_edges.add((WINNIE_POOH, SW_ENTRANCE_FRONTIER_LAND))
-    hard_coded_edges.add((SW_ENTRANCE_FRONTIER_LAND, WINNIE_POOH))
 
     hard_coded_edges.add((FORTUNE_TELLER_MST_ID, TIKI_ROOM_ID))
     hard_coded_edges.add((TIKI_ROOM_ID, FORTUNE_TELLER_MST_ID))
@@ -89,6 +92,8 @@ def generate_edges_file():
     # print("FILE NAME: ", settings.ATTRACTIONS_EDGES_FNAME)
     # logging.warning("FILE NAME: "+ settings.ATTRACTIONS_EDGES_FNAME)
 
+    all_edges = set()
+
     with open( settings.ATTRACTIONS_EDGES_FNAME, 'w') as fout:
         csw = csv.writer(fout)
         csw.writerow(['source', 'target', 'distance_km'])
@@ -103,6 +108,12 @@ def generate_edges_file():
                     if r1['id'] == r2['id']:
                         continue
 
+                    if int(r1['id']) in SW_EXTRAS_CONNECTORS:
+                        continue
+
+                    if int(r2['id']) in SW_EXTRAS_CONNECTORS:
+                        continue
+
                     distance = haversine_km(r1['long'], r1['lat'], r2['long'], r2['lat'])
                     if distance <= max_distance:
                         csw.writerow(
@@ -115,12 +126,29 @@ def generate_edges_file():
                 r1 = cache[e1]
                 r2 = cache[e2]
 
+                # if e1 in SW_EXTRAS_CONNECTORS:
+                #     continue
+                #
+                # if e2 in SW_EXTRAS_CONNECTORS:
+                #     continue
+
                 distance = haversine_km(r1['long'], r1['lat'], r2['long'], r2['lat'])
                 csw.writerow(
 
                     [r1['id'], r2['id'], distance]
 
                 )
+
+
+
+        #artificial edges
+        art_edges = {
+
+             :  [],
+
+
+    }
+
 
 
 

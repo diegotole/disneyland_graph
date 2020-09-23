@@ -6,10 +6,52 @@ import time
 from itertools import permutations
 
 
+def distance_obj():
+    with open(settings.ATTRACTIONS_EDGES_FNAME) as fin:
+        csvr = csv.DictReader(fin)
+
+        obj = {}
+
+        for line in csvr:
+            d = Decimal(line["distance_km"])
+            obj[(line['source'], line['target'])] = d
+            obj[(line['target'], line['source'])] = d
+
+    return obj
+
+
+def calculate_path_distance(path, dist_obj):
+    tot = Decimal("0.0")
+
+    for i in range(len(path),1):
+        tot += dist_obj[ path[i-1], path[i]  ]
+
+    return tot
+
+def filter_dups(solutions, dist_obj):
+    obj = {}
+    best_ones = {}
+    for path in solutions:
+
+        key = (path[0], path[-1])
+        if  key not in best_ones:
+            best_ones[ key  ] = float("inf")
+
+
+        d = calculate_path_distance(path, dist_obj)
+
+        if d < best_ones[key]:
+            best_ones[key] = d
+            obj[key] = path
+
+
+    return obj
+
+
 
 def find_best_connection(region1, region2, mysolutions):
-    #check each end node from region1 against all start node from region2
-
+    # check each end node from region1 against all start node from region2
+    pass
 
 
 class DFS:
@@ -53,7 +95,9 @@ class DFS:
             if k not in self.visited:
                 self.visited.add(k)
                 self.path.append(k)
-                if len(self.visited) == len(self.disney_area):
+
+                if len(set(self.visited) - settings.SW_EXTRAS_CONNECTORS ) == len(  set(self.disney_area) - settings.SW_EXTRAS_CONNECTORS  ):
+                # if len(self.visited) == len(self.disney_area):
                     self.solutions.append(list(self.path))
 
                 self.find(k)
@@ -74,27 +118,29 @@ class DFS:
             self.find(source)
             # print(source)
 
-        print(f" solutions {len(self.solutions)} ")
+        # print(f" solutions {len(self.solutions)} ")
         return self.solutions
 
 
 
+distances = distance_obj()
 
-
-#nested loop,region to region connection
-all_regions_connections = permutations( [ region_name for region_list, region_name in settings.REGIONS_LIST] )
+# nested loop,region to region connection
+all_regions_connections = permutations([region_name for region_list, region_name in settings.REGIONS_LIST])
 all_regions_connections = list(all_regions_connections)
-print(len(list(all_regions_connections)))
+print(f" permutations of all regions {len(list(all_regions_connections))}\n")
 
 solution_map = {}
 t0 = time.time()
 for region_list, region_name in settings.REGIONS_LIST:
     t1 = time.time()
     d = DFS(region_list)
-    solution_map[region_name] = d.start()
-    print(f" {region_name} region took {time.time() - t1}\n")
+    solutions = d.start()
+    filtered_solutions = filter_dups(solutions, distances )
+    # solution_map[region_name] = d.start()
+    solution_map[region_name] = filtered_solutions
+
+    print(f" {region_name} region took {time.time() - t1}, total solutions {len(solutions)} after filter {len(filtered_solutions)}\n")
 
 print(f" full searches took {time.time() - t0}")
-
-
 
