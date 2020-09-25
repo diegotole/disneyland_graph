@@ -4,7 +4,8 @@ import csv
 from decimal import Decimal
 import time
 from itertools import permutations
-
+import shelve
+from functools import lru_cache
 
 def distance_obj():
     with open(settings.ATTRACTIONS_EDGES_FNAME) as fin:
@@ -14,8 +15,8 @@ def distance_obj():
 
         for line in csvr:
             d = Decimal(line["distance_km"])
-            obj[(line['source'], line['target'])] = d
-            obj[(line['target'], line['source'])] = d
+            obj[(int(line['source']), int(line['target']))] = d
+            obj[( int(line['target']), int(line['source']))] = d
 
     return obj
 
@@ -46,7 +47,7 @@ def filter_dups(solutions, dist_obj):
 
     return obj
 
-
+@lru_cache
 def find_best_connection(region1, region2, mysolutions):
     # check each end node from region1 against all start node from region2
     pass
@@ -121,6 +122,7 @@ class DFS:
         return self.solutions
 
 
+
 distances = distance_obj()
 
 # nested loop,region to region connection
@@ -147,11 +149,42 @@ print(f" full searches took {time.time() - t0}")
 # we need to start in main street, so no reason to generate permutations where main street is not first
 perms = permutations([name for _, name in settings.REGIONS_LIST if name != settings.MAIN_STREET_NAME])
 perms = list(perms)
+perms = [[settings.MAIN_STREET_NAME] + list(p) for p in perms]
+
 print(f"found {len(perms)} region to region paths")
-#starting in main street,
-#inside each solution for source region,check exit node
-#check if exit node has connection with entry node from next region
-#if none found, exit path
+# starting in main street,
+# inside each solution for source region,check exit node
+# check if exit node has connection with entry node from next region
+# if none found, exit path
 
+best_distance = float("inf")
+my_inf = Decimal(float("inf"))
+for path in perms:
 
-# for path in perms:
+    curr_path_distance = Decimal(float("inf"))
+
+    for i in range(1, len(path)):
+        r_source = path[i - 1]
+        r_target = path[i]
+
+        tmp_distance = my_inf
+        # get all solutions for source
+        for sol_source in solution_map[r_source]:
+            for sol_target in solution_map[r_target]:
+                s1, s2 = sol_source[0], sol_source[-1]
+                t1, t2 = sol_target[0], sol_target[-1]
+
+                tmp_distance = min(distances.get((s1, t1), float("inf")), tmp_distance)
+                tmp_distance = min(distances.get((s1, t2), float("inf")), tmp_distance)
+                tmp_distance = min(distances.get((s2, t1), float("inf")), tmp_distance)
+                tmp_distance = min(distances.get((s2, t2), float("inf")), tmp_distance)
+
+        if tmp_distance == my_inf:
+            print(f"no connection between {r_source} {r_target}")
+            break
+        else:
+            curr_path_distance += tmp_distance
+
+    best_distance = min(best_distance, curr_path_distance)
+
+print(f"best distance path: {best_distance}")
