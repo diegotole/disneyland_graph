@@ -23,10 +23,11 @@ def distance_obj():
 def calculate_path_distance(path, dist_obj):
     tot = Decimal("0.0")
 
-    for i in range(len(path),1):
-        tot += dist_obj[ path[i-1], path[i]  ]
+    for i in range(len(path), 1):
+        tot += dist_obj[path[i - 1], path[i]]
 
     return tot
+
 
 def filter_dups(solutions, dist_obj):
     obj = {}
@@ -34,9 +35,8 @@ def filter_dups(solutions, dist_obj):
     for path in solutions:
 
         key = (path[0], path[-1])
-        if  key not in best_ones:
-            best_ones[ key  ] = float("inf")
-
+        if key not in best_ones:
+            best_ones[key] = float("inf")
 
         d = calculate_path_distance(path, dist_obj)
 
@@ -44,9 +44,7 @@ def filter_dups(solutions, dist_obj):
             best_ones[key] = d
             obj[key] = path
 
-
     return obj
-
 
 
 def find_best_connection(region1, region2, mysolutions):
@@ -96,8 +94,9 @@ class DFS:
                 self.visited.add(k)
                 self.path.append(k)
 
-                if len(set(self.visited) - settings.SW_EXTRAS_CONNECTORS ) == len(  set(self.disney_area) - settings.SW_EXTRAS_CONNECTORS  ):
-                # if len(self.visited) == len(self.disney_area):
+                if len(set(self.visited) - settings.SW_EXTRAS_CONNECTORS) == len(
+                        set(self.disney_area) - settings.SW_EXTRAS_CONNECTORS):
+                    # if len(self.visited) == len(self.disney_area):
                     self.solutions.append(list(self.path))
 
                 self.find(k)
@@ -122,7 +121,6 @@ class DFS:
         return self.solutions
 
 
-
 distances = distance_obj()
 
 # nested loop,region to region connection
@@ -136,11 +134,24 @@ for region_list, region_name in settings.REGIONS_LIST:
     t1 = time.time()
     d = DFS(region_list)
     solutions = d.start()
-    filtered_solutions = filter_dups(solutions, distances )
+    filtered_solutions = filter_dups(solutions, distances)
     # solution_map[region_name] = d.start()
     solution_map[region_name] = filtered_solutions
 
-    print(f" {region_name} region took {time.time() - t1}, total solutions {len(solutions)} after filter {len(filtered_solutions)}\n")
+    print(
+        f" {region_name} region took {time.time() - t1}, total solutions {len(solutions)} after filter {len(filtered_solutions)}\n")
 
 print(f" full searches took {time.time() - t0}")
 
+# permutation of all region connects
+# we need to start in main street, so no reason to generate permutations where main street is not first
+perms = permutations([name for _, name in settings.REGIONS_LIST if name != settings.MAIN_STREET_NAME])
+perms = list(perms)
+print(f"found {len(perms)} region to region paths")
+#starting in main street,
+#inside each solution for source region,check exit node
+#check if exit node has connection with entry node from next region
+#if none found, exit path
+
+
+# for path in perms:
