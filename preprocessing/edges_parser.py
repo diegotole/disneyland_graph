@@ -5,6 +5,7 @@ from math import radians, cos, sin, asin, sqrt
 from decimal import Decimal
 import logging
 
+
 def haversine_km(lon1, lat1, lon2, lat2):
     """
     Calculate the great circle distance between two points
@@ -24,7 +25,7 @@ def haversine_km(lon1, lat1, lon2, lat2):
     return c * r
 
 
-#those are edges that are too
+# those are edges that are too
 def get_hard_coded_edges():
     hard_coded_edges = set()
 
@@ -64,8 +65,6 @@ def get_hard_coded_edges():
     # hard_coded_edges.add((SW_ENTRANCE_ADV_LAND, SMUGGLERS_RUN))
     # hard_coded_edges.add((SMUGGLERS_RUN, SW_ENTRANCE_ADV_LAND))
 
-
-
     hard_coded_edges.add((FORTUNE_TELLER_MST_ID, TIKI_ROOM_ID))
     hard_coded_edges.add((TIKI_ROOM_ID, FORTUNE_TELLER_MST_ID))
 
@@ -92,9 +91,7 @@ def generate_edges_file():
     # print("FILE NAME: ", settings.ATTRACTIONS_EDGES_FNAME)
     # logging.warning("FILE NAME: "+ settings.ATTRACTIONS_EDGES_FNAME)
 
-    all_edges = set()
-
-    with open( settings.ATTRACTIONS_EDGES_FNAME, 'w') as fout:
+    with open(settings.ATTRACTIONS_EDGES_FNAME, 'w') as fout:
         csw = csv.writer(fout)
         csw.writerow(['source', 'target', 'distance_km'])
         cache = {}
@@ -139,17 +136,38 @@ def generate_edges_file():
 
                 )
 
-
-
-        #artificial edges
+        # artificial edges
         art_edges = {
 
-             :  [],
+            # frontier land
+            73113: [60568, 280],
 
+            # critter country
+            33970: [714, 43753, 49078],
+            # fantasy
+            87125: [32605, 280]
 
-    }
+        }
 
+        for sw_entrance in art_edges:
 
+            for e1 in art_edges[sw_entrance]:
+                for e2 in art_edges[sw_entrance]:
 
+                    if e1 == e2:
+                        continue
+
+                    r1 = cache[e1]
+                    r2 = cache[e2]
+                    sw = cache[sw_entrance]
+
+                    d1 = haversine_km(r1['long'], r1['lat'], sw['long'], sw['lat'])
+                    d2 = haversine_km(r2['long'], r2['lat'], sw['long'], sw['lat'])
+                    distance = d1 + d2
+                    csw.writerow(
+
+                        [r1['id'], r2['id'], distance]
+
+                    )
 
 # generate_edges_file()
