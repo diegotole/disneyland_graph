@@ -68,8 +68,14 @@ def get_hard_coded_edges():
     hard_coded_edges.add((FORTUNE_TELLER_MST_ID, TIKI_ROOM_ID))
     hard_coded_edges.add((TIKI_ROOM_ID, FORTUNE_TELLER_MST_ID))
 
+
+
     hard_coded_edges.add((FORTUNE_TELLER_MST_ID, CASTLE_ID))
     hard_coded_edges.add((CASTLE_ID, FORTUNE_TELLER_MST_ID))
+
+    hard_coded_edges.add((FORTUNE_TELLER_MST_ID, SHOOTING_EXPO))
+    hard_coded_edges.add((SHOOTING_EXPO, FORTUNE_TELLER_MST_ID))
+
 
     hard_coded_edges.add((FORTUNE_TELLER_MST_ID, ASTRO_ORBITOR_ID))
     hard_coded_edges.add((ASTRO_ORBITOR_ID, FORTUNE_TELLER_MST_ID))
@@ -83,6 +89,16 @@ def get_hard_coded_edges():
     hard_coded_edges.add((CASTLE_ID, ASTRO_ORBITOR_ID))
     hard_coded_edges.add((ASTRO_ORBITOR_ID, CASTLE_ID))
 
+    hard_coded_edges.add((HAUNTED_MANSION, TOM_SAWYER_ISLAND))
+    hard_coded_edges.add((TOM_SAWYER_ISLAND, HAUNTED_MANSION))
+
+    hard_coded_edges.add((SPLASH_MOUNTAIN, TOM_SAWYER_ISLAND))
+    hard_coded_edges.add((TOM_SAWYER_ISLAND, SPLASH_MOUNTAIN))
+
+    hard_coded_edges.add((DAVY_CROC, TOM_SAWYER_ISLAND))
+    hard_coded_edges.add((TOM_SAWYER_ISLAND, DAVY_CROC))
+
+
     return hard_coded_edges
 
 
@@ -93,7 +109,7 @@ def generate_edges_file():
 
     with open(settings.ATTRACTIONS_EDGES_FNAME, 'w') as fout:
         csw = csv.writer(fout)
-        csw.writerow(['source', 'target', 'distance_km'])
+        csw.writerow(['source', 'source_name', 'target', 'target_name', 'distance_km'])
         cache = {}
         with open(settings.ATTRACTIONS_FNAME) as fin:
             my_attractions_nodes = list(csv.DictReader(fin))
@@ -115,7 +131,7 @@ def generate_edges_file():
                     if distance <= max_distance:
                         csw.writerow(
 
-                            [r1['id'], r2['id'], distance]
+                            [r1['id'], r1['name'], r2['id'], r2['name'], distance]
 
                         )
 
@@ -132,7 +148,7 @@ def generate_edges_file():
                 distance = haversine_km(r1['long'], r1['lat'], r2['long'], r2['lat'])
                 csw.writerow(
 
-                    [r1['id'], r2['id'], distance]
+                    [r1['id'], r1['name'], r2['id'], r2['name'], distance]
 
                 )
 
@@ -166,7 +182,7 @@ def generate_edges_file():
                     distance = d1 + d2
                     csw.writerow(
 
-                        [r1['id'], r2['id'], distance]
+                        [r1['id'], r1['name'], r2['id'], r2['name'], distance]
 
                     )
 

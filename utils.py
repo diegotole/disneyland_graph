@@ -164,6 +164,15 @@ def display_disneyland(edges=None):
     plt.annotate("Matterhorn",
                  (mymap[MATTERHORN]['long'], mymap[MATTERHORN]['lat']))
 
+    plt.annotate("Haunted Mansion",
+                 (mymap[HAUNTED_MANSION]['long'], mymap[HAUNTED_MANSION]['lat']))
+
+    plt.annotate("Haunted Mansion Holiday",
+                 (mymap[HAUNTED_MANSION_HOLIDAY]['long'], mymap[HAUNTED_MANSION_HOLIDAY]['lat']))
+
+    plt.annotate("TOM SAWYER ISLAND",
+                 (mymap[TOM_SAWYER_ISLAND]['long'], mymap[TOM_SAWYER_ISLAND]['lat']))
+
     if edges:
 
         edges_coord = [
