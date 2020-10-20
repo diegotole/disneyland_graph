@@ -28,8 +28,8 @@ def distance_obj():
 
 def calculate_path_distance(path, dist_obj):
     tot = Decimal("0.0")
-
-    for i in range(len(path), 1):
+    # print(f"measuring list size {len(path)}")
+    for i in range(1, len(path)):
         tot += dist_obj[path[i - 1], path[i]]
 
     return tot
@@ -55,6 +55,9 @@ def filter_dups(solutions, dist_obj):
 
     return obj
 
+
+
+
 @lru_cache(100)
 def find_best_connection_distance(r_source, r_target, solution_map):
     # check each end node from region1 against all start node from region2
@@ -74,6 +77,34 @@ def find_best_connection_distance(r_source, r_target, solution_map):
             tmp_distance = min(distances.get((s2, t2), float("inf")), tmp_distance)
 
     return Decimal(tmp_distance)
+
+
+
+def validate_connection(r_source, r_target, solution_map, valid_source_node):
+    # check each end node from region1 against all start node from region2
+    tmp_distance = Decimal(float("inf"))
+    # get all solutions for source
+
+    resp_source, resp_target = None, None
+
+    valid_targets = set()
+
+    for sol_source in solution_map[r_source]:
+        for sol_target in solution_map[r_target]:
+            s1, s2 = sol_source[0], sol_source[-1]
+            t1, t2 = sol_target[0], sol_target[-1]
+
+            if s2 not in valid_source_node:
+                continue
+            # tmp_distance = min(distances.get((s1, t1), float("inf")), tmp_distance)
+            # tmp_distance = min(distances.get((s1, t2), float("inf")), tmp_distance)
+            # tmp_distance = min(distances.get((s2, t1), float("inf")), tmp_distance)
+            # tmp_distance = min(distances.get((s2, t2), float("inf")), tmp_distance)
+            if distances.get((s2, t1), -1)  != -1:
+                valid_targets.add(t2)
+
+
+    return valid_targets
 
 @lru_cache(100)
 def connection_exists(r_source, r_target, solution_map):

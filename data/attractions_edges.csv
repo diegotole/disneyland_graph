@@ -252,6 +252,7 @@ source,source_name,target,target_name,distance_km
 44978,astro orbitor,60282,fortune teller - main street,0.11178482480398058
 45812,space mountain,99303,star wars launch bay,0.15712545392508798
 99303,star wars launch bay,68863,buzz lightyear astro blasters,0.09903075272377555
+85718,storybook land canal boats,39868,roger rabbit's car toon spin,0.17774979646951314
 61114,walt disney's enchanted tiki room,44978,astro orbitor,0.11884268558610898
 44978,astro orbitor,70528,sleeping beauty castle walkthrough,0.10816463054267118
 68863,buzz lightyear astro blasters,99303,star wars launch bay,0.09903075272377555
@@ -262,6 +263,7 @@ source,source_name,target,target_name,distance_km
 69026,haunted mansion,70412,pirate's lair on tom sawyer island,0.09562049640814212
 70412,pirate's lair on tom sawyer island,714,davy crockett's explorer canoes,0.09229982679104619
 70412,pirate's lair on tom sawyer island,69026,haunted mansion,0.09562049640814212
+85718,storybook land canal boats,73844,rail road mickey town,0.14537429855966008
 70528,sleeping beauty castle walkthrough,61114,walt disney's enchanted tiki room,0.11867273923671834
 60282,fortune teller - main street,61114,walt disney's enchanted tiki room,0.10417758416871749
 61114,walt disney's enchanted tiki room,60282,fortune teller - main street,0.10417758416871749
@@ -275,8 +277,10 @@ source,source_name,target,target_name,distance_km
 99303,star wars launch bay,45812,space mountain,0.15712545392508798
 60282,fortune teller - main street,5359,shooting exposition,0.15372166250931393
 49078,rise of the resistance,280,millennium falcon: smugglers run,0.1910918755671528
+73844,rail road mickey town,85718,storybook land canal boats,0.14537429855966008
 61114,walt disney's enchanted tiki room,70528,sleeping beauty castle walkthrough,0.11867273923671834
 714,davy crockett's explorer canoes,70412,pirate's lair on tom sawyer island,0.09229982679104619
+39868,roger rabbit's car toon spin,85718,storybook land canal boats,0.17774979646951314
 280,millennium falcon: smugglers run,49078,rise of the resistance,0.1910918755671528
 73133,star tours – the adventures continue,45812,space mountain,0.1183773529607371
 60568,thunder rail road,280,millennium falcon: smugglers run,0.26136831322438947

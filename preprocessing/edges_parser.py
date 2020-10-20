@@ -99,6 +99,13 @@ def get_hard_coded_edges():
     hard_coded_edges.add((TOM_SAWYER_ISLAND, DAVY_CROC))
 
 
+    hard_coded_edges.add(  (STORY_BOOK, ROGER_RABBIT)   )
+    hard_coded_edges.add(  (ROGER_RABBIT, STORY_BOOK)   )
+
+    hard_coded_edges.add((STORY_BOOK, RAIL_ROAD_TOON_TOWN))
+    hard_coded_edges.add((RAIL_ROAD_TOON_TOWN, STORY_BOOK))
+
+
     return hard_coded_edges
 
 
