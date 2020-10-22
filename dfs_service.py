@@ -172,6 +172,7 @@ class DFS:
                     # if len(self.visited) == len(self.disney_area):
                     self.solutions.append(list(self.path))
 
+
                 self.find(k)
                 self.path.pop()
                 self.visited.remove(k)

@@ -245,6 +245,7 @@ source,source_name,target,target_name,distance_km
 74966,peter pan's flight,92795,king arthur carrousel,0.03183390857397726
 74966,peter pan's flight,70528,sleeping beauty castle walkthrough,0.03681188371409729
 74966,peter pan's flight,85718,storybook land canal boats,0.07928010666601466
+70528,sleeping beauty castle walkthrough,96097,matterhorn bobsleds,0.1104694991717624
 45812,space mountain,73133,star tours – the adventures continue,0.1183773529607371
 85718,storybook land canal boats,46167,it's a small world,0.11478685174097987
 70528,sleeping beauty castle walkthrough,60282,fortune teller - main street,0.18697388887616748
@@ -261,6 +262,7 @@ source,source_name,target,target_name,distance_km
 30923,its a small world holiday,85718,storybook land canal boats,0.09389418303212664
 96097,matterhorn bobsleds,23238,finding nemo submarine voyage,0.08661118592832563
 69026,haunted mansion,70412,pirate's lair on tom sawyer island,0.09562049640814212
+96097,matterhorn bobsleds,70528,sleeping beauty castle walkthrough,0.1104694991717624
 70412,pirate's lair on tom sawyer island,714,davy crockett's explorer canoes,0.09229982679104619
 70412,pirate's lair on tom sawyer island,69026,haunted mansion,0.09562049640814212
 85718,storybook land canal boats,73844,rail road mickey town,0.14537429855966008

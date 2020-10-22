@@ -197,4 +197,7 @@ REGIONS_LIST = [
 
 ]
 
+
+
+
 assert TOTAL_ROWS == len(ALL_SETS)

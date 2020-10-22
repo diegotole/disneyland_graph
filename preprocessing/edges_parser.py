@@ -32,6 +32,11 @@ def get_hard_coded_edges():
     hard_coded_edges.add((MATTERHORN, NEMO))
     hard_coded_edges.add((NEMO, MATTERHORN))
 
+    hard_coded_edges.add((MATTERHORN, CASTLE_ID))
+    hard_coded_edges.add((CASTLE_ID, MATTERHORN))
+
+
+
     hard_coded_edges.add((SPACE_MOUNTAIN_ID, SW_LAUNCH_BAY))
     hard_coded_edges.add((SW_LAUNCH_BAY, SPACE_MOUNTAIN_ID))
 
