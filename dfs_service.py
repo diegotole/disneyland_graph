@@ -7,10 +7,13 @@ from itertools import permutations
 import shelve
 from functools import lru_cache
 
+import utils, time
+
 
 class MySolutionMap(dict):
     def __hash__(self):
         return 1
+
 
 def distance_obj():
     with open(settings.ATTRACTIONS_EDGES_FNAME) as fin:
@@ -21,7 +24,7 @@ def distance_obj():
         for line in csvr:
             d = Decimal(line["distance_km"])
             obj[(int(line['source']), int(line['target']))] = d
-            obj[( int(line['target']), int(line['source']))] = d
+            obj[(int(line['target']), int(line['source']))] = d
 
     return obj
 
@@ -33,9 +36,6 @@ def calculate_path_distance(path, dist_obj):
         tot += dist_obj[path[i - 1], path[i]]
 
     return tot
-
-
-
 
 
 def filter_dups(solutions, dist_obj):
@@ -54,8 +54,6 @@ def filter_dups(solutions, dist_obj):
             obj[key] = path
 
     return obj
-
-
 
 
 @lru_cache(100)
@@ -79,7 +77,6 @@ def find_best_connection_distance(r_source, r_target, solution_map):
     return Decimal(tmp_distance)
 
 
-
 def validate_connection(r_source, r_target, solution_map, valid_source_node):
     # check each end node from region1 against all start node from region2
     tmp_distance = Decimal(float("inf"))
@@ -100,15 +97,14 @@ def validate_connection(r_source, r_target, solution_map, valid_source_node):
             # tmp_distance = min(distances.get((s1, t2), float("inf")), tmp_distance)
             # tmp_distance = min(distances.get((s2, t1), float("inf")), tmp_distance)
             # tmp_distance = min(distances.get((s2, t2), float("inf")), tmp_distance)
-            if distances.get((s2, t1), -1)  != -1:
+            if distances.get((s2, t1), -1) != -1:
                 valid_targets.add(t2)
-
 
     return valid_targets
 
+
 @lru_cache(100)
 def connection_exists(r_source, r_target, solution_map):
-
     tmp_distance = float("inf")
 
     for sol_source in solution_map[r_source]:
@@ -120,7 +116,6 @@ def connection_exists(r_source, r_target, solution_map):
             tmp_distance = min(distances.get((s1, t2), float("inf")), tmp_distance)
             tmp_distance = min(distances.get((s2, t1), float("inf")), tmp_distance)
             tmp_distance = min(distances.get((s2, t2), float("inf")), tmp_distance)
-
 
     return tmp_distance != float("inf")
 
@@ -135,6 +130,8 @@ class DFS:
         self.solutions = []
         self.disney_area = disney_area
 
+        self.ride_map = utils.load_maps()
+
         self.jump_count = 0
 
         with open(settings.ATTRACTIONS_EDGES_FNAME) as fin:
@@ -145,17 +142,47 @@ class DFS:
                 self.edges_dict[source].add(target)
                 self.distance[(source, target)] = distance
 
-        possible_solutions = 1
-        for key in self.edges_dict:
-            possible_solutions *= (len(self.edges_dict[key]) - 1)
-
-        possible_solutions /= (len(self.edges_dict[settings.RAIL_ROAD_ENTRANCE_ID]) - 1)
-        possible_solutions *= (len(self.edges_dict[settings.RAIL_ROAD_ENTRANCE_ID]))
+        # possible_solutions = 1
+        # for key in self.edges_dict:
+        #     possible_solutions *= (len(self.edges_dict[key]) - 1)
+        #
+        # possible_solutions /= (len(self.edges_dict[settings.RAIL_ROAD_ENTRANCE_ID]) - 1)
+        # possible_solutions *= (len(self.edges_dict[settings.RAIL_ROAD_ENTRANCE_ID]))
 
         # print(f"possible solutions {possible_solutions}")
 
     # @profile
     # @jit(nopython=True)
+    def find_new(self, curr_path, myvisited):
+
+        if len(myvisited) == len(self.disney_area):
+            # if len(self.visited) == len(self.disney_area):
+            self.solutions.append(list(curr_path))
+            return
+
+
+        # for k1 in self.ride_map:
+        #
+        #     if self.ride_map[k1]['region'] != self.disney_area:
+        #         continue
+        for k1 in self.disney_area:
+
+
+            if k1 in myvisited:
+                continue
+
+
+            if len(curr_path) > 0  and self.distance.get( (curr_path[-1], k1) , -1  ) == -1:
+                continue
+
+            # print(type(myvisited), type(k1))
+            # print((myvisited), (k1))
+            self.find_new(curr_path + [k1], myvisited | {k1,})
+
+
+
+
+
     def find(self, curr_key):
 
         for k in self.edges_dict[curr_key]:
@@ -172,7 +199,6 @@ class DFS:
                     # if len(self.visited) == len(self.disney_area):
                     self.solutions.append(list(self.path))
 
-
                 self.find(k)
                 self.path.pop()
                 self.visited.remove(k)
@@ -183,8 +209,17 @@ class DFS:
                 if self.jump_count % 1_000_000 == 0:
                     print(self.jump_count)
 
-    def start(self):
+    def start_new(self):
+        t1 = time.time()
+        self.solutions = []
+        self.find_new([], set())
 
+        print(f"took {time.time()-t1} ")
+
+        return self.solutions
+
+    def start(self):
+        t1 = time.time()
         for source in self.disney_area:
             self.path = [source]
             self.visited = set([source])
@@ -192,82 +227,130 @@ class DFS:
             # print(source)
 
         # print(f" solutions {len(self.solutions)} ")
+        print(f"took {time.time()-t1} ")
         return self.solutions
-
 
 
 distances = distance_obj()
 
 if __name__ == "__main__":
 
-    with shelve.open("db_dfs_service") as db:
+    solution_map = {}
+    solution_map2 = {}
 
-        if "synched" not in db:
+    breakme = False
+    for region_list, region_name in settings.REGIONS_LIST:
+        print("##"*10)
+        if breakme:
+            break
 
-            distances = distance_obj()
+        d = DFS(region_list)
 
-            # nested loop,region to region connection
-            all_regions_connections = permutations([region_name for region_list, region_name in settings.REGIONS_LIST])
-            all_regions_connections = list(all_regions_connections)
-            print(f" permutations of all regions {len(list(all_regions_connections))}\n")
+        print(f" {region_name} size: {len(region_list)} ")
 
-            solution_map = MySolutionMap()
-            t0 = time.time()
-            for region_list, region_name in settings.REGIONS_LIST:
-                t1 = time.time()
-                d = DFS(region_list)
-                solutions = d.start()
-                filtered_solutions = filter_dups(solutions, distances)
-                # solution_map[region_name] = d.start()
-                solution_map[region_name] = filtered_solutions
+        sol1 = d.start()
+        sol2 = d.start_new()
 
-                print(
-                    f" {region_name} region took {time.time() - t1}, total solutions {len(solutions)} after filter {len(filtered_solutions)}\n")
+        print(f" sol1 {len(sol1)}, sol2 {len(sol2)} " )
+        print(f" {len(sol2[0])} ")
 
-            print(f" full searches took {time.time() - t0}")
+        filtered_solutions = filter_dups(sol1, distances)
 
-            # permutation of all region connects
-            # we need to start in main street, so no reason to generate permutations where main street is not first
-            perms = permutations([name for _, name in settings.REGIONS_LIST if name != settings.MAIN_STREET_NAME])
-            perms = list(perms)
-            perms = [[settings.MAIN_STREET_NAME] + list(p) for p in perms]
+        solution_map[region_name] = filtered_solutions
 
-            print(f"found {len(perms)} region to region paths")
-    # starting in main street,
-    # inside each solution for source region,check exit node
-    # check if exit node has connection with entry node from next region
-    # if none found, exit path
+        filtered_solutions = filter_dups(sol2, distances)
 
-    best_distance = float("inf")
-    my_inf = Decimal(float("inf"))
-    for path in perms:
+        solution_map2[region_name] = filtered_solutions
 
-        curr_path_distance = Decimal(float("inf"))
 
-        for i in range(1, len(path)):
-            r_source = path[i - 1]
-            r_target = path[i]
+        for s in sol2:
 
-            # tmp_distance = my_inf
-            # # get all solutions for source
-            # for sol_source in solution_map[r_source]:
-            #     for sol_target in solution_map[r_target]:
-            #         s1, s2 = sol_source[0], sol_source[-1]
-            #         t1, t2 = sol_target[0], sol_target[-1]
-            #
-            #         tmp_distance = min(distances.get((s1, t1), float("inf")), tmp_distance)
-            #         tmp_distance = min(distances.get((s1, t2), float("inf")), tmp_distance)
-            #         tmp_distance = min(distances.get((s2, t1), float("inf")), tmp_distance)
-            #         tmp_distance = min(distances.get((s2, t2), float("inf")), tmp_distance)
-            tmp_distance = find_best_connection_distance(r_source, r_target, solution_map)
+            if len(s) != len(region_list):
+                print(f"less than {len(region_list)}: ", s)
+                breakme = True
 
-            if tmp_distance == my_inf:
-                print(f"no connection between {r_source} {r_target}")
-                break
-            else:
+            if len(s) != len(set(s)):
+                print("some repeats here!!!", s)
+                breakme = True
 
-                curr_path_distance += tmp_distance
+        print(f"downsized s1 from {len(sol1)} to {len(solution_map[region_name])}")
+        print(f"downsized s2 from {len(sol2)} to {len(solution_map2[region_name])}")
 
-        best_distance = min(best_distance, curr_path_distance)
 
-    print(f"best distance path: {best_distance}")
+        #does reverse exists:
+
+
+
+
+
+    # with shelve.open("db_dfs_service") as db:
+    #
+    #     if "synched" not in db:
+    #
+    #         distances = distance_obj()
+    #
+    #         # nested loop,region to region connection
+    #         all_regions_connections = permutations([region_name for region_list, region_name in settings.REGIONS_LIST])
+    #         all_regions_connections = list(all_regions_connections)
+    #         print(f" permutations of all regions {len(list(all_regions_connections))}\n")
+    #
+    #         solution_map = MySolutionMap()
+    #         t0 = time.time()
+    #         for region_list, region_name in settings.REGIONS_LIST:
+    #             t1 = time.time()
+    #             d = DFS(region_list)
+    #             solutions = d.start()
+    #             filtered_solutions = filter_dups(solutions, distances)
+    #             # solution_map[region_name] = d.start()
+    #             solution_map[region_name] = filtered_solutions
+    #
+    #             print(
+    #                 f" {region_name} region took {time.time() - t1}, total solutions {len(solutions)} after filter {len(filtered_solutions)}\n")
+    #
+    #         print(f" full searches took {time.time() - t0}")
+    #
+    #         # permutation of all region connects
+    #         # we need to start in main street, so no reason to generate permutations where main street is not first
+    #         perms = permutations([name for _, name in settings.REGIONS_LIST if name != settings.MAIN_STREET_NAME])
+    #         perms = list(perms)
+    #         perms = [[settings.MAIN_STREET_NAME] + list(p) for p in perms]
+    #
+    #         print(f"found {len(perms)} region to region paths")
+    # # starting in main street,
+    # # inside each solution for source region,check exit node
+    # # check if exit node has connection with entry node from next region
+    # # if none found, exit path
+    #
+    # best_distance = float("inf")
+    # my_inf = Decimal(float("inf"))
+    # for path in perms:
+    #
+    #     curr_path_distance = Decimal(float("inf"))
+    #
+    #     for i in range(1, len(path)):
+    #         r_source = path[i - 1]
+    #         r_target = path[i]
+    #
+    #         # tmp_distance = my_inf
+    #         # # get all solutions for source
+    #         # for sol_source in solution_map[r_source]:
+    #         #     for sol_target in solution_map[r_target]:
+    #         #         s1, s2 = sol_source[0], sol_source[-1]
+    #         #         t1, t2 = sol_target[0], sol_target[-1]
+    #         #
+    #         #         tmp_distance = min(distances.get((s1, t1), float("inf")), tmp_distance)
+    #         #         tmp_distance = min(distances.get((s1, t2), float("inf")), tmp_distance)
+    #         #         tmp_distance = min(distances.get((s2, t1), float("inf")), tmp_distance)
+    #         #         tmp_distance = min(distances.get((s2, t2), float("inf")), tmp_distance)
+    #         tmp_distance = find_best_connection_distance(r_source, r_target, solution_map)
+    #
+    #         if tmp_distance == my_inf:
+    #             print(f"no connection between {r_source} {r_target}")
+    #             break
+    #         else:
+    #
+    #             curr_path_distance += tmp_distance
+    #
+    #     best_distance = min(best_distance, curr_path_distance)
+    #
+    # print(f"best distance path: {best_distance}")
